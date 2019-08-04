@@ -1,0 +1,165 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion build_versions.compile_sdk_version
+
+    defaultConfig {
+        applicationId "ru.vasiliev.sandbox"
+        minSdkVersion build_versions.min_sdk_version
+        targetSdkVersion build_versions.target_sdk_version
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes.all {
+        buildConfigField "String", "BUILD_TAG", "\"generic\""
+        // OkHttp
+        buildConfigField "long", "OKHTTP_CONNECT_TIMEOUT_SEC", "15"
+        buildConfigField "long", "OKHTTP_READ_TIMEOUT_SEC", "30"
+        buildConfigField "long", "OKHTTP_WRITE_TIMEOUT_SEC", "30"
+        // Location
+        buildConfigField "String", "LOCATION_PROVIDER_TYPE", "\"legacy\""
+        buildConfigField "long", "LOCATION_UPDATE_INTERVAL_MS", "5000"
+        buildConfigField "long", "LOCATION_FASTEST_UPDATE_INTERVAL_MS", "2500"
+    }
+
+    buildTypes {
+        release {
+            applicationIdSuffix ".release"
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BUILD_TAG", "\"release\""
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            buildConfigField "String", "BUILD_TAG", "\"debug\""
+        }
+
+        /**
+         * The `initWith` property allows you to copy configurations from other build types,
+         * then configure just the settings you want to change. This one copies the debug build
+         * type, and then changes the manifest placeholder and application ID.
+         */
+        staging {
+            initWith debug
+            applicationIdSuffix ".debugStaging"
+            buildConfigField "String", "BUILD_TAG", "\"debugStaging\""
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // Support
+    implementation deps.support.annotations
+    implementation deps.support.app_compat
+    implementation deps.support.v4
+    implementation deps.support.v13
+    implementation deps.support.core_utils
+    implementation deps.support.design
+    implementation deps.support.recyclerview
+    implementation deps.support.cardview
+    implementation deps.support.constaint_layout
+    implementation deps.support.fragment_runtime
+    androidTestImplementation deps.support.fragment_testing
+
+    // Arch core
+    implementation deps.arch_core.runtime
+    implementation deps.arch_core.testing
+
+    // Lifecycle
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.java8
+    annotationProcessor deps.lifecycle.compiler
+    kapt deps.lifecycle.compiler
+
+    // Kotlin
+    implementation deps.kotlin.kotlin
+    implementation deps.kotlin.core_ktx
+    implementation deps.kotlin.viewmodel_ktx
+    implementation deps.kotlin.fragment_ktx
+
+    // Tests
+    androidTestImplementation deps.tests.core
+    androidTestImplementation deps.tests.ext_junit
+    androidTestImplementation deps.tests.runner
+    androidTestImplementation deps.tests.rules
+
+    // Dagger2
+    implementation deps.dagger2.dagger2
+    annotationProcessor deps.dagger2.compiler
+    kapt deps.dagger2.compiler
+    implementation deps.dagger2.android
+    implementation deps.dagger2.support
+    annotationProcessor deps.dagger2.android_compiler
+    kapt deps.dagger2.android_compiler
+
+    // RxJava2
+    implementation deps.rxjava2.rxjava2
+    implementation deps.rxjava2.rxkotlin
+    implementation deps.rxjava2.rxandroid
+    implementation deps.rxjava2.rxbinding
+
+    // Retrofit
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.rxjava2_adapter
+    implementation deps.retrofit.converter_gson
+    implementation deps.retrofit.converter_jackson
+    implementation deps.retrofit.converter_simplexml
+
+    // OkHttp
+    implementation deps.okhttp.okhttp
+    implementation deps.okhttp.mock_web_server
+    implementation deps.okhttp.okhttp_logging_interceptor
+
+    // Room
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
+    kapt deps.room.compiler
+    implementation deps.room.rxjava2
+    implementation deps.room.testing
+
+    // Butterknife
+    implementation deps.butterknife.butterknife
+    annotationProcessor deps.butterknife.compiler
+    kapt deps.butterknife.compiler
+
+    // Glide
+    implementation deps.glide.glide
+    annotationProcessor deps.glide.compiler
+    kapt deps.glide.compiler
+
+    // Stetho
+    implementation deps.stetho.stetho
+    implementation deps.stetho.stetho_okhttp
+
+    // Play services
+    implementation deps.play_services.location
+
+    // Common
+    implementation deps.timber
+    implementation deps.gson
+    implementation deps.jodatime
+}
+

@@ -1,0 +1,22 @@
+buildscript {
+    // Gradle applies the buildscript blocks from your script strictly before executing
+    // anything else from it. We need to move apply to buildscript block.
+    apply from: 'dependencies.gradle'
+    addRepos(repositories)
+    dependencies {
+        classpath deps.plugins.android_gradle_plugin
+        classpath deps.plugins.kotlin_gradle_plugin
+        classpath deps.plugins.retrolambda
+    }
+    repositories {
+        google()
+    }
+}
+
+allprojects {
+    addRepos(repositories)
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
