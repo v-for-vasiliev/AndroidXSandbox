@@ -12,7 +12,7 @@ android {
         targetSdkVersion build_versions.target_sdk_version
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     packagingOptions {
@@ -38,6 +38,10 @@ android {
         buildConfigField "String", "LOCATION_PROVIDER_TYPE", "\"legacy\""
         buildConfigField "long", "LOCATION_UPDATE_INTERVAL_MS", "5000"
         buildConfigField "long", "LOCATION_FASTEST_UPDATE_INTERVAL_MS", "2500"
+        // Camera2
+        buildConfigField "boolean", "CAMERA2_POST_CAPTURE_BARCODE_DETECTION_ENABLED", "false"
+        buildConfigField "int", "CAMERA2_DEFAULT_CAPTURE_QUALITY", "80" // 0..100
+        buildConfigField "boolean", "CAMERA2_AUTO_LOCK_FOCUS_BEFORE_CAPTURE", "true"
     }
 
     buildTypes {
@@ -68,15 +72,27 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
+    // Kotlin
+    implementation deps.kotlin.kotlin
+    implementation deps.kotlin.core_ktx
+    implementation deps.kotlin.viewmodel_ktx
+    implementation deps.kotlin.fragment_ktx
+
+    // Tests
+    androidTestImplementation deps.tests.core
+    androidTestImplementation deps.tests.ext_junit
+    androidTestImplementation deps.tests.runner
+    androidTestImplementation deps.tests.rules
+
+    // Play services
+    implementation deps.play_services.location
+    implementation deps.play_services.vision
+
     // Support
-    implementation deps.support.annotations
-    implementation deps.support.app_compat
-    implementation deps.support.v4
-    implementation deps.support.v13
-    implementation deps.support.core_utils
     implementation deps.support.design
     implementation deps.support.recyclerview
     implementation deps.support.cardview
@@ -94,18 +110,6 @@ dependencies {
     annotationProcessor deps.lifecycle.compiler
     kapt deps.lifecycle.compiler
 
-    // Kotlin
-    implementation deps.kotlin.kotlin
-    implementation deps.kotlin.core_ktx
-    implementation deps.kotlin.viewmodel_ktx
-    implementation deps.kotlin.fragment_ktx
-
-    // Tests
-    androidTestImplementation deps.tests.core
-    androidTestImplementation deps.tests.ext_junit
-    androidTestImplementation deps.tests.runner
-    androidTestImplementation deps.tests.rules
-
     // Dagger2
     implementation deps.dagger2.dagger2
     annotationProcessor deps.dagger2.compiler
@@ -120,6 +124,7 @@ dependencies {
     implementation deps.rxjava2.rxkotlin
     implementation deps.rxjava2.rxandroid
     implementation deps.rxjava2.rxbinding
+    implementation deps.rxjava2.rxpermissions
 
     // Retrofit
     implementation deps.retrofit.retrofit
@@ -135,10 +140,15 @@ dependencies {
 
     // Room
     implementation deps.room.runtime
-    annotationProcessor deps.room.compiler
+    // annotationProcessor deps.room.compiler
     kapt deps.room.compiler
     implementation deps.room.rxjava2
     implementation deps.room.testing
+
+    // Moxy MVP
+    implementation deps.moxy.moxy
+    implementation deps.moxy.moxyX
+    kapt deps.moxy.compiler
 
     // Butterknife
     implementation deps.butterknife.butterknife
@@ -154,12 +164,15 @@ dependencies {
     implementation deps.stetho.stetho
     implementation deps.stetho.stetho_okhttp
 
-    // Play services
-    implementation deps.play_services.location
+    // Tools
+    implementation deps.tools.timber
+    implementation deps.tools.gson
+    implementation deps.tools.jodatime
 
-    // Common
-    implementation deps.timber
-    implementation deps.gson
-    implementation deps.jodatime
+    // UI
+    implementation deps.ui.qrgen
+    implementation deps.ui.photo_view
+    implementation deps.ui.barcodescanner
+    implementation deps.ui.zbar
 }
 

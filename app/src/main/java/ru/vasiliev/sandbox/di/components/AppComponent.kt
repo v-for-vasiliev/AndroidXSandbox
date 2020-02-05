@@ -19,4 +19,6 @@ interface AppComponent {
     val app: App
 
     val locationServices: LocationServices
+
+    val cameraComponent: CameraComponent
 }

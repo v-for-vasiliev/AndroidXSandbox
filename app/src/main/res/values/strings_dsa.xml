@@ -1,0 +1,1481 @@
+<resources>
+    <string name="smart_id_camera_title">Фото документа</string>
+
+    <string name="tab_1">Полезное</string>
+    <string name="tab_2">Новая заявка</string>
+    <string name="tab_3">Заявки</string>
+    <string name="tab_4">Профиль</string>
+
+    <!-- Drawer menu -->
+    <string name="create_new_form">Новая заявка</string>
+    <string name="tab_list_of_orders">Все заявки</string>
+    <string name="tab_partners">Партнёры</string>
+    <string name="tab_help">О Совести, помощь</string>
+    <string name="tab_calculator">Калькулятор рассрочки</string>
+    <string name="tab_news">Новости</string>
+    <string name="tab_battles">Батлы</string>
+    <string name="tab_profile">Профиль</string>
+    <string name="tab_logout">Выйти</string>
+    <string name="tab_about">О совести</string>
+    <string name="tab_statistics">Статистика</string>
+    <string name="tab_documents">Документы</string>
+
+    <string name="empty"></string>
+
+    <!--FORM -->
+    <string name="group_client">group_client</string>
+    <string name="group_phone_title">group_phone_title</string>
+    <string name="group_email">group_email</string>
+    <string name="group_default">default</string>
+    <string name="group_dgaf">group_dgaf</string>
+    <string name="group_security">group_security</string>
+    <string name="group_client_data">group_client_data</string>
+    <string name="group_main">главная</string>
+    <string name="group_client1">клиент1</string>
+
+
+    <string name="send_form">Отправить заявку</string>
+    <string name="hold_over_form">В черновики</string>
+    <string name="choose">Выбрать</string>
+    <string name="choose_date">Выбрать дату</string>
+    <string name="years">лет</string>
+    <string name="month">месяцев</string>
+    <string name="new_form">Новая заявка</string>
+    <string name="change_fio">Вы меняли ФИО?</string>
+    <string name="job_adress">Адрес компании</string>
+    <string name="main_info">Основные данные</string>
+    <string name="job">Работа</string>
+    <string name="region">Область *</string>
+    <string name="address">Адрес</string>
+    <string name="experienceCurrent">Стаж на текущем месте работы</string>
+    <string name="experience">Общий стаж</string>
+    <string name="regddress">Адрес регистрации</string>
+    <string name="house_owner">Я собстевеник жилья</string>
+    <string name="actual_address">Фактический адрес</string>
+    <string name="req_equal_actual_switch">Совпадает с адресом регистрации</string>
+    <string name="auxiliaryСontact">Дополнительный контакт</string>
+    <string name="app_for_agent">ПРИЛОЖЕНИЕ ДЛЯ ПРЕДСТАВИТЕЛЕЙ</string>
+    <string name="scanqr">Привязать устройство</string>
+    <string name="scanqruser">Привязать пользователя</string>
+    <string name="scanqr_finish_text1">Сканирование QR-кода прошло успешно.\nТеперь приложение можно
+        закрыть.
+    </string>
+    <string name="scanqr_finish_text2">Теперь представитель Совести сможет\nвоспользоваться
+        приложением.
+    </string>
+
+    <string name="required_fields_info_label">* — поля обязательные для заполнения</string>
+
+    <!-- photo -->
+    <string name="preview_passport">Превью паспорта</string>
+    <string name="preview_registration">Превью регистрации</string>
+    <string name="preview_person_with_pasport">Превью человека с паспортом</string>
+    <string name="preview_form">Превью анкеты</string>
+    <string name="preview_psk">Превью ПСК</string>
+
+    <string name="title_photo_passport">Фотография паспорта</string>
+    <string name="title_photo_registration">Фотография регистрации</string>
+    <string name="title_photo_person_with_pasport">Фотография человека с паспортом</string>
+    <string name="title_photo_form">Фотография анкеты</string>
+    <string name="title_photo_psk">Фотография ПСК</string>
+
+    <string name="request_permission">Этому приложению нужен доступ к камере.</string>
+    <string name="request_permission_telephone">Этому приложению нужен доступ к данным телефона.
+    </string>
+    <string name="take_photo">Сделать снимок</string>
+
+    <!-- dictionary -->
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    <string name="man">Мужской</string>
+    <string name="woman">Женский</string>
+
+    <string-array name="type_of_employment">
+        <item>Работаю</item>
+        <item>Домохозяйка(ин)</item>
+        <item>Пенсионер</item>
+        <item>Не работаю</item>
+    </string-array>
+
+    <string-array name="smartEnField">
+        <item>dateBirth</item>
+        <item>placeBirth</item>
+        <item>documentSerial</item>
+        <item>documentNo</item>
+        <item>documentDate</item>
+        <item>documentIssueWhere</item>
+        <item>documentIssueWhereCode</item>
+    </string-array>
+
+    <string-array name="type_of_activity">
+        <item>Нефтехимическая и газовая промышленность</item>
+        <item>Промышленность</item>
+        <item>Жилищно-коммунальное хозяйство</item>
+        <item>Иное</item>
+    </string-array>
+
+    <!--  Common  -->
+    <string name="statistics_title">Статистика</string>
+    <string name="info_title">Информация</string>
+    <string name="shops_title">Магазины</string>
+    <string name="winners_title">Призеры</string>
+
+    <string name="phone_mask">{+7} ([000]) [000] [0000]</string>
+    <string name="auth_phone_mask">{+7} [000] [000] [0000]</string>
+    <string name="added_phone_mask">[0000000000000000]</string>
+    <string name="number_passport_serial_mask">[00] [00]</string>
+    <string name="number_passport_number_mask">[000000]</string>
+    <string name="passport_mask">[00] [00] [000000]</string>
+    <string name="passport_seria_mask">[00] [00]</string>
+    <string name="passport_data_mask">[000000]</string>
+    <string name="date_mask">[00]{/}[00]{/}[0000]</string>
+    <string name="snils_mask">[000]{-}[000]{-}[000]{ }[00]</string>
+    <string name="passport_code_mask">[000]{-}[000]</string>
+    <string name="baby_mask">[00]</string>
+    <string name="expirience_month_mask">[00]</string>
+    <string name="expirience_year_mask">[00]</string>
+    <string name="salary_mask">[000] [000] [000]</string>
+    <string name="useful_price_mask">[000] [000]</string>
+    <!-- This format string is not used as a mask for MaskedEditText -->
+    <string name="useful_monthly_payment_mask">###,###,###.##</string>
+    <string name="legacy_expirience_mask">##</string>
+
+    <!-- form mHint -->
+    <string name="firstName">Имя</string>
+    <string name="lastName">Фамилия</string>
+    <string name="otchestvo">Отчество</string>
+    <string name="previousFirstName">Прежняя Фамилия</string>
+    <string name="previousLastName">Прежнее имя</string>
+    <string name="previousOtchestvo">Прежнее Отчество</string>
+    <string name="gender">Пол</string>
+    <string name="birthDay">Дата рождения</string>
+    <string name="placeOfBirth">Место рождения</string>
+    <string name="passport_data">Серия и номер паспорта</string>
+    <string name="passport_data_serial">Серия паспорта</string>
+    <string name="passport_data_number">Номер паспорта</string>
+    <string name="passport_data_date">Дата выдачи паспорта</string>
+    <string name="passportSeria">Выбрать</string>
+    <string name="passportNubmer">Выбрать дату</string>
+    <string name="passportIssuedBy">Кем выдан паспорт</string>
+    <string name="passportIssuedCode">Код подразделения</string>
+    <string name="snils">СНИЛС</string>
+    <string name="mobilePhone">Мобильный телефон</string>
+    <string name="maritalStatus">Семейное положение</string>
+    <string name="education">Образование</string>
+    <string name="amountBaby">Количество детей до 18 лет</string>
+    <string name="typeOfEmployment">Тип занятости</string>
+    <string name="organization">Название организации</string>
+    <string name="fieldOfActivity">Сфера деятельности</string>
+    <string name="otherFieldOfActivity">Укажите сферу деятельности</string>
+    <string name="fieldOfActivityOther">Выбрать дату</string>
+    <string name="statsBy">Должность</string>
+    <string name="averageMonthlyIncome">Среднемесячный доход (после уплаты налогов)</string>
+    <string name="monthlyExpenses">Среднемесячные расходы</string>
+    <string name="workPhone">Рабочий телефон</string>
+    <string name="addedWorkPhone">Добавочный номер</string>
+    <string name="email">Рабочая почта</string>
+    <string name="auxiliary_contact_phone">Номер телефона</string>
+    <string name="auxiliary_contact_fio">ФИО</string>
+    <string name="auxiliary_relation">Чей телефон указываете</string>
+    <string name="advertising">Где видели нашу рекламу</string>
+    <string name="secretWord">Кодовое слово</string>
+    <string name="secretDate">Кодовая дата</string>
+
+    <string name="lorem_dictionary">Lorem dictionary</string>
+    <string name="lorem_months">12 месяцев</string>
+    <string name="lorem_month_payment">0 ₽</string>
+    <string name="enter">Войти</string>
+    <string name="auth_title">Приложение для представителей</string>
+
+
+    <string name="about_payment">Подробности о карте</string>
+    <string name="leasing_conditions">Условия рассрочки</string>
+
+    <string name="useful_about_payment">Подробности\n о карте</string>
+    <string name="useful_shopping_list">Список\n магазинов</string>
+    <string name="useful_leasing_conditions">Условия\n рассрочки</string>
+    <string name="useful_calculating">Расчет рассрочки</string>
+    <string name="useful_enter_price">Введите цену товара</string>
+    <string name="useful_select_months">Выберите количество месяцев</string>
+    <string name="calculate">Рассчитать</string>
+    <string name="useful_price">Сумма</string>
+    <string name="useful_duration">Срок</string>
+    <string name="useful_hint_price_limit">От 5 000 ₽ до 300 000 ₽</string>
+    <string name="useful_hint_duration">Выберите срок рассрочки</string>
+    <string name="useful_monthly_payment">%s ₽</string>
+    <string name="useful_error_need_choose_duration">Необходимо выбрать срок</string>
+    <string name="useful_help_page">Помощь</string>
+
+    <string name="month_payment">Ежемесячный платёж</string>
+
+    <string-array name="useful_duration">
+        <item>1 месяц</item>
+        <item>2 месяца</item>
+        <item>3 месяца</item>
+        <item>4 месяца</item>
+        <item>5 месяцев</item>
+        <item>6 месяцев</item>
+        <item>7 месяцев</item>
+        <item>8 месяцев</item>
+        <item>9 месяцев</item>
+        <item>10 месяцев</item>
+        <item>11 месяцев</item>
+        <item>1 год</item>
+    </string-array>
+
+    <integer-array name="useful_duration_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </integer-array>
+
+    <string-array name="sort_by_date_title">
+        <item>За день</item>
+        <item>За месяц</item>
+    </string-array>
+
+    <integer-array name="sort_by_date_value">
+        <item>0</item>
+        <item>1</item>
+    </integer-array>
+
+    <string-array name="sort_by_date_overall">
+        <item>Общая</item>
+        <item>По сотрудникам</item>
+        <item>Собственная</item>
+    </string-array>
+
+    <integer-array name="sort_by_date_overall_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
+
+    <string name="pin_view_create_title">Придумайте код \n для входа в приложение</string>
+    <string name="pin_view_repeat_title">Повторите код доступа</string>
+    <string name="pin_view_enter_title">,\nвведите ваш код</string>
+    <string name="pin_view_enter_title_without_name">Введите ваш код</string>
+    <string name="pin_view_subtitle">в приложение</string>
+    <string name="btn_close">Закрыть</string>
+    <string name="btn_confirm">Подтвердить</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_next">Продолжить</string>
+    <string name="btn_good">Хорошо</string>
+    <string name="restore_pin">Восстановить код доступа?</string>
+    <string name="retreive_btn">Восстановить</string>
+    <string name="try_again">Попробовать снова</string>
+    <string name="retry">ПОВТОРИТЬ</string>
+
+    <string name="lorem_fio">Петров Иван Петрович</string>
+    <string name="lorem_shop_name">Сеть магазинов "Эльдорадо"</string>
+    <string name="lorem_shop_address">г. Москва, Северное Чертаново, 1А ТРЦ "Авентура"</string>
+    <string name="lorem_number">10</string>
+    <string name="lorem_proc">83</string>
+    <string name="lorem">ПРЕДСТАВИТЕЛЬ</string>
+
+    <string name="today_in_this_shop">Сегодня вы в этом магазине?</string>
+    <string name="change">изменить</string>
+    <string name="change_data_of_shop">ИЗМЕНИТЬ МАГАЗИН</string>
+    <string name="choose_data_of_shop">ВЫБРАТЬ МАГАЗИН</string>
+    <string name="menu_forgot_passcode">Не помню код</string>
+    <string name="shop_is_empty">Магазин не выбран</string>
+
+    <string name="keyboard_btn_1" />
+    <string name="keyboard_btn_2">ABC</string>
+    <string name="keyboard_btn_3">DEF</string>
+    <string name="keyboard_btn_4">GHI</string>
+    <string name="keyboard_btn_5">JKL</string>
+    <string name="keyboard_btn_6">MNO</string>
+    <string name="keyboard_btn_7">PQRS</string>
+    <string name="keyboard_btn_8">TUV</string>
+    <string name="keyboard_btn_9">WXYZ</string>
+    <string name="keyboard_btn_empty" />
+    <string name="keyboard_btn_0">+</string>
+
+    <string name="addresses">Адреса</string>
+    <string name="chains">Сети</string>
+    <string name="sort_down">От А до Я</string>
+    <string name="sort_up">От Я до А</string>
+
+    <!-- Days of week short strings -->
+    <string name="monday_short">Пн</string>
+    <string name="tuesday_short">Вт</string>
+    <string name="wednesday_short">Ср</string>
+    <string name="thursday_short">Чт</string>
+    <string name="friday_short">Пт</string>
+    <string name="saturday_short">Сб</string>
+    <string name="sunday_short">Вс</string>
+
+    <string name="success_create_pin_title">Код успешно создан</string>
+    <string name="success_create_pin_message">В целях безопасности \n не сообщайте этот код никому!
+    </string>
+    <string name="success_create_pin_ok">ОК</string>
+    <string name="pinInfoText">Вы будете вводить его при каждом
+        входе в приложение
+    </string>
+
+    <string name="confirm_choosen_shop_ok">ОК</string>
+    <string name="cancel_choosen_shop_ok">ОТМЕНА</string>
+
+    <string name="draft">Черновик</string>
+    <string name="order_state_draft_next">Продолжить</string>
+    <string name="form_edit">Редактирование заявки</string>
+
+    <string name="order_state_list_inprogress">На рассмотрении...</string>
+    <string name="order_state_list_pre_approve">Предварительно одобрена</string>
+    <string name="order_state_list_check_ver">Проверка верификатором...</string>
+    <string name="order_state_list_check_ver_done">Верификация пройдена</string>
+    <string name="order_state_list_approve">Предварительно одобрена</string>
+    <string name="order_state_list_completed">Одобрена</string>
+    <string name="order_state_list_completed_no_opts">Одобрена, без опциий</string>
+    <string name="order_plan_done">Сегодня, план выполнен</string>
+    <string name="order_state_final_scoring">Финальный скоринг</string>
+    <string name="order_state_final_scoring_complete">Финальный скоринг пройден</string>
+
+
+    <string name="order_state_create">Заполнение заявки</string>
+    <string name="order_state_create_final">Заявка заполнена</string>
+    <string name="order_state_inprogress">На рассмотрении...</string>
+    <string name="order_state_inprogress_final">Заявка одобрена</string>
+    <string name="order_state_need_full_form">Не заполнена полная анкета</string>
+    <string name="order_state_unknown">Неизвестный статус, обратитесь к супервайзеру</string>
+    <string name="order_state_fake_progress">На проверке</string>
+    <string name="order_state_inprogress_verifying">На проверке</string>
+    <string name="order_state_canceled">Отказ</string>
+    <string name="order_state_canceled_by_pvo">Отказ на ПВО</string>
+    <string name="order_state_preapproved">Сфотографируйте паспорт и клиента</string>
+    <string name="order_state_preapproved_final">Документы отправлены</string>
+    <string name="order_state_preapproved_next">ВЛОЖИТЬ ФОТО</string>
+    <string name="order_state_preapproved_verifying">Дождитесь проверки фотографий верификатором
+    </string>
+    <string name="order_state_preapproved_verifying_final">Одобрена верификатором</string>
+    <string name="order_state_verification_approved_scan">Отсканируйте Welcome Pack</string>
+    <string name="order_state_verification_approved_scan_final">Welcome Pack отсканирован</string>
+    <string name="order_state_completed">Отдайте карту клиенту</string>
+    <string name="order_state_completed_final">Карта выдана</string>
+    <string name="order_state_clientcanceled">Отказ клиента</string>
+    <string name="order_state_approved">Проверка документов и открытие счёта</string>
+    <string name="order_state_approved_final">Счёт открыт</string>
+    <string name="order_state_verification_approved">Отсканируйте и сфотографируйте анкету и ПСК</string>
+    <string name="order_state_verification_approved_final">Анкета и ПСК отправлены</string>
+    <string name="order_state_approved_next">ВЛОЖИТЬ ДОКУМЕНТЫ</string>
+    <string name="order_state_bomj">Отказ</string>
+    <string name="order_state_options">Предложите клиенту подключить дополнительные опции
+    </string>
+    <string name="order_state_options_yes">С подключением опций</string>
+    <string name="order_state_options_no">Без подключения опций</string>
+    <string name="order_state_options_error">Нет доступных для подключениия опций</string>
+    <string name="order_state_options_no_hint">Нажмите здесь, чтобы изменить</string>
+    <string name="order_state_activation">Активация карты</string>
+    <string name="order_state_activation_final">Карта активирована</string>
+    <string name="order_state_choose_option">Подписка на дополнительные опции</string>
+    <string name="order_state_choose_option_final">Подписано</string>
+    <string name="dummy_option_2">1 месяц, 199₽</string>
+    <string name="dummy_option_1">10 месяцев, 299₽</string>
+    <string name="option_confirmation_title">Подписка на доп. опции</string>
+    <string name="order_card_not_activated_title">Карта неактивна</string>
+
+    <string name="timer">Таймер</string>
+    <string name="order_number">Номер заявки</string>
+    <string name="agreement_number">Номер договора</string>
+    <string name="сard_limit">Лимит по карте</string>
+    <string name="order_bank">Банк</string>
+
+
+    <string name="photo_page">( %d страница)</string>
+
+    <string name="short_form_state_completed">Предварительно одобрена</string>
+    <string name="scan_pass_2_3">Главный разворот паспорта</string>
+    <string name="scan_pass_4_5">Страница с регистрацией</string>
+    <string name="fill_order">Заполнить заявку</string>
+    <string name="order_filled">Готово</string>
+    <string name="send_order">Отправить заявку на рассмотрение</string>
+    <string name="sended">Готово</string>
+    <string name="attach_customer_photo">Клиент c паспортом</string>
+    <string name="scan_it">Сканировать</string>
+    <string name="take_photo_for_order">Сделать фото</string>
+    <string name="attach_photo_form">Анкета</string>
+    <string name="attach_photo_psk">ПСК</string>
+    <string name="make_photo">Сделайте фотографию документа</string>
+    <string name="more_about_order"></string>
+    <string name="current_order_title">Заявка %s</string>
+    <string name="all_documents_sended">Документы отправлены</string>
+    <string name="order_action_next">ДАЛЬШЕ</string>
+    <string name="order_action_finish">КАРТА У КЛИЕНТА</string>
+    <string name="order_action_ok_default">OK</string>
+    <string name="order_action_cancel_default">ОТМЕНА</string>
+    <string name="order_action_add_options_ok">ПОДКЛЮЧИТЬ</string>
+    <string name="order_action_add_options_cancel">ПРОПУСТИТЬ</string>
+    <string name="order_action_check_activation_status">ПРОВЕРИТЬ</string>
+
+    <string name="documents_action_add">СДЕЛАТЬ ФОТО</string>
+    <string name="documents_action_add_scan">СКАНИРОВАТЬ</string>
+    <string name="documents_action_send">Отправляется...</string>
+    <string name="documents_action_sended">Передано</string>
+    <string name="documents_action_sended_scan">Отсканировано</string>
+    <string name="documents_action_enable_option">ПОДКЛЮЧИТЬ</string>
+    <string name="documents_action_option_enabled">Подписано</string>
+    <string name="documents_action_error">ПЕРЕСНЯТЬ</string>
+
+    <string name="sv_statistics_by_dsa">Сотрудники</string>
+    <string name="sv_statistics_personal">Личная</string>
+    <string name="sv_statistics_team">Командная</string>
+    <string name="dsa_statistics_team">Команда</string>
+    <string name="dsa_statistics_city">Мой город</string>
+    <string name="dsa_statistics_country">Россия</string>
+    <string name="dsa_sv_statistics_winners">Призёры</string>
+
+    <string name="applications">Заявки</string>
+    <string name="statistics_actual">Факт</string>
+    <string name="statistics_plan">% к плану</string>
+
+    <string name="statistics_activate">Активировано</string>
+    <string name="statistics_ratio_plan">% к плану</string>
+    <string name="statistics_draft">Черновики</string>
+
+    <string name="create_in_app">Заведено в планшете</string>
+    <string name="send_to_system">Отправлено в систему</string>
+    <string name="rejected">Отказ</string>
+    <string name="confirm_and_close">Одобрено и завершено</string>
+
+    <string name="accept_welcome_pack">Принять Welcome-pack</string>
+    <string name="accept_documents">Принять документы</string>
+    <string name="photo_inside">Готово</string>
+    <string name="scan_qr_contact">Анкета</string>
+    <string name="scan_qr_psk">ПСК</string>
+    <string name="scan_qr_welcome_pack">Welcome pack</string>
+
+    <string name="ok_understand">OK, ПОНЯТНО</string>
+    <string name="understand">ПОНЯТНО</string>
+    <string name="customer_sms_form_sended_title">Успешно отправлена</string>
+    <string name="customer_sms_form_sended_text">Заявка успешно отправлена на предварительное
+        рассмотрение.
+    </string>
+    <string name="last_data_sended_text">Заявка успешно отправлена на финальное рассмотрение.
+    </string>
+
+
+    <string name="draft_title">Заявка перенесена в архив</string>
+    <string name="draft_message">В случае, если вы захотите её возобновить, то зайдите в раздел все
+        заявки
+    </string>
+
+
+    <string name="scan_bars">Сканировать штрихкоды</string>
+    <string name="scan_bars_help">Отсканируйте все штрихкоды и отправьте их все вместе.</string>
+    <string name="accept_bars">Отправить всё</string>
+
+    <string name="scanned_count">Отсканировано документов: %s</string>
+
+    <string name="press_again_to_exit">Нажмите ещё раз для выхода</string>
+
+
+    <string name="send_form_confirm_phone">Подтвердите номер клиента указанный в заявке %s</string>
+    <string name="send_form_confirm_yes_btn">Верно</string>
+    <string name="send_form_confirm_cancel_btn">Отмена</string>
+
+    <string name="account_type">ru.dsa.sovest</string>
+    <string name="phone_placeholder">отправленный на номер %s</string>
+
+
+    <!-- TODO -->
+    <string name="order_state_prepreapproved">ТРЕБУЕТСЯ ФОТО</string>
+    <string name="order_state_prepreapproved_next">ВЛОЖИТЬ ФОТО</string>
+    <!-- -  - -->
+
+
+    <string name="order_is_sent">Заявка отправлена на рассмотрение. В течение 15 минут статус заявки
+        станет доступным в списке заявок.
+    </string>
+
+    <string name="application_sent">Заявка отправлена!</string>
+    <string name="application_sent_message">Найдите заявку в списке и отправьте в банк фото
+        документов клиента
+    </string>
+    <string name="error_title">Ошибка</string>
+    <string name="ask_send_order">Введенные данные нельзя будет изменить!</string>
+    <string name="title_confirm">Подтверждение</string>
+
+    <string name="version">Версия: %s</string>
+    <string name="inventory_number">ШК: %s</string>
+    <string name="nav_drawer_version">Версия: %1$s \u00A0 \u00A0 ШК: %2$s</string>
+
+    <string name="set_prefix_for_validation_title">Укажите: \u0020</string>
+
+    <string name="in_which_shop_today">В каком магазине вы сегодня?</string>
+
+    <string name="dialog_close">Закрыть</string>
+    <string name="dialog_share">Отправить</string>
+    <string name="can_not_send_log">Не получилось сохранить логи.</string>
+
+    <string name="demo_mode">Демо-режим</string>
+    <string name="real_mode">Обычный режим</string>
+    <string name="diagnostics">Диагностика</string>
+
+    <string name="diagnostics_start">Начать диагностику</string>
+    <string name="diagnostics_title">Запущена система самодиагностики приложения для DSA</string>
+    <string name="diagnostics_failed">Не выключайте устройство, мы попытаемся отправить отчет вновь
+        через 3 минуты
+    </string>
+    <string name="diagnostics_dialog_title">Система самодиагностики завершила свою работу.
+    </string>
+    <string name="diagnostics_not_auth_dialog_title">Система самодиагностики завершила свою работу.
+        Вы не в авторизированной зоне: отчет не будет отправлен на сервер.
+    </string>
+
+    <string name="diagnostics_dialog_ok">ОК</string>
+    <string name="diagnostics_error">СЕРВИСЫ СОВЕСТИ НЕДОСТУПНЫ</string>
+    <string name="diagnostics_title_retry">через минуту мы обновим результаты доступности</string>
+    <string name="diagnostics_error_title">СЕРВИСЫ СОВЕСТИ НЕДОСТУПНЫ</string>
+    <string name="diagnostics_error_message">Вы не можете отправлять заявки</string>
+    <string name="sovest_healthcheck">Проверка работоспособности индикаторов</string>
+    <string name="diagnostics_success_title">СЕРВИСЫ СОВЕСТИ СТАЛИ ДОСТУПНЫ</string>
+    <string name="diagnostics_success_message">Вы можете продолжить заполнять заявки</string>
+
+
+    <string-array name="diagnostics_titles">
+        <item>Проверка доступности WIFI</item>
+        <item>Проверка доступности yandex.ru</item>
+        <item>Проверка доступности google.ru</item>
+        <item>Проверка доступности sovest.ru</item>
+    </string-array>
+
+    <string-array name="diagnostics_urls">
+        <item></item>
+        <item>https://yandex.ru</item>
+        <item>https://google.ru</item>
+        <item>https://sovest.ru</item>
+    </string-array>
+
+    <string name="dialog_back_press_message">Сохранить заявку в черновиках перед закрытием?</string>
+
+    <string name="dialog_status_rejected_title">Отказано</string>
+    <string name="dialog_status_rejected_message">По данному клиенту получен отказ!!!</string>
+
+    <string name="open_drawer">Открыть меню</string>
+    <string name="close_drawer">Закрыть меню</string>
+
+    <string name="if_close_create_form_activity_message">Все данные заявки будут удалены!</string>
+    <string name="if_close_create_form_activity_save_form">Внимание! Редактирование заявки доступно
+        в течение 2 часов с момента ввода кода из СМС.
+    </string>
+    <string name="if_create_form_activity_exit_demo_message">Выйти из ДЕМО режима?</string>
+    <string name="if_close_create_form_activity_cancel">Остаться</string>
+    <string name="if_close_create_form_activity_continue">Закрыть</string>
+    <string name="all_categories">Все категории</string>
+
+    <string name="shop_list_item_expired">Рассрочка %1$d-%2$d мес.</string>
+    <string name="shop_list_item_expired_just">Рассрочка %1$d мес.</string>
+
+    <plurals name="shop_list_item_type_point">
+        <item quantity="zero">нет адресов</item>
+        <item quantity="one">%1$d адрес</item>
+        <item quantity="two">%1$d адреса</item>
+        <item quantity="few">%1$d адреса</item>
+        <item quantity="many">%1$d адресов</item>
+        <item quantity="other">%1$d адресов</item>
+    </plurals>
+
+    <string name="shop_list_item_type_all">%1$s\n+ покупка на сайте</string>
+    <string name="shop_list_item_type_online">Покупка на сайте</string>
+
+
+    <!-- Form buttons -->
+    <string name="back">Назад</string>
+    <string name="next">Далее</string>
+
+    <string name="change_phone_number">
+        <u>Изменить номер</u>
+    </string>
+    <string name="sms_sended_to">SMS с кодом отправлена на %s</string>
+
+    <string name="change_number_in_create_form">Сменить</string>
+
+
+    <string name="text_button_error_kk">Закрыть</string>
+
+    <string name="enable_setting_location">Включите определение местоположения по GPS в
+        настройках. Иначе приложение не сможет вас найти на карте.
+    </string>
+
+    <string name="setting_location">Настройки</string>
+    <string name="btClose">Закрыть</string>
+    <string name="location_denied">Разрешите доступ к геопозиции в настройках</string>
+
+    <string name="shops_address_list_title">СПИСКОМ</string>
+    <string name="shops_address_map_title">НА КАРТЕ</string>
+    <string name="choose_this_point">ВЫБРАТЬ ТОЧКУ</string>
+    <string name="point_distance_km">%s км</string>
+    <string name="point_distance_m">%s м</string>
+
+    <string name="play_services_not_available">Карта недоступна. \n Установите или обновите Сервисы
+        Google Play
+    </string>
+
+    <string name="btn_ok">ОК</string>
+
+
+    <!-- dialogs -->
+    <string name="dialog_error_title">Ошибка</string>
+    <string name="dialog_dismiss_button">Закрыть</string>
+    <string name="dialog_progress_waiting">Пожалуйста подождите...</string>
+
+    <string name="show_scan_code">Отсканированный код: %s</string>
+
+    <!-- enter phone -->
+    <string name="enter_phone_help_text">Введите свой номер телефона, на него придет SMS с кодом
+        подтверждения
+    </string>
+    <string name="enter_phone_hint">Ваш номер телефона</string>
+
+    <!--  authorization  -->
+    <string name="auth_next_button">Получить код подтверждения</string>
+    <string name="auth_header_text">для представителей</string>
+
+    <!-- sms code step -->
+    <string name="sms_code_step_title">Подтвердите номер телефона</string>
+    <string name="sms_code_step_username">Вход как %s</string>
+    <string name="sms_code_step_hint">Чтобы войти в аккаунт, введите код из SMS, отправленный на
+        номер %s
+    </string>
+    <string name="sms_code_step_code_from_sms">Код из SMS</string>
+    <string name="sms_code_step_code_from_resend_sec">Отправить код повторно через %s сек.</string>
+    <string name="sms_code_step_code_from_resend">Отправить код повторно</string>
+    <string name="sms_code_step_button_next">Подтвердить</string>
+
+    <string name="document_scan_sent_sent_successfully">Документы отправлены успешно</string>
+    <string name="shop_info_help">Не по всем адресам сети принимают\u00A0карту\u00A0Совесть</string>
+    <string name="activity_shop_info_btn_open">Подробнее о партнере</string>
+    <string name="shop_button_buy_on_site">Купить на сайте</string>
+    <string name="title_expired">Рассрочка</string>
+    <string name="shop_button_offline_map">Смотреть адреса</string>
+    <string name="months">мес.</string>
+    <string name="btNotifDetails">Подробнее об акции</string>
+
+    <!-- Region screen -->
+    <string name="region_list_progress_descr">Получаем список городов…</string>
+    <string name="region_might_be_changed_desc">Изменить город можно в настройках.</string>
+    <string name="region_header_description">Мы покажем партнеров, доступных в вашем городе.
+    </string>
+
+    <!-- Category screen -->
+    <string name="region_title">Город</string>
+    <string name="no_region_warn_text">Для отображения списка доступных категорий товаров выберите
+        Ваш город
+    </string>
+    <string name="choose_region_button_text">ВЫБРАТЬ ГОРОД</string>
+
+    <string name="show_in_map">ПОКАЗАТЬ НА КАРТЕ</string>
+    <string name="re_take">ПЕРЕСНЯТЬ</string>
+    <string name="send_photo">ОТПРАВИТЬ</string>
+    <string name="not_scan_documents">Нет отсканированных документов</string>
+    <string name="document_scaner_title">Сканирование документов</string>
+    <string name="document_scaner_help_text">Наведите камеру на штрих-код</string>
+    <string name="document_scaner_error_scan">Ошибка сканирования</string>
+
+    <string name="pin_dialog_ok">Хорошо</string>
+
+    <string name="form_help_dialog_title">Подсказка</string>
+    <string name="contact_add_name_help_text">Это важно, чтобы банк мог позвонить и убедиться в
+        надежности клиента
+    </string>
+    <string name="code_word_help_text">Кодовое слово потребуется при звонках в Службу
+        поддержки клиентов
+    </string>
+
+    <string name="shops">Магазины</string>
+    <string name="choose_shop_dialog_choose">Выбрать</string>
+    <string name="choose_shop_dialog_cancel">Отмена</string>
+    <string name="choose_shop_dialog_message">Сеть: %1$s \nМагазин: %2$s</string>
+    <string name="choose_point_dialog_message">Место: %s</string>
+
+    <!-- Summary and Orders -->
+    <!-- Aims -->
+    <string name="aims_transactions_block_title">Транзакции</string>
+    <string name="aims_new_transactions_title">Новые</string>
+    <string name="aims_cleared_transactions_title">Обработанные</string>
+    <string name="aims_options_block_title">Дополнительные опции</string>
+    <string name="aims_all_options">Все</string>
+    <string name="aims_paid_options">Оплачиваемые</string>
+    <string name="aims_rocket_bank_issued_cards">Выдано</string>
+    <string name="aims_rocket_bank_issues_title">Карты Рокетбанка</string>
+
+    <string name="no_orders">У вас пока нет заявок</string>
+    <string name="summary_sovest_orders_page_title">Совесть</string>
+    <string name="summary_rocket_orders_page_title">Рокет</string>
+    <string name="ratings">Рейтинги</string>
+    <string name="aim_title">Мои цели</string>
+    <string name="my_rating">Личный</string>
+    <string name="team_rating">Командный</string>
+    <string name="battle_rating">Батлы</string>
+    <string name="place">%d место</string>
+    <string name="place_title">Место</string>
+    <string name="default_place">—</string>
+    <string name="my_rating_title">Специалист</string>
+    <string name="my_rating_order">Выдачи</string>
+    <string name="my_rr">RR</string>
+    <string name="shop_info_snakbar_text">Вы в %1$s, %2$s</string>
+
+    <string name="order_list_stepper_hint_order_state_approved">Проверка может длиться до 10
+        минут. ~4 минуты — среднее время проверки
+    </string>
+    <string name="date_of_creation_of_order">Время создания</string>
+
+
+    <string name="history_orders_title">История</string>
+    <string name="no_history_orders">Здесь будет отображаться история выданных карт за все дни
+    </string>
+
+    <string name="my_history">ИСТОРИЯ</string>
+    <string name="my_aim_rr">RR %d%%</string>
+    <string name="default_my_aim_rr">RR —</string>
+
+    <string name="default_emoji_issued_cards">Нет выданных карт</string>
+
+    <string name="default_emoji_transaction">Нет транзакций обработанных банком</string>
+    <string name="default_auth_transaction">Нет новых транзакций</string>
+    <string name="default_options">Нет дополнительных опции</string>
+
+    <string name="procent">%d%%</string>
+    <string name="doubleprocent">%f%%</string>
+    <string name="stringprocent">%s%%</string>
+    <string name="number_without_point">%d</string>
+    <string name="number_with_point">%d.</string>
+    <string name="emoji_bonus_text">%1$d%%\n %2$d</string>
+
+    <string name="release_notes">Обновления в данной версии</string>
+    <string name="transaction_hint">Бонусы рассчитаны при прогнозе транзакций на уровне 60%</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="fio_suggestions">Подсказки ФИО</string>
+    <string name="company_suggestions">Подсказки Компании</string>
+    <string name="fio_suggestions_on">вкл</string>
+    <string name="fio_suggestions_off">выкл</string>
+    <string name="state">Состояние</string>
+    <string name="upload">Отправляется</string>
+    <string name="yesterday">Вчера</string>
+    <string name="today_battle">Сегодня батл</string>
+
+    <!-- Last mile -->
+    <string name="last_mile_forward_button">Найти заявку</string>
+    <string name="last_mile_order_not_found_title">Заявка не найдена</string>
+    <string name="last_mile_order_not_found_msg_html"><![CDATA[Внимательно проверьте введённые данные и попробуйте
+        ещё раз. Если заявка не найдена, клиенту необходимо позвонить в банк:<br>\n<b>8 800 510-20-14</b>]]>
+    </string>
+    <string name="last_mile_info_label">Все поля обязательны для заполнения</string>
+
+    <!-- News -->
+    <string name="news_title">Новости</string>
+    <string name="news_details_title">Публикация</string>
+    <string name="news_error_load_hint">Ошибка загрузки новостей\nПотяните для обновления</string>
+    <string name="news_no_content_hint">Нет актуальных новостей\nПотяните для обновления</string>
+    <string name="news_article_not_found">Публикация не доступна</string>
+    <string name="news_article_error_load">Ошибка загрузки данных публикации</string>
+
+    <!-- Battle status -->
+    <string name="battle_status_waiting_for">Ожидание соперника</string>
+    <string name="battle_status_confirmed">Батл запланирован</string>
+    <string name="battle_status_cancelled">Батл отменен</string>
+    <string name="battle_status_rejected">Батл отклонен</string>
+    <string name="battle_status_in_progress">Батл идёт</string>
+    <string name="battle_status_finished">Батл завершён</string>
+    <string name="battle_status_unknown">Батл формируется</string>
+
+    <!-- Battle details -->
+    <string name="battle_countdown_prefix">До конца осталось</string>
+    <string name="battle_details_title">Результаты батла</string>
+    <string name="battle_details_result">Результаты</string>
+    <string name="battle_details_friendly_team_tab">Ваша команда</string>
+    <string name="battle_details_opponent_team_tab">Соперник</string>
+    <string name="battle_details_first_team_tab">Первая команда</string>
+    <string name="battle_details_second_team_tab">Вторая команда</string>
+    <string name="battle_details_error_title">Невозможно отобразить детали батла</string>
+    <string name="battle_details_error_invalid_data">Не удалось обработать ответ от сервера</string>
+    <string name="battle_details_error_load_data">Ошибка загрузки данных</string>
+
+    <!-- Team profile -->
+    <string name="team_profile_title">Профиль команды</string>
+    <string name="team_profile_battles_title">Батлы</string>
+    <string name="team_profile_cardstats_total_description">всего выдано</string>
+    <string name="team_profile_cardstats_dailyrecord_description">дневной рекорд</string>
+    <string name="team_profile_cardstats_dailyaverage_description">в среднем в день</string>
+    <string name="team_profile_vote_for_battle">Голосовать за батл с командой</string>
+    <string name="team_profile_error_title">Невозможно отобразить профиль команды</string>
+    <string name="team_profile_vote_error_title">Голосование за команду</string>
+    <string name="team_profile_vote_error_text_with_msg">Ошибка голосования: %s</string>
+    <string name="team_profile_vote_error_text_with_code">Ошибка голосования, код %d</string>
+    <string name="team_profile_vote_error_cancel_button">ОК</string>
+
+    <!-- User Profile -->
+    <string name="profile_title">Профиль</string>
+    <string name="profile_sv_statistics">Статистика:</string>
+    <string name="profile_sv_statistics_by_day">За день</string>
+    <string name="profile_sv_statistics_by_staff">По сотрудникам</string>
+    <string name="profile_sv_statistics_agent">Сотрудник</string>
+    <string name="profile_sv_statistics_sent">Заявки</string>
+    <string name="profile_sv_statistics_accept">Одобр.</string>
+    <string name="profile_devices_info_fio">Имя, фамилия DSA</string>
+    <string name="profile_devices_info_app_version">Версия</string>
+    <string name="profile_devices_info_barcode">ШК</string>
+
+    <!-- Error load data swipe layout -->
+    <string name="error_load_data_swipe_hint_text">Ошибка загрузки данных,\nпотяните вниз для
+        обновления
+    </string>
+
+    <!-- Active battles -->
+    <string name="active_battles">Актуальные</string>
+    <string name="history_battles">Прошедшие</string>
+
+    <string name="active_battle_choose_enemy">Выберите соперника</string>
+    <string name="active_battle_wait_enemy">Ждём ответа соперника...</string>
+    <string name="active_battle_cannot_choose_enemy">Сорян, уже нет свободных команд</string>
+    <string name="active_battle_date_current_week">Эта неделя</string>
+    <string name="active_battle_date_next_week">Следующая неделя</string>
+    <string name="active_battle_curren_battle">Активный батл</string>
+
+    <string name="from">\u0020из\u0020</string>
+
+    <string name="score">%1$d : %2$d</string>
+
+    <!-- Battle results -->
+    <string name="battle_result_title">Результаты батла</string>
+    <string name="battle_results_details_button">Результаты батла</string>
+    <string name="battle_results_close_button">Закрыть</string>
+    <string name="battle_result_your_team_won">Ваша команда выиграла</string>
+    <string name="battle_result_your_team_loose">Ваша команда проиграла</string>
+    <string name="battle_result_draw">Ваша команда сыграла вничью</string>
+    <string name="battle_result_error_title">Невозможно отобразить результаты батла</string>
+
+    <!-- Battle rating -->
+    <string name="battle_rating_title">Рейтинг батлов</string>
+    <string name="battle_rating_column_team">Команда</string>
+    <string name="battle_rating_column_rating">Рейтинг</string>
+    <string name="battle_rating_error_title">Невозможно отобразить рейтнг батлов</string>
+
+    <!-- Battle notification -->
+    <string name="battle_notification_title">Уведомление о батле</string>
+    <string name="battle_notification_error_title">Невозможно отобразить уведомление о батле
+    </string>
+    <string name="battle_notification_cancel_button">Отменить батл</string>
+    <string name="battle_notification_confirm_button">Хорошо</string>
+    <string name="battle_notification_today">Сегодня батл</string>
+    <string name="battle_notification_planned">Батл запланирован</string>
+    <string name="battle_notification_vs_token">VS</string>
+    <string name="battle_notification_cancel_title">Отмена батла</string>
+    <string name="battle_notification_cancelled_text">Батл успешно отменен!</string>
+    <string name="battle_notification_error_cancel_text_with_msg">Ошибка отмены батла: %s</string>
+    <string name="battle_notification_error_cancel_text_with_code">Ошибка отмены батла, код %d
+    </string>
+    <string name="battle_notification_error_cancel_button">ОК</string>
+
+    <!-- ViewState activity -->
+    <string name="view_state_error_load_data">Ошибка загрузки данных</string>
+    <string name="view_state_error_load_data_with_code">Ошибка загрузки данных, код ошибки: %d
+    </string>
+    <string name="view_state_error_invalid_data">Не удалось обработать ответ от сервера</string>
+    <!-- // -->
+
+    <string name="accept">ПРИНЯТЬ</string>
+    <string name="picking_battle_list_empty">На данную дату нельзя выбрать соперников</string>
+    <string name="incomming_battle">Вызывают на батл</string>
+    <string name="potential_team">Свободные команды</string>
+    <string name="ready_for_battle">Готовы к батлу</string>
+    <string name="call">ВЫЗВАТЬ</string>
+    <string name="review">Рассматривает...</string>
+    <string name="cancel">Отказались</string>
+    <string name="money_bonus">%s ₽</string>
+    <string name="hint_battle_rating">Для рассчётов применяется рейтинг Эло. Чем сильнее противник,
+        тем больше очков получит ваша команда за победу.
+    </string>
+    <string name="hint_active_battle_sv">Выберите команду для батла. Количество
+        👊 показывает сколько ваших DSA хотят посоревноваться с ней.
+    </string>
+
+    <string name="hint_active_battle_dsa">Проголосуйте за команды, с которыми хотите
+        посоревноваться.
+        Супервайзер увидит это и учтёт при выборе соперника 👊
+    </string>
+
+    <string name="hint_battle_votes">Количество 👊 показывает сколько ваших DSA хотят
+        посоревноваться с ней.
+    </string>
+
+    <string name="shop_address_list_item_expired">Рассрочка до %1$d мес.</string>
+    <string name="shop_address_list_item_expired_just">Рассрочка %1$d мес.</string>
+    <string name="shop_address_map_share_address">Адрес</string>
+    <string name="shop_address_map_share_work">Часы работы</string>
+    <string name="shop_address_map_share_installement">Срок рассрочки</string>
+    <string name="shop_address_list_item_share_expired_just">%1$d мес.</string>
+    <string name="shop_address_list_item_share_expired">%1$d-%2$d мес.</string>
+    <string name="activity_shop_info_address_shop">Адреса магазинов</string>
+
+    <!-- Schedule -->
+    <string name="schedule">Расписание</string>
+    <string name="shift">Смена</string>
+    <string name="sv">Супервайзер</string>
+    <string name="sv_phone">Телефон супервайзер</string>
+    <string name="number_phone">Номер телефона</string>
+    <string name="shop_address">Адрес точки</string>
+    <string name="today">СЕГОДНЯ</string>
+    <string name="previously_there_is_no_schedule">Раньше расписания нет</string>
+    <string name="base_schedule">Базовое расписание</string>
+    <string name="save">СОХРАНИТЬ</string>
+    <string name="delete_shift_dialog_title">Удалить смену?</string>
+    <string name="delete_shift_dialog_message">Смена %1$s %2$s будет удалена</string>
+    <string name="delete_shift_dialog_pos_btn">Удалить</string>
+    <string name="start_hint_primary_text">Начните смену</string>
+    <string name="start_hint_secondary_text">Нажмите на пиктокраму, чтобы сообщить супервайзеру о
+        начале смены и передать ваше местоположение.
+    </string>
+    <string name="shift_reopen">ВОЗОБНОВИТЬ СМЕНУ</string>
+    <string name="shift_finish">ЗАВЕРШИТЬ СМЕНУ</string>
+    <string name="shift_start">НАЧАТЬ СМЕНУ</string>
+    <string name="hide">CКРЫТЬ</string>
+    <string name="permission_denied_explanation">Доступ к данным о местоположении был отклонен, но
+        он необходим.
+    </string>
+    <string name="permission_settings">НАСТРОЙКИ</string>
+
+    <string name="hint_shedule_by_day">
+        Быстрое нажатие на сотрудника откроет его расписание, долгое — редактирование.
+    </string>
+    <!-- Schedule copy -->
+    <string name="schedule_copy_title">Копирование недели</string>
+    <string name="schedule_copy_succeeded">Расписание успешно скопировано</string>
+    <string name="schedule_copy_confirm_dialog_title">Копирование расписания</string>
+    <string name="schedule_copy_confirm_dialog_message">Копирование сотрет все выставленные смены,
+        если они существуют!
+    </string>
+    <string name="schedule_copy_dialogs_title">Копирование расписания</string>
+    <string name="schedule_copy_button_format">Скопировать %1$d-ю неделю в %2$d-ю</string>
+    <string name="schedule_copy_dialogs_confirm_button">Скопировать</string>
+    <!-- // -->
+
+    <!-- Time accounting -->
+    <string name="time_accounting">УЧЁТ ВРЕМЕНИ</string>
+    <string name="without_location">Без координат</string>
+    <!-- // -->
+
+    <!-- Notifications -->
+    <string name="notification_app_id">DSA_MOBILE</string>
+    <string name="notification_device_type">ANDROID</string>
+    <string name="notification_main_channel">dsa_channel_01</string>
+    <string name="schedule_for_sv">Cкоро сделаем...</string>
+    <string name="schedule_is_empty">Расписание не создано</string>
+    <string name="add_schedule_shift">ДОБАВИТЬ ТОЧКУ</string>
+    <string name="delete_schedule_shift">УДАЛИТЬ ТОЧКУ</string>
+    <string name="start_shift">Начало смены</string>
+    <string name="first_order">Первая заявка</string>
+    <string name="last_order">Последняя заявка</string>
+    <string name="finish_shift">Конец смены</string>
+    <string name="add_contact">Контактное лицо</string>
+    <!-- DSA schedule profile -->
+    <string name="dsa_schedule_profile_error_load">Ошибка загрузки данных</string>
+    <!-- // -->
+
+    <!-- Statistics -->
+    <!-- Menu -->
+    <string name="statistics_menu">Дата</string>
+    <string name="statistics_menu_item_today">Сегодня</string>
+    <string name="statistics_menu_item_month">Месяц</string>
+    <!-- DSA statistics -->
+    <string name="dsa_stats_header_rank">#</string>
+    <string name="dsa_stats_header_fio">Имя и\nфамилия</string>
+    <string name="dsa_stats_header_orders">Заяв.</string>
+    <string name="dsa_stats_header_issues">Выд.</string>
+    <string name="dsa_stats_header_transactions">Транз.</string>
+    <string name="dsa_stats_header_transactions_description">Нов. / Обр.</string>
+    <string name="dsa_stats_header_options">Опции</string>
+    <string name="dsa_stats_header_options_description">Все / Опл.</string>
+    <string name="dsa_stats_header_conversion">Конв, %.</string>
+    <string name="dsa_stats_achievements_winners_header_fio">Имя, фамилия</string>
+    <string name="dsa_stats_achievements_winners_header_date">Дата</string>
+    <!-- SV statistics, personal -->
+    <string name="sv_stats_title_aims">Мои цели</string>
+    <string name="sv_stats_subtitle_aims">Цель</string>
+    <string name="sv_stats_subtitle_fact">Факт</string>
+    <string name="sv_stats_orders">Заявки</string>
+    <string name="sv_stats_issues">Выдачи DSA</string>
+    <string name="sv_stats_rejects">Отказы</string>
+    <string name="sv_stats_transactions">Транзакции</string>
+    <string name="sv_stats_all_options">Доп. опции (все)</string>
+    <string name="sv_stats_paid_options">Доп. опции (оплачиваемые)</string>
+    <string name="sv_stats_productivity_by_orders">Продуктивность (заявки)</string>
+    <string name="sv_stats_productivity_by_issues">Продуктивность (выдачи)</string>
+    <string name="sv_stats_staff_count">Штат</string>
+    <string name="sv_stats_title_shift">Мои смены</string>
+    <string name="sv_stats_shift_plan_by_formula">План по формуле</string>
+    <string name="sv_stats_shift_plan_by_schedule">План из расписания</string>
+    <string name="sv_stats_shift_fact">Факт</string>
+    <string name="sv_stats_personal_rocket_card_orders">Заявки Рокетбанка</string>
+    <string name="sv_stats_personal_rocket_cards_issued">Выдачи Рокетбанка</string>
+    <string name="sv_stats_personal_rocket_conversion">Конверсия по Рокетбанку, %</string>
+
+    <!-- SV statistics, DSA -->
+    <string name="sv_dsa_stats_name">Имя,\nфамилия</string>
+    <string name="sv_dsa_stats_version">Версия</string>
+    <string name="sv_dsa_stats_code">ШК</string>
+    <string name="sv_dsa_stats_transactions">Транзакции</string>
+    <string name="sv_dsa_stats_transactions_stats">План \\ Обр \\ Нов</string>
+    <string name="sv_dsa_stats_transactions_stats_day">Обр \\ Нов</string>
+    <string name="sv_dsa_stats_options">Доп. опц.</string>
+    <string name="sv_dsa_stats_options_stats">План \\ Все \\ Опл.</string>
+    <string name="sv_dsa_stats_options_stats_day">Все \\ Опл.</string>
+    <string name="sv_dsa_stats_orders">Заявки</string>
+    <string name="sv_dsa_stats_issues">Выдачи</string>
+    <string name="sv_dsa_stats_issues_stats">План \\ Факт</string>
+    <string name="sv_dsa_stats_productivity">Прод-ть</string>
+    <string name="sv_dsa_stats_productivity_by_orders">по заявкам</string>
+    <string name="sv_dsa_stats_productivity_by_issues">по выдачам</string>
+    <string name="sv_dsa_stats_rejects">Отказ</string>
+    <string name="sv_dsa_stats_shifts">Смены</string>
+    <string name="sv_dsa_stats_shifts_stats">План \\ Факт</string>
+    <string name="sv_dsa_stats_rocket_orders">Заяв.</string>
+    <string name="sv_dsa_stats_rocket_sales">Выд.</string>
+    <string name="sv_dsa_stats_rocket_bank_name">Рокет</string>
+    <string name="sv_dsa_stats_rocket_conversion">Конв.</string>
+    <string name="sv_dsa_stats_rocket_bank_name_with_percent">Рокет,%</string>
+
+    <!-- DSA statistics, team -->
+    <string name="dsa_stats_team_rank_good">🔥</string>
+    <string name="dsa_stats_team_rank_medium">✌️</string>
+    <string name="dsa_stats_team_rank_bad">😴</string>
+    <!-- // -->
+
+    <!-- Achievements -->
+    <string name="dsa_achievements_title">Награды сотрудника</string>
+    <string name="dsa_achievements_list_with_awards_title">Награды</string>
+    <string name="dsa_achievements_list_no_awards_title">Нет наград за выбранный период</string>
+    <string name="dsa_achievements_indicators">Показатели</string>
+    <string name="dsa_achievements_applications_count">Заведено заявок Совесть</string>
+    <string name="dsa_achievements_sales_count">Выдано карт Совесть</string>
+    <string name="dsa_achievements_payments_count">Транзакций</string>
+    <string name="dsa_achievements_installed_options_count">Подключено доп. опций</string>
+    <string name="dsa_achievements_no">Они выдаются за лучшие результаты по опциям, выдачам и
+        транзакциям.
+    </string>
+    <string name="dsa_achievements_info_dialog_title">Награды</string>
+    <string name="dsa_achievements_info_dialog_confirm_button">Понятно</string>
+    <string name="dsa_achievements_winners_title">Призеры</string>
+    <string name="dsa_achievements_winners_single_grats_title">Поздравляем!</string>
+    <string name="dsa_achievements_winners_single_button_text">Слава мне!</string>
+    <string name="dsa_achievements_winners_all_winners_button_text">Молодцы!</string>
+    <string name="dsa_achievements_winners_all_winners_title">Призеры</string>
+    <string name="dsa_achievements_rocket_fact_cards_count">Выдано карт Рокетбанка</string>
+    <string name="dsa_achievements_rocket_potential_cards_count">Заведено заявок Рокетбанка</string>
+    <string name="dsa_achievements_rocket_conversion">Конверсия по Рокетбанку, %</string>
+    <!-- // -->
+
+    <!-- Documents -->
+    <string name="documents_activity_title">Документы</string>
+    <string name="documents_scanner_activity_title">Сканирование документов</string>
+    <plurals name="sent_documents_plural">
+        <item quantity="one">Принят %d документ</item>
+        <item quantity="few">Принято %d документа</item>
+        <item quantity="many">Принято %d документов</item>
+        <item quantity="other">Принято %d документов</item>
+    </plurals>
+    <string name="documents_no_documents_by_dsa">За Вами не числятся документы</string>
+    <string name="documents_no_documents_dsa_by_sv">ДСА сдали все документы</string>
+    <string name="documents_no_documents_by_sv">На Вас не числятся документы</string>
+
+    <!-- // -->
+
+    <plurals name="errorIncorrectPinNumbers">
+        <item quantity="one">Неверный пин. \n Осталось %d попытка.</item>
+        <item quantity="few">Неверный пин. \n Осталось %d попытки.</item>
+        <item quantity="many">Неверный пин. \n Осталось %d попыток.</item>
+        <item quantity="other">Неверный пин. \n Осталось %d попыток.</item>
+    </plurals>
+
+    <plurals name="issuedCard">
+        <item quantity="one">%d карта</item>
+        <item quantity="few">%d карты</item>
+        <item quantity="many">%d карт</item>
+        <item quantity="other">%d карт</item>
+    </plurals>
+
+    <plurals name="transactions">
+        <item quantity="one">%d транзакция</item>
+        <item quantity="few">%d транзакции</item>
+        <item quantity="many">%d транзакций</item>
+        <item quantity="other">%d транзакций</item>
+    </plurals>
+
+
+    <plurals name="order_list_header_cur_stat_without_plan">
+        <item quantity="one">Сегодня, план - %d заявка</item>
+        <item quantity="few">Сегодня, план - %d заявки</item>
+        <item quantity="many">Сегодня, план - %d заявок</item>
+        <item quantity="other">Сегодня, план - %d заявок</item>
+    </plurals>
+
+    <plurals name="order_list_header_cur_stat">
+        <item quantity="one">%d выдача</item>
+        <item quantity="few">%d выдачи</item>
+        <item quantity="many">%d выдач</item>
+        <item quantity="other">%d выдач</item>
+    </plurals>
+
+    <plurals name="order_list_header_plan_stat">
+        <item quantity="one">%d заявка</item>
+        <item quantity="few">%d заявки</item>
+        <item quantity="many">%d заявок</item>
+        <item quantity="other">%d заявок</item>
+    </plurals>
+
+
+    <plurals name="emoji_issued_cards">
+        <item quantity="one">%1$d карта, %2$d%%</item>
+        <item quantity="few">%1$d карты, %2$d%%</item>
+        <item quantity="many">%1$d карт, %2$d%%</item>
+        <item quantity="other">%1$d карт, %2$d%%</item>
+    </plurals>
+
+    <plurals name="emoji_bonus_text">
+        <item quantity="one">%1$d%% \n %2$d карта</item>
+        <item quantity="few">%1$d%% \n %2$d карты</item>
+        <item quantity="many">%1$d%% \n %2$d карт</item>
+        <item quantity="other">%1$d%% \n %2$d карт</item>
+    </plurals>
+
+    <plurals name="auth_transaction">
+        <item quantity="one">%d новая транзакция</item>
+        <item quantity="few">%d новых транзакции</item>
+        <item quantity="many">%d новых транзакций</item>
+        <item quantity="other">%d новых транзакций</item>
+    </plurals>
+
+    <plurals name="emoji_transaction">
+        <item quantity="one">%1$d транзакция обработанных банком, %2$d%%</item>
+        <item quantity="few">%1$d транзакции обработанных банком, %2$d%%</item>
+        <item quantity="many">%1$d транзакций обработанных банком, %2$d%%</item>
+        <item quantity="other">%1$d транзакций обработанных банком, %2$d%%</item>
+    </plurals>
+
+    <plurals name="options">
+        <item quantity="one">%1$d опция, %2$d%%</item>
+        <item quantity="few">%1$d опции, %2$d%%</item>
+        <item quantity="many">%1$d опций, %2$d%%</item>
+        <item quantity="other">%1$d опций, %2$d%%</item>
+    </plurals>
+
+    <plurals name="challenge">
+        <item quantity="one">%d ВЫЗОВ</item>
+        <item quantity="few">%d ВЫЗОВА</item>
+        <item quantity="many">%d ВЫЗОВОВ</item>
+        <item quantity="other">%d ВЫЗОВОВ</item>
+    </plurals>
+
+    <plurals name="battle_history_battles">
+        <item quantity="one">%d батл</item>
+        <item quantity="few">%d батла</item>
+        <item quantity="many">%d батлов</item>
+        <item quantity="other">%d батлов</item>
+    </plurals>
+
+    <plurals name="battle_history_points">
+        <item quantity="one">%d балл</item>
+        <item quantity="few">%d балла</item>
+        <item quantity="many">%d баллов</item>
+        <item quantity="other">%d баллов</item>
+    </plurals>
+
+    <plurals name="battle_history_win">
+        <item quantity="one">%d победа</item>
+        <item quantity="few">%d победы</item>
+        <item quantity="many">%d побед</item>
+        <item quantity="other">%d побед</item>
+    </plurals>
+
+    <plurals name="battle_history_lose">
+        <item quantity="one">%d поражение</item>
+        <item quantity="few">%d поражения</item>
+        <item quantity="many">%d поражений</item>
+        <item quantity="other">%d поражений</item>
+    </plurals>
+
+    <plurals name="battle_history_draft">
+        <item quantity="one">%d ничья</item>
+        <item quantity="few">%d ничьи</item>
+        <item quantity="many">%d ничьих</item>
+        <item quantity="other">%d побед</item>
+    </plurals>
+
+    <plurals name="team_profile_cards">
+        <item quantity="one">%d карта</item>
+        <item quantity="few">%d карты</item>
+        <item quantity="many">%d карт</item>
+        <item quantity="other">%d карт</item>
+    </plurals>
+
+    <plurals name="team_profile_battles">
+        <item quantity="one">%d батл</item>
+        <item quantity="few">%d батла</item>
+        <item quantity="many">%d батлов</item>
+        <item quantity="other">%d батлов</item>
+    </plurals>
+
+    <plurals name="team_profile_loses">
+        <item quantity="one">%d поражение</item>
+        <item quantity="few">%d поражения</item>
+        <item quantity="many">%d поражений</item>
+        <item quantity="other">%d поражений</item>
+    </plurals>
+
+    <plurals name="team_profile_wins">
+        <item quantity="one">%d победа</item>
+        <item quantity="few">%d победы</item>
+        <item quantity="many">%d побед</item>
+        <item quantity="other">%d побед</item>
+    </plurals>
+
+    <plurals name="team_profile_draws">
+        <item quantity="one">%d ничья</item>
+        <item quantity="few">%d ничьи</item>
+        <item quantity="many">%d ничьих</item>
+        <item quantity="other">%d ничьих</item>
+    </plurals>
+
+    <plurals name="team_profile_points">
+        <item quantity="one">%d балл</item>
+        <item quantity="few">%d балла</item>
+        <item quantity="many">%d баллов</item>
+        <item quantity="other">%d баллов</item>
+    </plurals>
+
+    <plurals name="team_profile_members">
+        <item quantity="one">%d человек</item>
+        <item quantity="few">%d человека</item>
+        <item quantity="many">%d человек</item>
+        <item quantity="other">%d человек</item>
+    </plurals>
+
+    <string name="error_edit_schedule">За прошедшие дни нельзя менять расписание</string>
+
+    <string name="need_choose_shop">Неполные данные агента. Обратите внимание, что данные магазина
+        обязательны. Заполните во вкладке \"Профиль\""
+    </string>
+
+    <string name="exit_demo">Выйти из демо-режима</string>
+    <string name="exit_demo_to_order_list">Выйти из демо-режима</string>
+    <string name="pvo_cancel">Ошибка в персональных данных клиента, перепроверьте и заведите новую
+        заявку
+    </string>
+
+    <string name="open_all_team_rating">Весь RR</string>
+    <string name="open_all_battle_rating">Рейтинг всех батлов</string>
+    <string name="procent_symbol">%</string>
+    <string name="runrate">Run rate</string>
+
+    <!-- OTP FIELD FACTORY -->
+    <string name="main_title">Основные данные</string>
+    <string name="lastname">Фамилия *</string>
+    <string name="firstname">Имя *</string>
+    <string name="patronymic">Отчество, если есть</string>
+    <string name="mobilePhoneField">Мобильный телефон *</string>
+    <string name="last_mile_switch">"Выдача одобренной карты</string>
+
+    <!-- BASE DATA FIELD FACTORY -->
+    <string name="fioChange">Менял(-а) ФИО *</string>
+    <string name="prevSurname">Фамилия, если менял</string>
+    <string name="prevFirstname">Имя, если менял</string>
+    <string name="prevPatronymic">Отчество, если менял</string>
+    <string name="sex">Пол *</string>
+    <string name="contacts">Связь</string>
+    <string name="emailField">Email (опционально)</string>
+    <string name="sms_to_number">Смс на номер:</string>
+
+    <!--DOCS FIELD FACTORY -->
+    <string name="docs_title">Документы</string>
+    <string name="placeBirth">Место рождения *</string>
+    <string name="dateBirth">Дата рождения *</string>
+    <string name="documentType">Код типа документа, удостоверяющего личность таблица №1, основным
+        документом является паспорт, код 01
+    </string>
+    <string name="documentSerial">Серия паспорта *</string>
+    <string name="documentNo">Номер паспорта *</string>
+    <string name="documentDate">Дата выдачи паспорта *</string>
+    <string name="documentIssueWhereCode">Код подразделения *</string>
+    <string name="documentIssueWhere">Место выдачи паспорта *</string>
+
+    <!--REG ADDRESS FIELD FACTORY -->
+    <string name="address_reg_title">Адрес регистрации</string>
+    <string name="owner">Собственник</string>
+    <string name="dateReg">Дата прописки *</string>
+    <string name="regAddress">Адрес регистрации *</string>
+    <string name="regionField">Регион *</string>
+    <string name="city">Населенный пункт *</string>
+    <string name="street">Улица</string>
+    <string name="house">Дом</string>
+    <string name="apartment">Квартира (оставить пустым, если нет номера)</string>
+    <string name="office">Офис</string>
+    <string name="address_not_found">Адрес не найден</string>
+
+    <!--ACTUAL ADDRESS FIELD FACTORY -->
+    <string name="address_actual_title">Адрес проживания</string>
+    <string name="regEqualsActual">Адрес проживания совпадает с пропиской</string>
+    <string name="actaulAddress">Адрес проживания *</string>
+
+    <!-- EDU FIELD FACTORY -->
+    <string name="client_data">Данные клиента</string>
+    <string name="education_income">Образование</string>
+    <string name="marital_status">Семейное положение</string>
+    <string name="educationField">Образование *</string>
+    <string name="maritalStatusField">Семейное положение *</string>
+    <string name="childrenCount">Количество детей *</string>
+    <string name="experienceCurrentYear">Стаж на текущем месте *</string>
+    <string name="experienceTotalYear">Общий трудовой стаж *</string>
+    <string name="incomeMonthAvgNet">Суммарный доход в месяц (зарплата, доход с аренды, бизнеса) *
+    </string>
+    <string name="expensesMonthAvg">Расходы в месяц (кредиты, ипотека, аренда, учеба) *</string>
+
+    <!-- WORK FIELD FACTORY -->
+    <string name="employment_title">Занятость</string>
+    <string name="employmentType">Тип занятости *</string>
+    <string name="specialitySphere">Сфера деятельности компании *</string>
+    <string name="specialitySphereOther">Сфера деятельности ИНОЕ *</string>
+    <string name="jobPosition">Должность *</string>
+    <string name="jobPhone">Рабочий телефон *</string>
+    <string name="companyName">Название компании (например ООО Астра) *</string>
+    <string name="jobAddress">Рабочий адрес *</string>
+
+    <!-- LAST FIELD FACTORY -->
+    <string name="last_data_title">Последние данные</string>
+    <string name="contactAddNameLast">Фамилия дополнительного контакта *</string>
+    <string name="contactAddNameFirst">Имя дополнительного контакта *</string>
+    <string name="contactAddNamePatronymic">Отчество дополнительного контакта, если есть</string>
+    <string name="contactAddPhone">Телефон дополнительного контакта *</string>
+    <string name="contactAddType">Чей номер телефона указывает клиент *</string>
+    <string name="title_security">Безопасность</string>
+    <string name="codeWord">Кодовое слово *</string>
+    <string name="inputComment">Комментарий статуса ввода заявки</string>
+    <string name="externalAppDateTimeStart">Дата-Время начала заполнения анкеты</string>
+    <string name="externalAppId">тех</string>
+
+    <!-- LAST MILE FIELD FACTORY -->
+    <string name="marketCode">Код выдачи карты *</string>
+    <string name="last_mile_title">Введите данные для поиска заявки</string>
+
+    <!-- SCHEDULE FIELD FACTORY -->
+    <string name="status">Статус</string>
+    <string name="shiftField">Смена</string>
+    <string name="pointField">Точка</string>
+    <string name="infoShift">При выборе смены возможна только одна рабочая смена в день.</string>
+
+    <string name="qualification">Уточнение *</string>
+    <string name="comment">Комментарий</string>
+
+    <string name="dsa_team_check_title">Команда DSA</string>
+    <string name="dsa_team_check_finish_button">Выход</string>
+
+
+    <!-- SUPPORT -->
+    <string name="support_client_title">Обращение клиента</string>
+    <string name="support_client_tab_consultation">Консультация</string>
+    <string name="support_client_tab_claim">Претензия</string>
+    <string name="support_text_of_appeal">Текст обращения *</string>
+    <string name="support_fio">ФИО</string>
+    <string name="support_phone_of_card">Номер телефона, привязанный к карте *</string>
+    <string name="support_pnone_check_box">Использовать приязанный к карте номер телефона для
+        связи
+    </string>
+    <string name="support_phone_for_call">Номер телефона для связи *</string>
+    <string name="support_title_type"></string>
+    <string name="support_success_send_dialog_title">Обращение отправлено</string>
+    <string name="support_success_send_dialog_message_for_consultation">Сотрудник коллцентра Совести
+        свяжется с клиентом в течение 24 часов
+    </string>
+    <string name="support_success_send_dialog_message_for_claim">Сотрудник коллцентра Совести
+        свяжется с клиентом в течение 48 часов
+    </string>
+
+    <string name="default_declinereason">Отказ без возможности перезаведения заявки</string>
+    <string name="decline_send_bank">Заявку возможно отправить в Киви Банк</string>
+    <string name="decline_send_verify">Заявку возможно отправить в Киви Банк. Возможна повторная
+        проверка верификаторами
+    </string>
+
+    <string-array name="schedule_navigation">
+        <item>Расписание</item>
+        <item>Чекины и заявки</item>
+    </string-array>
+
+    <string-array name="schedule_navigation_for_dsa">
+        <item>Расписание</item>
+        <item>Чекины</item>
+    </string-array>
+
+    <string name="hint_schedule">Фильтры раздела:\n
+        Расписание - просмотр и редактирование смен.\n
+        Чекины - фактическое расположения сотрудников на точках, время открытия и закрытия
+        смен.\n\n
+        Цветовые маркировки:\n\n
+        В фильтре «Расписание»:\n
+        - черным цветом - ваша точка (или общая с другим СВ) и ваш ДСА\n
+        - серым цветом - точки и сотрудники другого СВ (редактирование недоступно)\n
+        В фильтре «Чекины»:\n
+        - ДСА черным цветом - работает в назначенной точке\n
+        - ДСА красным цветом - работает в не назначенной точке
+    </string>
+
+    <string name="checkin_absent_warn">Не вышел на смену</string>
+
+    <!-- Aims -->
+    <string name="options_info_dialog_title">Дополнительные опции</string>
+    <string name="issued_cards_run_rate_progress_title">Всего выдано</string>
+    <string name="aims_cleared_transactions">Обработанные</string>
+    <string name="aims_new_transactions">Новые</string>
+    <string name="aims_additional_options">Дополнительные опции</string>
+    <string name="dsa_stats_runrate">RR %</string>
+    <string name="order_send_bank_btn_title">Отправить заявку в АО «Киви Банк»</string>
+    <string name="order_sended_to_bank">Заявка отправлена в АО «Киви Банк». \nВ течении 5 минут она
+        появится в общем списке.
+    </string>
+    <string name="order_sended_dialog_title">Заявка отправлена в АО «Киви Банк»</string>
+    <string name="order_sended_dialog_message">В течении 5 минут она появится в общем списке.
+    </string>
+    <!-- // -->
+
+    <!-- Documents -->
+    <string name="documents_no_docs_message">За Вами не числятся документы</string>
+    <!-- // -->
+
+    <!-- Multibank -->
+    <string name="multibank_order_activity_title">Информация о заявке</string>
+
+    <string name="filters_title">Фильтры</string>
+    <string name="filters_type">Тип</string>
+    <string name="filters_team">Команда</string>
+    <string name="filters_city">Город</string>
+    <string name="filters_russia">Россия</string>
+    <string name="filters_product">Продукт</string>
+    <string name="filters_sovest">Совесть</string>
+    <string name="filters_rocket">Рокетбанк</string>
+    <string name="filters_period">Период</string>
+    <string name="filters_today">Сегодня</string>
+    <string name="filters_show">Показать</string>
+    <string name="filter_title">Фильтр</string>
+    <string name="close">Закрыть</string>
+    <string name="application_qr_code">QR код заявки</string>
+    <string name="application">Заявка</string>
+    <string name="staff">Сотрудники</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">Песочница</string>
+
+    <!-- Camera2 -->
+    <string name="camera_title">Камера</string>
+
+</resources>

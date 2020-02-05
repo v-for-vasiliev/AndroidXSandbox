@@ -1,0 +1,468 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="default_margin">18dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="default_padding_vertical">16dp</dimen>
+    <dimen name="default_min_padding">4dp</dimen>
+    <dimen name="default_content_margin">20dp</dimen>
+    <dimen name="default_margin_vertical">4dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+
+    <!-- Order fields -->
+    <dimen name="field_padding_vertical_16dp">16dp</dimen>
+    <dimen name="field_padding_vertical_24dp">24dp</dimen>
+    <dimen name="field_padding_vertical_32dp">32dp</dimen>
+    <dimen name="field_padding_vertical_40dp">40dp</dimen>
+    <dimen name="field_padding_vertical_48dp">48dp</dimen>
+
+    <!-- Drawer -->
+    <dimen name="nav_drawer_width">306dp</dimen>
+    <dimen name="nav_drawer_left_vertical_block_width">72dp</dimen>
+    <!-- Header -->
+    <dimen name="nav_drawer_header_margin_bottom">20dp</dimen>
+    <dimen name="nav_drawer_header_margin_top">9dp</dimen>
+    <dimen name="nav_drawer_header_margin_right">13dp</dimen>
+    <dimen name="nav_drawer_header_primary_text_size">20sp</dimen>
+    <dimen name="nav_drawer_rank_icon_size">24dp</dimen>
+    <dimen name="nav_drawer_header_username_and_rank_margin_bottom">9dp</dimen>
+    <dimen name="nav_drawer_header_secondary_text_size">10sp</dimen>
+    <dimen name="nav_drawer_header_secondary_text_spacing">6sp</dimen>
+    <dimen name="nav_drawer_version_text_spacing">10sp</dimen>
+    <dimen name="nav_drawer_version_text_margin_bottom">15dp</dimen>
+    <dimen name="nav_drawer_menu_list_padding_vertical">16dp</dimen>
+    <dimen name="nav_drawer_logout_padding_vertical">16dp</dimen>
+    <!-- Drawer items -->
+    <dimen name="nav_drawer_item_text_size">16dp</dimen>
+    <dimen name="nav_drawer_item_lineSpacingExtra">4dp</dimen>
+    <dimen name="nav_drawer_item_height">44dp</dimen>
+    <dimen name="nav_drawer_logout_item_height">60dp</dimen>
+    <!-- Drawer end -->
+
+    <!-- Notifications -->
+    <dimen name="notification_circle_text_size">14sp</dimen>
+
+    <dimen name="title_text_size">16dp</dimen>
+    <dimen name="prev_title_text_size">16dp</dimen>
+    <dimen name="body_text_size">14dp</dimen>
+    <dimen name="body_text_size_small">9sp</dimen>
+    <dimen name="caption_text_size">10dp</dimen>
+    <dimen name="bonus_text_size">12dp</dimen>
+    <dimen name="caption_text_size_small">10dp</dimen>
+    <dimen name="button_text_size">14dp</dimen>
+
+    <dimen name="sv_week_text_size">14dp</dimen>
+    <dimen name="sv_capacity_text_size">9dp</dimen>
+
+
+    <dimen name="team_name_text_size">28dp</dimen>
+    <dimen name="team_profile_name_text_size">30dp</dimen>
+    <dimen name="vs_text_size">60sp</dimen>
+
+
+    <dimen name="dialog_header_text_size">16sp</dimen>
+    <dimen name="dialog_header_padding">16dp</dimen>
+    <dimen name="dialog_message_text_size">14sp</dimen>
+
+    <dimen name="border_button_text_size">12dp</dimen>
+
+
+    <dimen name="start_activity_padding">30dp</dimen>
+    <dimen name="start_activity_padding_bottom">60dp</dimen>
+    <dimen name="start_activity_icon_margin">10dp</dimen>
+    <dimen name="start_activity_button_margin_top">20dp</dimen>
+    <dimen name="start_activity_button_margin_horizontal">40dp</dimen>
+
+
+    <dimen name="body_linespacingextra">4dp</dimen>
+
+    <dimen name="margin_sms_horizontal">4dp</dimen>
+
+    <dimen name="like_clickable_padding">12dp</dimen>
+
+    <dimen name="useful_border_padding">10dp</dimen>
+
+    <dimen name="keyboardMaximumWidth">310dp</dimen>
+    <dimen name="dotSize">40dp</dimen>
+    <dimen name="dotPadding">12dp</dimen>
+
+    <dimen name="paddingForKeyboard">8dp</dimen>
+    <dimen name="paddingForRippleTop">3dp</dimen>
+    <dimen name="paddingForRippleBottom">3dp</dimen>
+
+    <dimen name="list_top_padding">10dp</dimen>
+
+    <!-- pin -->
+    <dimen name="pin_view_error_padding">8dp</dimen>
+
+    <!-- Profile -->
+    <dimen name="profile_activity_shop_margin_top">8dp</dimen>
+    <dimen name="profile_activity_change_margin_vertical">14dp</dimen>
+    <dimen name="profile_activity_statisics_filter_margin_left">4dp</dimen>
+    <dimen name="profile_activity_statisics_filter_margin_bottom">10dp</dimen>
+    <dimen name="profile_activity_default_padding">16dp</dimen>
+    <dimen name="profile_activity_list_statistics_padding_vertical">8dp</dimen>
+    <dimen name="profile_button_margin_vertical">6dp</dimen>
+
+    <!-- Partners -->
+    <dimen name="card_layout_shop_padding">16dp</dimen>
+
+    <!-- News -->
+    <dimen name="item_news_vertical_spacing">6sp</dimen>
+    <dimen name="news_details_spacer_date_to_title">20dp</dimen>
+    <dimen name="news_details_spacer_title_to_body">12sp</dimen>
+    <dimen name="news_horiz_padding_right">36dp</dimen>
+
+    <!-- TODO: name this block -->
+    <dimen name="button_round_corner">3dp</dimen>
+    <dimen name="appbar_padding_top">6dp</dimen>
+
+
+    <!-- Auth view -->
+    <dimen name="auth_help_text_size">16dp</dimen>
+    <dimen name="auth_help_text_margin_top">36dp</dimen>
+    <dimen name="auth_margin_left">28dp</dimen>
+    <dimen name="auth_input_margin_left">25dp</dimen>
+    <dimen name="auth_input_margin_top">26dp</dimen>
+    <dimen name="auth_input_text_size">14sp</dimen>
+    <dimen name="auth_button_text_size">14sp</dimen>
+    <dimen name="auth_sovest_logo_width">162dp</dimen>
+    <dimen name="auth_sovest_logo_height">27dp</dimen>
+    <dimen name="auth_bottom_margin">16dp</dimen>
+    <dimen name="auth_side_margin">24dp</dimen>
+
+    <!-- SMS code step view -->
+    <dimen name="sms_code_step_resend_text_size">14dp</dimen>
+    <dimen name="sms_code_step_input_margin_top">26dp</dimen>
+    <dimen name="sms_code_button_margin_top">56dp</dimen>
+
+    <!-- Partners category -->
+    <dimen name="item_category_icon_size">30dp</dimen>
+    <dimen name="item_category_icon_padding">4dp</dimen>
+    <dimen name="item_category_height">48dp</dimen>
+    <dimen name="item_category_padding_side">16dp</dimen>
+    <dimen name="item_category_text_size">16dp</dimen>
+    <dimen name="choose_region_layout_margin">16dp</dimen>
+    <dimen name="choose_region_warn_text_size">31sp</dimen>
+
+    <!-- Choose point -->
+    <dimen name="choose_point">20dp</dimen>
+    <dimen name="show_in_map_padding">14dp</dimen>
+    <dimen name="сhoose_point_item_divider_margin_top">10dp</dimen>
+    <dimen name="сhoose_point_item_distance_margin_top">14dp</dimen>
+    <dimen name="сhoose_point_item_padding_left">16dp</dimen>
+    <dimen name="сhoose_point_item_divider_height">16dp</dimen>
+    <dimen name="сhoose_point_map_info_padding_left">20dp</dimen>
+    <dimen name="сhoose_point_map_info_padding_top">20dp</dimen>
+
+    <dimen name="choose_point_from_schedule_tittle_margin_top">83dp</dimen>
+    <dimen name="choose_point_from_schedule_group_margin_top">44dp</dimen>
+    <dimen name="choose_point_from_schedule_title_text_size">30sp</dimen>
+
+    <!-- Take photo -->
+    <dimen name="photo_text_size">18dp</dimen>
+    <dimen name="photo_title_padding_top">10dp</dimen>
+    <dimen name="photo_capture_icon_height">54dp</dimen>
+    <dimen name="photo_capture_icon_margin">10dp</dimen>
+
+    <!-- Take wp -->
+    <dimen name="wp_title_padding_left">16dp</dimen>
+
+    <dimen name="calculator_input_matgin_top">30dp</dimen>
+    <dimen name="calculator_hint_input_margin_top">4dp</dimen>
+    <dimen name="calculator_result_title_margin_top">26dp</dimen>
+    <dimen name="calculator_result_text_size">22sp</dimen>
+
+    <!-- Order list -->
+    <dimen name="order_list_headaer_distance">16dp</dimen>
+    <dimen name="order_list_status_margin_top">2dp</dimen>
+    <dimen name="order_list_header_image_size">24dp</dimen>
+    <dimen name="order_list_yesterday_margin_top">28dp</dimen>
+    <dimen name="order_list_yesterday_margin_bottom">10dp</dimen>
+    <dimen name="order_list_action_line_spacingExtra">10dp</dimen>
+    <dimen name="order_list_stat_progress">4dp</dimen>
+    <dimen name="order_list_stat_progress_margin_top">4dp</dimen>
+    <dimen name="order_list_stat_title_stat_margin_bottom">10dp</dimen>
+
+    <!-- Order form -->
+    <dimen name="order_form_data_vertical_padding">16dp</dimen>
+    <dimen name="order_form_phone_divider_vertical_padding">16dp</dimen>
+    <dimen name="order_form_stepper_content_margin_top">12dp</dimen>
+    <dimen name="order_form_name_left_padding">36dp</dimen>
+    <dimen name="order_form_title_left_padding">12dp</dimen>
+    <dimen name="order_form_comment_left_padding">20dp</dimen>
+    <dimen name="order_form_icon_left_padding">40dp</dimen>
+    <dimen name="order_form_name_left_for_divide_padding">66dp</dimen>
+    <dimen name="add_contact_padding_vertical">8dp</dimen>
+
+    <!-- Order form -->
+    <dimen name="field_input_text_size">16sp</dimen>
+    <dimen name="form_container_padding_left">16dp</dimen>
+    <dimen name="form_container_padding_top">16dp</dimen>
+    <dimen name="form_container_margin_bottom">30dp</dimen>
+    <dimen name="field_margin_top">16dp</dimen>
+    <dimen name="field_static_title">18dp</dimen>
+    <dimen name="field_static_title_margin_top">2dp</dimen>
+    <dimen name="field_static_title_margin_left">6dp</dimen>
+    <dimen name="field_floating_label_textsize">12dp</dimen>
+    <dimen name="field_floating_label_textsize_padding_left">4dp</dimen>
+    <dimen name="form_spinner_padding_top">14dp</dimen>
+    <dimen name="form_spinner_padding_left">14dp</dimen>
+    <dimen name="form_spinner_text_size">16dp</dimen>
+    <dimen name="form_text_form_margin_horizontal">4dp</dimen>
+    <dimen name="form_text_form_margin_vertical">6dp</dimen>
+    <dimen name="form_static_text_text_size">10sp</dimen>
+    <dimen name="form_expand_form_padding">6dp</dimen>
+    <!-- END -->
+
+    <!-- Summary and orders -->
+    <dimen name="rating_item_padding_vertical">8dp</dimen>
+    <dimen name="rating_item_padding_right">20dp</dimen>
+    <dimen name="rating_item_distance_order_percent">36dp</dimen>
+    <dimen name="rating_item_distance_number_name">4dp</dimen>
+    <dimen name="rating_item_distance_number_name_left">26dp</dimen>
+    <dimen name="rating_item_margin_header_top">28dp</dimen>
+    <dimen name="rating_title_margin_top">28dp</dimen>
+    <dimen name="rating_title_margin_bottom">8dp</dimen>
+
+    <dimen name="history_orders_header_padding_bottom">12dp</dimen>
+    <dimen name="history_orders_header_padding_top">28dp</dimen>
+    <dimen name="history_orders_header_margin_top">22dp</dimen>
+    <dimen name="history_orders_item_padding_left">27dp</dimen>
+    <dimen name="history_orders_item_padding_vertical">14dp</dimen>
+    <dimen name="history_orders_padding_issued">8dp</dimen>
+    <dimen name="history_orders_header_month_ts">24dp</dimen>
+
+    <!-- Aims -->
+    <dimen name="aim_progress_divider_margin_top">36dp</dimen>
+    <dimen name="aims_history_button_width">166dp</dimen>
+    <!-- Run-rate progress view -->
+    <dimen name="aims_progress_bar_height">4dp</dimen>
+    <dimen name="run_rate_progress_bar_spacer_width">4dp</dimen>
+    <dimen name="run_rate_progress_bar_title_text_size">14sp</dimen>
+    <dimen name="run_rate_progress_bar_details_text_size">12sp</dimen>
+    <dimen name="run_rate_progress_bar_top_padding">8dp</dimen>
+    <dimen name="run_rate_progress_bar_bottom_padding">6dp</dimen>
+    <!-- Circular progress -->
+    <dimen name="aims_circular_progress_size">66dp</dimen>
+    <dimen name="aims_circular_progress_layout_size">92dp</dimen>
+    <dimen name="aims_circular_progress_thickness">6dp</dimen>
+    <dimen name="aims_circular_progress_inner_text_primary">20sp</dimen>
+    <dimen name="aims_circular_progress_inner_text_secondary">8sp</dimen>
+    <dimen name="aims_circular_progress_title">11sp</dimen>
+    <!-- Horizontal progress -->
+    <dimen name="aims_horizontal_progress_title">14sp</dimen>
+    <!-- // -->
+
+    <dimen name="emoji_part_margin_top">36dp</dimen>
+    <dimen name="emoji_line_spacing">4dp</dimen>
+    <dimen name="emoji_progress_margint_top">4dp</dimen>
+    <dimen name="emoji_progress_bar_height">4dp</dimen>
+    <dimen name="emoji_progress_height">16dp</dimen>
+    <dimen name="emoji_progress_corner">3dp</dimen>
+    <dimen name="emoji_progress_padding_horizontal">4dp</dimen>
+    <dimen name="emoji_transaction_progress_bar_margin_top">6dp</dimen>
+
+    <!-- Battles -->
+    <!-- Battle details -->
+    <dimen name="battle_details_item_player_position_width">26dp</dimen>
+    <dimen name="battle_details_item_player_issues_width">22dp</dimen>
+    <dimen name="battle_details_item_player_line_spacing">4dp</dimen>
+    <dimen name="battle_details_item_player_spacer_horizontal">16dp</dimen>
+    <dimen name="battle_details_tabs_height">60dp</dimen>
+    <item name="battle_details_letter_spacing_regular" format="float" type="dimen">0.03</item>
+    <item name="battle_details_letter_spacing_accent" format="float" type="dimen">0.02</item>
+    <!-- Team profile -->
+    <dimen name="team_profile_horizontal_padding">16dp</dimen>
+    <dimen name="team_profile_vertical_padding">16dp</dimen>
+    <dimen name="current_battle_score_padding_horizontal">8dp</dimen>
+    <dimen name="current_battle_score_padding_vertical">10dp</dimen>
+    <!-- Active battle -->
+    <dimen name="active_battle_status_left_margin">18dp</dimen>
+    <dimen name="like_button_padding_vertical">4dp</dimen>
+    <dimen name="like_button_padding_horizontal">8dp</dimen>
+    <!-- Battle history -->
+    <dimen name="history_battle_month_stats_right_margin">4dp</dimen>
+    <dimen name="history_battle_padding_score_vertical">6dp</dimen>
+    <dimen name="history_battle_padding_score_horizontal">8dp</dimen>
+    <!-- Choose battle -->
+    <dimen name="choose_battle_name_left_margin">16dp</dimen>
+    <dimen name="choose_battle_icon_right_margin">4dp</dimen>
+    <dimen name="choose_battle_reject_battle_padding">6dp</dimen>
+    <dimen name="choose_battle_accept_margin_left">16dp</dimen>
+    <dimen name="battle_score_round">3dp</dimen>
+    <dimen name="default_height">60dp</dimen>
+    <dimen name="suggestion_vertical">8dp</dimen>
+    <dimen name="suggestion_horizontal">16dp</dimen>
+    <!-- END -->
+
+    <!-- Stepper View -->
+    <dimen name="stepper_margin_top">16dp</dimen>
+    <dimen name="stepper_point_size">20dp</dimen>
+    <dimen name="stepper_point_half_size">10dp</dimen>
+    <dimen name="vertical_stepper_point_margin_start">16dp</dimen>
+    <dimen name="vertical_stepper_point_margin_end">16dp</dimen>
+    <dimen name="vertical_stepper_line_margin_top">4dp</dimen>
+    <dimen name="vertical_stepper_line_width">1dp</dimen>
+    <dimen name="vertical_stepper_item_space_height">6dp</dimen>
+    <dimen name="vertical_stepper_item_bottom_margin">30dp</dimen>
+    <dimen name="order_list_margin_bottom">36dp</dimen>
+
+    <dimen name="photo_padding_vertical">8dp</dimen>
+    <dimen name="photo_padding_horizontal">16dp</dimen>
+    <dimen name="photo_distanse_between_titles">6dp</dimen>
+    <dimen name="photo_error_padding_bottom">4dp</dimen>
+
+    <dimen name="section_padding_top">16dp</dimen>
+    <dimen name="section_padding_bottom">4dp</dimen>
+    <dimen name="section_padding_horizontal">16dp</dimen>
+
+    <dimen name="btn_horizontal_padding">16dp</dimen>
+    <dimen name="btn_vertical_padding">8dp</dimen>
+    <dimen name="action_btn_margin_vertical">14dp</dimen>
+
+    <!-- Info Dialog -->
+    <dimen name="recycler_section_header_height">60dp</dimen>
+    <dimen name="schedule_today_round">8dp</dimen>
+    <dimen name="schedule_fab_round">20dp</dimen>
+
+    <dimen name="schedule_vertical_divider_width">1dp</dimen>
+    <dimen name="schedule_vertical_divider_height">12dp</dimen>
+    <dimen name="schedule_vertical_divider_vertical_padding">2dp</dimen>
+
+    <dimen name="shift_divider_width">26dp</dimen>
+    <dimen name="shift_divider_height">1dp</dimen>
+    <dimen name="shift_text_padding_horizontal">4dp</dimen>
+    <dimen name="shift_dsa_text_padding_horizontal">2dp</dimen>
+    <dimen name="shift_detail_title_distance_top">4dp</dimen>
+
+    <dimen name="toolbar_elevation">4dp</dimen>
+
+    <dimen name="distance_sv_shift">4dp</dimen>
+
+    <dimen name="dsa_profile_template_padding">4dp</dimen>
+    <dimen name="dsa_profile_template_shift_margin_left">28dp</dimen>
+    <dimen name="dsa_profile_shop_name_padding_top">28dp</dimen>
+    <dimen name="dsa_profile_checkin_title_padding_top">44dp</dimen>
+    <dimen name="dsa_profile_checkin_padding_top">18dp</dimen>
+    <dimen name="dsa_profile_checkin_finish_padding_top">13dp</dimen>
+    <dimen name="dsa_profile_checkin_time_padding_left">22dp</dimen>
+    <dimen name="dsa_profile_icon_size">15dp</dimen>
+    <dimen name="dsa_profile_checkin_distance_min_width">52dp</dimen>
+    <dimen name="dsa_profile_checkin_shift_time_min_width">42dp</dimen>
+
+    <dimen name="pin_text_size">36sp</dimen>
+    <dimen name="pin_abc_textsize">10sp</dimen>
+    <dimen name="pic_icon_size">24dp</dimen>
+
+
+    <!-- SV statistics -->
+    <!-- Common -->
+    <dimen name="sv_statistics_rank_block_size">36dp</dimen>
+    <dimen name="sv_statistics_rank_icon_size">24dp</dimen>
+    <dimen name="sv_statistics_item_font_size">12sp</dimen>
+    <dimen name="sv_statistics_column_width_1_or_2_columns">105dp</dimen>
+    <dimen name="sv_statistics_column_width_3_columns">70dp</dimen>
+    <!-- SV statistics, DSA pager indicator -->
+    <dimen name="sv_statistics_dsa_page_indicator_min_width">105dp</dimen>
+    <dimen name="sv_statistics_dsa_page_indicator_layout_height">32dp</dimen>
+    <dimen name="sv_statistics_dsa_page_indicator_bottom_margin">32dp</dimen>
+    <!-- Team fragment -->
+    <dimen name="sv_statistics_team_name_left_margin">40dp</dimen>
+    <dimen name="sv_statistics_team_action_margin_top">6dp</dimen>
+    <dimen name="sv_statistics_team_action_margin_bottom">40dp</dimen>
+    <dimen name="sv_statistics_team_action_button_padding_vertical">46dp</dimen>
+    <dimen name="sv_statistics_team_section_team_margin_left">10dp</dimen>
+    <dimen name="sv_statistics_team_section_divider_margin_top">6dp</dimen>
+    <dimen name="sv_statistics_team_block_vertical_padding">36dp</dimen>
+    <!-- DSA fragment -->
+    <dimen name="sv_statistics_dsa_column_width">80dp</dimen>
+    <dimen name="sv_statistics_dsa_page_item_vertical_padding">8dp</dimen>
+    <dimen name="sv_statistics_dsa_page_sort_icon_size">14dp</dimen>
+    <dimen name="sv_statistics_dsa_date_title_width">160dp</dimen>
+    <dimen name="sv_statistics_dsa_date_title_padding">12dp</dimen>
+    <dimen name="sv_statistics_dsa_sort_icon_size">10dp</dimen>
+    <dimen name="sv_statistics_dsa_sort_drawable_padding">1dp</dimen>
+
+    <!-- DSA statistics -->
+    <!-- Page fragment -->
+    <dimen name="dsa_statistics_item_font_size">12sp</dimen>
+    <dimen name="dsa_statistics_page_stats_item_padding_top">8dp</dimen>
+    <dimen name="dsa_statistics_page_stats_item_padding_bottom">28dp</dimen>
+    <dimen name="dsa_statistics_data_column_width_narrow">28dp</dimen>
+    <dimen name="dsa_statistics_data_column_width_medium">36dp</dimen>
+    <dimen name="dsa_statistics_data_column_conversion_width">48dp</dimen>
+    <dimen name="dsa_statistics_data_column_width_wide">56dp</dimen>
+    <dimen name="dsa_statistics_data_column_spacer_width">10dp</dimen>
+    <dimen name="dsa_statistics_index_column_min_width">16dp</dimen>
+    <!-- Dots -->
+    <dimen name="dsa_statistics_page_dots_divider_height">32dp</dimen>
+    <dimen name="dsa_statistics_page_dots_divider_dot_size">7dp</dimen>
+    <dimen name="dsa_statistics_page_dots_divider_dots_inner_space">10dp</dimen>
+    <dimen name="dsa_statistics_page_dots_divider_dots_horizontal_padding">42dp</dimen>
+    <!-- // -->
+
+    <!-- Schedule -->
+    <dimen name="sv_capacity_item_height">9dp</dimen>
+    <dimen name="sv_capacity_item_width">7dp</dimen>
+    <dimen name="sv_capacity_item_padding_left">3dp</dimen>
+    <dimen name="sv_divider_shift_time_horizontal_padding">6dp</dimen>
+    <dimen name="sv_aid_title_padding_top">28dp</dimen>
+
+    <dimen name="sv_week_padding_bottom">14dp</dimen>
+    <dimen name="sv_week_padding_horizontal">21dp</dimen>
+    <dimen name="sv_week_padding_top">10dp</dimen>
+
+    <dimen name="week_day_item_padding">13dp</dimen>
+    <dimen name="week_day_item_content_padding_top">3dp</dimen>
+    <dimen name="week_day_item_content_vertical_padding">13dp</dimen>
+    <dimen name="week_day_item_content_padding_bottom">6dp</dimen>
+    <dimen name="week_day_item_content_margin_bottom">8dp</dimen>
+    <dimen name="week_day_item_number_text_size">14dp</dimen>
+
+    <dimen name="time_accounting_checkin_icon_size">11dp</dimen>
+
+
+    <dimen name="default_0dp">0dp</dimen>
+    <dimen name="edit_schedule_first_date_padding_top">24dp</dimen>
+    <dimen name="edit_schedule_other_date_padding_top">44dp</dimen>
+    <dimen name="sv_schedule_fio_text_size">14dp</dimen>
+    <dimen name="sv_schedule_fio_container_padding_vertical">16dp</dimen>
+
+
+    <!--battle result -->
+    <dimen name="battle_result_gif_height">270dp</dimen>
+    <dimen name="battle_result_title_result_padding_top">27dp</dimen>
+    <dimen name="battle_result_action_button_padding_horizontal">15dp</dimen>
+    <dimen name="battle_result_action_button_padding_vertical">8dp</dimen>
+    <dimen name="battle_result_action_button_margin_bottom">27dp</dimen>
+    <dimen name="battle_result_action_button_margin_top">6dp</dimen>
+    <dimen name="battle_result_point_text_size">40dp</dimen>
+    <dimen name="battle_result_point_padding_horizontal">6dp</dimen>
+
+    <dimen name="schedule_list_shop_padding_top">28dp</dimen>
+
+    <dimen name="field_checkbox_left_padding">10dp</dimen>
+    <dimen name="toolbar_dropdown_padding_vertical">6dp</dimen>
+
+    <dimen name="time_accounting_divider_width">10dp</dimen>
+    <dimen name="time_accounting_divider_height">1dp</dimen>
+    <dimen name="time_accounting_divider_margin_horizontal">5dp</dimen>
+    <dimen name="time_accounting_item_padding_top">10dp</dimen>
+    <dimen name="time_accounting_item_padding_bottom">6dp</dimen>
+
+    <dimen name="profile_title_padding">14dp</dimen>
+    <dimen name="profile_title_padding_top">6dp</dimen>
+
+    <!-- Achievements -->
+    <dimen name="achievements_dropdown_padding_vertical">8dp</dimen>
+
+    <!-- VisionLabs -->
+    <dimen name="action_text_margin_top">460dp</dimen>
+    <dimen name="visionlabs_preview_height">360dp</dimen>
+    <dimen name="visionlabs_registration_bottom_panel_height">72dp</dimen>
+
+    <!-- Camera -->
+    <dimen name="preview_info_layout_margin_top">24dp</dimen>
+</resources>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <color name="white">#ffffffff</color>
+    <color name="green">#30C847</color>
+    <color name="black">#ff000000</color>
+    <color name="red_icon">#FD645E</color>
+    <color name="transparent">#00000000</color>
+    <color name="reportErrorColor">#ED5454</color>
+    <color name="greyBackground">#FFEDEDED</color>
+    <color name="gray_header">#eeeeee</color>
+    <color name="actionBarBackgroundColor">#FF9F02</color>
+    <color name="colorAccentUiLightGray">#eeeeee</color>
+    <color name="colorAccentUiGray">#e0e0e0</color>
+    <color name="mainTextColor">#000000</color>
+    <color name="mainSecondaryTextColor">#616161</color>
+    <color name="disabledmainTextColor">#4d000000</color>
+    <color name="secondTextColor">#dd000000</color>
+    <color name="captionTextColor">#66000000</color>
+    <color name="bonusTextColor">#000000</color>
+    <color name="captionDarkTextColor">#000000</color>
+    <color name="vs_text_color">#33000000</color>
+    <color name="colorInactive">#747474</color>
+    <color name="colorActiveSmall">#FFFFFF</color>
+    <color name="colorInactiveSmall">#50FFFFFF</color>
+    <color name="font_dark_grey">#212121</color>
+    <color name="font_mid_grey">#3b3b3b</color>
+    <color name="font_light_grey">#9a9a9a</color>
+    <color name="font_lighter_grey">#c9c9c9</color>
+    <color name="red_error">#cc0000</color>
+    <color name="red_error_photo">#33fd645e</color>
+    <color name="tab_active_black">#000000</color>
+    <color name="app_background">#F1F2F2</color>
+    <color name="action_mode_background">#303030</color>
+    <color name="aim_divider_color">#e0e0e0</color>
+    <color name="textTertiary">#7F7F7F</color>
+    <color name="button_disabled">#9a9a9a</color>
+    <color name="divider">#1f000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="colorControlHighlight">#40000000</color>
+    <color name="auth_help_color_text">#919191</color>
+    <color name="mainBackground">#f7f7f7</color>
+    <color name="black_40_x">#67000000</color>
+    <color name="black_40_y">#65000000</color>
+    <color name="my_rating_background">#f7f7f7</color>
+    <color name="history_order_line_color">#e0e0e0</color>
+    <color name="hint_color">#dee2e8</color>
+    <color name="colorBlack">#000000</color>
+    <color name="backgroundAction">#19000000</color>
+    <color name="disablecolorBlack">#66000000</color>
+    <color name="disablebackgroundAction">#0d000000</color>
+    <color name="outsideShopBackground">#f8e71c</color>
+    <!-- Toolbar -->
+    <color name="toolbar_gray">#eeeeee</color>
+    <!-- // -->
+
+    <!-- Views -->
+    <!-- Drawer -->
+    <color name="nav_drawer_header_bg_color">#eeeeee</color>
+    <color name="nav_drawer_item_text">#D9000000</color>
+    <!-- Divider decoration -->
+    <color name="divider_decoration_accent_color">#D7D7D7</color>
+    <color name="divider_decoration_regular_color">#66DDDDDD</color>
+    <!-- Error load data swipe layout -->
+    <color name="error_load_data_swipe_hint">@color/font_light_grey</color>
+    <!-- // -->
+
+    <!-- Aims -->
+    <!-- Run rate progress -->
+    <color name="aim_progress_bar_dialog">#0099F7</color>
+    <color name="run_rate_cards_progress">#0099f7</color>
+    <color name="run_rate_progress">#c2caff</color>
+    <color name="run_rate_progress_background">#e0e0e0</color>
+    <color name="run_rate_progress_text_accent">#108add</color>
+    <color name="run_rate_progress_text_accent_light">#0683cf</color>
+    <!-- Circular progress -->
+    <color name="aims_circular_progress">#0099f7</color>
+    <color name="aims_circular_progress_background_with_plan">#c2caff</color>
+    <color name="aims_circular_progress_background_no_plan">#e0e0e0</color>
+    <color name="aims_circular_progress_inner_text_progress">#008ee5</color>
+    <color name="aims_circular_progress_inner_text_max">#384281</color>
+    <color name="aims_circular_progress_inner_text_max_secondary">#000000</color>
+    <color name="aims_circular_progress_description">#000000</color>
+    <!-- Horizontal progress -->
+    <color name="aims_horizontal_progress_title">#161616</color>
+
+    <!-- // -->
+
+    <!-- Battles -->
+    <color name="win_score_text_color">#30c847</color>
+    <color name="win_score_background_color">#1930c847</color>
+    <color name="lose_score_text_color">#fd645e</color>
+    <color name="lose_score_background_color">#19fd645e</color>
+    <color name="draft_score_text_color">#66000000</color>
+    <color name="draft_score_background_color">#0a000000</color>
+    <color name="reject_battle_background_color">#0c000000</color>
+    <color name="battle_button_background">#19000000</color>
+    <!-- // -->
+
+    <!-- Stepper !-->
+    <color name="material_grey_500">#9E9E9E</color>
+    <color name="material_grey_400">#BDBDBD</color>
+    <color name="material_red_500">#F44336</color>
+    <color name="material_blue_500">#2196F3</color>
+    <!-- // -->
+
+    <!-- Orders list -->
+    <color name="progress_order_list">#ffcc33</color>
+    <!-- // -->
+
+    <!-- Schedule -->
+    <color name="header_sv_schedule">#eeeeee</color>
+    <color name="place_not_send">#73d84315</color>
+    <color name="place_send">#73000000</color>
+    <color name="capacity_default">#eeeeee</color>
+    <color name="capacity_normal">#7cb342</color>
+    <color name="capacity_problem">#d84315</color>
+    <color name="dsa_profile_exist_distance">#61000000</color>
+    <color name="dsa_profile_not_exist_distance">#b2d84315</color>
+    <color name="shift_in_time">#558b2f</color>
+    <color name="background_current_day_in_schedule">#f6f6f6</color>
+    <color name="shift_passive_color">#1e000000</color>
+    <color name="shift_active_color">#000000</color>
+    <color name="shift_not_own_dsa_color">#66000000</color>
+    <!-- Copy -->
+    <color name="schedule_copy_disabled_day_color">#ababab</color>
+    <!-- // -->
+
+    <!-- Statistics -->
+    <color name="statistics_header_color">#eeeeee</color>
+    <color name="dsa_stats_rank_good_color">#578d32</color>
+    <color name="dsa_stats_rank_medium_color">#1976d2</color>
+    <color name="dsa_stats_dots_divider_color">#cfcece</color>
+    <!-- SV -->
+    <color name="tab_dots_shadow_ring_4">#35000000</color>
+    <color name="tab_dots_shadow_ring_3">#25000000</color>
+    <color name="tab_dots_shadow_ring_2">#15000000</color>
+    <color name="tab_dots_shadow_ring_1">#05000000</color>
+    <color name="dsa_stats_dots_bg_color">#eeeeee</color>
+    <!-- // -->
+
+    <!-- Documents -->
+    <color name="documents_debt_doc_color">#d84315</color>
+
+    <!-- VisionLabs -->
+    <color name="maskColor">#66002D9D</color>
+
+    <!-- Order stepper -->
+    <color name="step_line">#1e000000</color>
+
+    <!-- Rocket bank -->
+    <color name="rocketbank_order_red">#d84315</color>
+    <color name="rocketbank_order_green">#558b2f</color>
+    <color name="rocketbank_order_yellow">#ffcc33</color>
+
+</resources>

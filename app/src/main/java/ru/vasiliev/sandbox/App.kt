@@ -33,7 +33,9 @@ class App : Application() {
 
     private fun init() {
         // Dagger application component
-        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+        appComponent = DaggerAppComponent.builder()
+                .appModule(AppModule(this))
+                .build()
 
         Timber.plant(Timber.DebugTree())
     }

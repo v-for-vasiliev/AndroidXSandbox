@@ -9,12 +9,14 @@ import ru.vasiliev.sandbox.App
  *
  * @author Kirill Vasiliev
  */
-class LocationServices(private val mApp: App, val locationProvider: RxLocationProvider) {
+class LocationServices(private val mApp: App,
+                       val locationProvider: RxLocationProvider) {
 
     protected val isLocationEnabled: Boolean
         get() {
-            val locationMode = Settings.Secure
-                .getInt(mApp.contentResolver, Settings.Secure.LOCATION_MODE, 0)
+            val locationMode = Settings.Secure.getInt(mApp.contentResolver,
+                                                      Settings.Secure.LOCATION_MODE,
+                                                      0)
             return locationMode != Settings.Secure.LOCATION_MODE_OFF
         }
 }

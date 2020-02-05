@@ -1,0 +1,776 @@
+<resources>
+    <!-- Drawer -->
+    <!-- Navigation drawer items -->
+    <style name="NavDrawerActivity">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="NavDrawer">
+        <item name="android:layout_width">@dimen/nav_drawer_width</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="NavDrawerHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/nav_drawer_header_bg_color</item>
+    </style>
+
+    <style name="NavDrawerIconBlock">
+        <item name="android:layout_width">@dimen/nav_drawer_left_vertical_block_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="NavDrawerHeaderSecondaryText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/nav_drawer_header_secondary_text_size</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:lineSpacingExtra">@dimen/nav_drawer_header_secondary_text_spacing</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="NavDrawerHeaderPrimaryText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/nav_drawer_header_primary_text_size</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="NavDrawerUsernameText" parent="NavDrawerHeaderPrimaryText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginBottom">
+            @dimen/nav_drawer_header_username_and_rank_margin_bottom
+        </item>
+        <item name="android:textSize">@dimen/nav_drawer_header_primary_text_size</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="NavDrawerRankIcon">
+        <item name="android:layout_width">@dimen/nav_drawer_left_vertical_block_width</item>
+        <item name="android:layout_height">@dimen/nav_drawer_rank_icon_size</item>
+        <item name="android:layout_marginBottom">
+            @dimen/nav_drawer_header_username_and_rank_margin_bottom
+        </item>
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="NavDrawerRank" parent="NavDrawerHeaderSecondaryText">
+        <item name="android:layout_width">@dimen/nav_drawer_left_vertical_block_width</item>
+        <item name="android:layout_marginBottom">@dimen/nav_drawer_header_margin_bottom</item>
+        <item name="android:textSize">@dimen/nav_drawer_header_secondary_text_size</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="NavDrawerPhoneText" parent="NavDrawerHeaderSecondaryText">
+        <item name="android:layout_marginBottom">@dimen/nav_drawer_header_margin_bottom</item>
+        <item name="android:textSize">@dimen/nav_drawer_header_secondary_text_size</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:lineSpacingExtra">@dimen/nav_drawer_header_secondary_text_spacing</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="NavDrawerVersionText" parent="NavDrawerHeaderSecondaryText">
+        <item name="android:layout_marginStart">@dimen/nav_drawer_left_vertical_block_width</item>
+        <item name="android:layout_marginTop">@dimen/nav_drawer_header_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/nav_drawer_version_text_margin_bottom</item>
+        <item name="android:textColor">@color/mainSecondaryTextColor</item>
+        <item name="android:lineSpacingExtra">@dimen/nav_drawer_version_text_spacing</item>
+    </style>
+
+    <style name="NavDrawerMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:layout_marginTop">@dimen/nav_drawer_menu_list_padding_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/nav_drawer_menu_list_padding_vertical</item>
+    </style>
+
+    <style name="NavDrawerItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nav_drawer_item_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|start</item>
+    </style>
+
+    <style name="NavDrawerLogoutItem" parent="NavDrawerItem">
+        <item name="android:layout_height">@dimen/nav_drawer_logout_item_height</item>
+    </style>
+
+    <style name="NavDrawerItemText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nav_drawer_item_height</item>
+        <item name="android:textSize">@dimen/nav_drawer_item_text_size</item>
+        <item name="android:textColor">@color/nav_drawer_item_text</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:lineSpacingExtra">@dimen/nav_drawer_item_lineSpacingExtra</item>
+    </style>
+
+    <style name="NavDrawerNotification">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+    <!-- Drawer end -->
+
+    <style name="DictionaryDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DictionaryDialogThemeShift" parent="DictionaryDialogTheme">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
+
+    <style name="LLayoutForm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="HLayoutForm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+
+    <style name="ButtonBarButton.Light" parent="@android:style/Widget.Button">
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ButtonBarButton.Black" parent="ButtonBarButton.Light">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ButtonBorderless" parent="ButtonBarButton.Black">
+        <item name="android:textColor">?android:attr/textColorTertiary</item>
+    </style>
+
+    <style name="FlatButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/font_dark_grey</item>
+    </style>
+
+    <style name="DialogHeader">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dialog_header_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/font_mid_grey</item>
+        <item name="android:paddingTop">@dimen/dialog_header_padding</item>
+        <item name="android:paddingBottom">@dimen/dialog_header_padding</item>
+        <item name="android:paddingLeft">@dimen/dialog_header_padding</item>
+        <item name="android:paddingRight">@dimen/dialog_header_padding</item>
+    </style>
+
+    <style name="InfoDialogHeader">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/font_mid_grey</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <style name="DialogMessage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dialog_message_text_size</item>
+        <item name="android:textColor">@color/font_light_grey</item>
+        <item name="android:paddingTop">@dimen/dialog_header_padding</item>
+        <item name="android:paddingBottom">@dimen/dialog_header_padding</item>
+        <item name="android:paddingLeft">@dimen/dialog_header_padding</item>
+        <item name="android:paddingRight">@dimen/dialog_header_padding</item>
+    </style>
+
+    <style name="InfoDialogMessage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/font_light_grey</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="DialogErrorTrace">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_light_grey</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="ProfileDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/font_lighter_grey</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+
+    <style name="FloatingLabelTextView" parent="@android:style/Widget.TextView">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+        <item name="android:textColor">@color/textTertiary</item>
+        <item name="android:textSize">@dimen/field_floating_label_textsize</item>
+        <item name="android:paddingLeft">@dimen/field_floating_label_textsize_padding_left</item>
+    </style>
+
+    <style name="SovestToolbarTheme" parent="AppTheme.NoActionBar">
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="DrawerToolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:theme">@style/SovestToolbarTheme</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="BorderButton">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/border_button_text_size</item>
+        <item name="android:color">?attr/colorAccent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CloseButton">
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:src">@drawable/ic_close</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DefaultAuthTexStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AuthInputStyle" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/auth_input_text_size</item>
+        <item name="android:ems">10</item>
+        <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="AuthInputLayoutStyle" parent="FormTextInputLayoutStyle">
+        <item name="android:textSize">@dimen/auth_button_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/auth_input_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/auth_input_margin_left</item>
+        <item name="android:layout_marginTop">@dimen/auth_input_margin_top</item>
+    </style>
+
+    <style name="DefaultAuthTexStyle.HelpTex">
+        <item name="android:textSize">@dimen/auth_help_text_size</item>
+        <item name="android:layout_marginTop">@dimen/auth_help_text_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/auth_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/auth_margin_left</item>
+        <item name="android:textColor">@color/auth_help_color_text</item>
+    </style>
+
+    <style name="AuthDemoButtonStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:text">@string/demo_mode</item>
+        <item name="android:padding">@dimen/default_padding</item>
+        <item name="android:textColor">@color/aims_horizontal_progress_title</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+    <style name="SmsResendTextDefault" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/aims_horizontal_progress_title</item>
+    </style>
+
+    <style name="SmsResendTextSmallGray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
+    <style name="ChoosePointText" parent="BodyText">
+        <item name="android:paddingLeft">@dimen/сhoose_point_item_padding_left</item>
+        <item name="android:paddingRight">@dimen/сhoose_point_item_padding_left</item>
+    </style>
+
+    <style name="ChoosePointDivider" parent="ProfileDivider">
+        <item name="android:layout_marginTop">@dimen/сhoose_point_item_distance_margin_top</item>
+        <item name="android:background">#19000000</item>
+    </style>
+
+    <style name="RegionListItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">18dp</item>
+    </style>
+
+    <style name="RegionListItem.Header">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black_40_x</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
+    <style name="RegionListItem.GroupDivider">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black_40_y</item>
+    </style>
+
+    <style name="KeyBoardRaw">
+        <item name="android:layout_width">@dimen/keyboardMaximumWidth</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">3</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="KeyBoardCell">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="DotView">
+        <item name="android:layout_width">@dimen/dotSize</item>
+        <item name="android:layout_height">@dimen/dotSize</item>
+        <item name="android:padding">@dimen/dotPadding</item>
+    </style>
+
+    <style name="RunRateDetailsText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/run_rate_progress_bar_details_text_size</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="RunRateDetailsText.Light" parent="RunRateDetailsText">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="RunRateDetailsText.Bold" parent="RunRateDetailsText">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- Circular progress -->
+    <style name="AimsCircularProgressInnerText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AimsCircularProgressInnerText.Primary" parent="AimsCircularProgressInnerText">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/aims_circular_progress_inner_text_primary</item>
+        <item name="android:textColor">@color/aims_circular_progress_inner_text_progress</item>
+    </style>
+
+    <style name="AimsCircularProgressInnerText.Secondary" parent="AimsCircularProgressInnerText">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/aims_circular_progress_inner_text_secondary</item>
+        <item name="android:textColor">@color/aims_circular_progress_inner_text_max</item>
+    </style>
+
+    <style name="AimsCircularProgressDescription">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">11dp</item>
+        <item name="android:textSize">@dimen/aims_circular_progress_title</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_horizontal|top</item>
+        <item name="android:textColor">@color/aims_circular_progress_description</item>
+    </style>
+
+    <style name="AimsHorizontalProgressTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textSize">@dimen/aims_circular_progress_title</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:textColor">@color/aims_circular_progress_description</item>
+    </style>
+    <!-- Horizontal progress value -->
+    <style name="AimsHorizontalProgressValue">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AimsHorizontalProgressValue.Progress" parent="AimsHorizontalProgressValue">
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">#0683cf</item>
+    </style>
+
+    <style name="AimsHorizontalProgressValue.Max" parent="AimsHorizontalProgressValue">
+        <item name="android:textColor">#6e7ddf</item>
+        <item name="android:gravity">end</item>
+    </style>
+    <!-- // -->
+
+    <style name="AimPartStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/default_padding</item>
+    </style>
+
+    <style name="EmojiTextStyle" parent="CaptionText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">end</item>
+        <item name="android:lineSpacingExtra">@dimen/emoji_line_spacing</item>
+    </style>
+
+    <style name="EmojiFrameIconStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <style name="TitleText" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/title_text_size</item>
+    </style>
+
+    <style name="TitleTextWithMargin" parent="TitleText">
+        <item name="android:layout_marginLeft">@dimen/default_padding</item>
+        <item name="android:layout_marginRight">@dimen/default_padding</item>
+    </style>
+
+    <style name="TitleText.Bold">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TitleTextWithMargin.Bold">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="BodyText" parent="DefaultAuthTexStyle">
+        <item name="android:color">@color/mainTextColor</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:lineSpacingExtra">@dimen/body_linespacingextra</item>
+    </style>
+
+    <style name="BodyText.Bold">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="BodyText.Small">
+        <item name="android:textSize">@dimen/body_text_size_small</item>
+    </style>
+
+    <style name="BodyText.WithMargin">
+        <item name="android:layout_marginLeft">@dimen/default_padding</item>
+        <item name="android:layout_marginRight">@dimen/default_padding</item>
+    </style>
+
+    <style name="CaptionText" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:lineSpacingExtra">@dimen/body_linespacingextra</item>
+        <item name="android:textColor">@color/captionTextColor</item>
+    </style>
+
+    <style name="OptionCaption" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:lineSpacingExtra">@dimen/body_linespacingextra</item>
+        <item name="android:textColor">@color/captionTextColor</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="BonusText" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/bonus_text_size</item>
+        <item name="android:textColor">@color/bonusTextColor</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="CaptionTextDark" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:lineSpacingExtra">@dimen/body_linespacingextra</item>
+        <item name="android:textColor">@color/captionDarkTextColor</item>
+    </style>
+
+    <style name="CaptionText.Small">
+        <item name="android:textSize">@dimen/caption_text_size_small</item>
+    </style>
+
+    <style name="CaptionText.WithMargin">
+        <item name="android:layout_marginLeft">@dimen/default_padding</item>
+        <item name="android:layout_marginRight">@dimen/default_padding</item>
+    </style>
+
+    <style name="CaptionText.Bold">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="DefaultItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/default_height</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingLeft">@dimen/default_padding</item>
+        <item name="android:paddingRight">@dimen/default_padding</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="DefaultItem.WRAP">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxHeight">@dimen/default_height</item>
+        <item name="android:paddingTop">@dimen/default_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/default_padding_vertical</item>
+    </style>
+
+    <!-- FORM -->
+    <style name="FormTextInputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/field_margin_top</item>
+    </style>
+
+    <style name="FormEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/field_input_text_size</item>
+    </style>
+
+    <style name="PhoneFieldTextStyle" parent="FormEditTextStyle">
+        <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="NumberFieldTextStyle" parent="FormEditTextStyle">
+        <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="TextviewForm" parent="DefaultAuthTexStyle">
+        <item name="android:textSize">@dimen/field_input_text_size</item>
+        <item name="android:layout_marginTop">@dimen/form_text_form_margin_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/form_text_form_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/form_text_form_margin_horizontal</item>
+    </style>
+
+    <style name="TextViewStaticSmall" parent="TextviewForm">
+        <item name="android:textSize">@dimen/form_static_text_text_size</item>
+        <item name="android:layout_marginTop">@dimen/field_static_title_margin_top</item>
+    </style>
+
+    <style name="TextViewStaticBig" parent="TextviewForm">
+        <item name="android:layout_marginTop">@dimen/field_static_title_margin_top</item>
+    </style>
+
+    <style name="SwitchTrigger">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/field_static_title_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/form_text_form_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/form_text_form_margin_horizontal</item>
+    </style>
+
+    <style name="TextViewStaticTitle" parent="DefaultAuthTexStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">#9a9a9a</item>
+        <item name="android:textSize">@dimen/field_static_title</item>
+        <item name="android:layout_marginTop">@dimen/field_static_title_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/field_static_title_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/field_static_title_margin_left</item>
+    </style>
+
+    <style name="TextviewExpandForm" parent="TextviewForm">
+        <item name="android:drawableRight">@drawable/ic_down</item>
+        <item name="android:drawablePadding">@dimen/form_expand_form_padding</item>
+        <item name="android:paddingBottom">@dimen/form_expand_form_padding</item>
+        <item name="android:paddingTop">@dimen/form_expand_form_padding</item>
+        <item name="android:textColor">@color/font_mid_grey</item>
+    </style>
+
+    <style name="TitleForm" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/form_text_form_margin_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/field_static_title_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/field_static_title_margin_left</item>
+    </style>
+
+    <style name="RadioButtonForm">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/form_spinner_text_size</item>
+    </style>
+
+    <style name="RadioGroupForm">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginBottom">@dimen/form_text_form_margin_vertical</item>
+    </style>
+
+    <style name="AutoCompleteTextViewForm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="ShiftDialogDivider">
+        <item name="android:layout_width">@dimen/schedule_vertical_divider_width</item>
+        <item name="android:layout_height">@dimen/schedule_vertical_divider_height</item>
+        <item name="android:background">@color/shift_passive_color</item>
+        <item name="android:layout_marginTop">@dimen/schedule_vertical_divider_vertical_padding
+        </item>
+        <item name="android:layout_marginBottom">@dimen/schedule_vertical_divider_vertical_padding
+        </item>
+    </style>
+
+
+    <style name="DayContainer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--<item name="android:layout_gravity">center</item>-->
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="ScheduleCapacity">
+        <item name="android:layout_width">@dimen/sv_capacity_item_width</item>
+        <item name="android:layout_height">@dimen/sv_capacity_item_height</item>
+        <item name="android:src">@color/capacity_default</item>
+        <item name="android:layout_marginLeft">@dimen/sv_capacity_item_padding_left</item>
+    </style>
+
+    <style name="Day" parent="BodyText">
+        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+
+    <style name="ProfileTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/profile_title_padding</item>
+        <item name="android:layout_marginRight">@dimen/profile_title_padding</item>
+        <item name="android:layout_marginTop">@dimen/profile_title_padding_top</item>
+        <item name="android:layout_marginBottom">@dimen/profile_title_padding</item>
+    </style>
+
+    <style name="ProfileSortByText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/profile_title_padding_top</item>
+        <item name="android:layout_marginRight">@dimen/profile_title_padding_top</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:drawableRight">@drawable/ic_down</item>
+        <item name="android:drawablePadding">6dp</item>
+    </style>
+
+    <style name="ProfileStatics">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">0.2</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+    </style>
+
+    <style name="ProfileTitleStatics" parent="ProfileStatics">
+        <item name="android:textSize">@dimen/caption_text_size_small</item>
+    </style>
+
+    <!-- DSA Statistics -->
+    <!-- Divider -->
+    <style name="DsaStatisticsDotsDivider">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dsa_statistics_page_dots_divider_height</item>
+        <item name="android:paddingStart">
+            @dimen/dsa_statistics_page_dots_divider_dots_horizontal_padding
+        </item>
+        <item name="android:paddingEnd">
+            @dimen/dsa_statistics_page_dots_divider_dots_horizontal_padding
+        </item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- Divider dot -->
+    <style name="DsaStatisticsDotsDividerDot">
+        <item name="android:layout_width">@dimen/dsa_statistics_page_dots_divider_dot_size</item>
+        <item name="android:layout_height">@dimen/dsa_statistics_page_dots_divider_dot_size</item>
+    </style>
+    <!-- // Statistics end -->
+
+    <!-- Tabs with not all capitalised text -->
+    <style name="TabsNotAllCaps" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabsTextNotAllCaps</item>
+    </style>
+
+    <style name="TabsTextNotAllCaps" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <!-- END -->
+
+</resources>

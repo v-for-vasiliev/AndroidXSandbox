@@ -28,13 +28,12 @@ import ru.vasiliev.sandbox.location.RxLocationCallback as RxLocationCallback1
  * it not suited for fast location detection from cold start. For this case use
  * [RxLegacyLocationProvider]
  */
-class RxFusedLocationProvider private constructor(
-    private val mContext: Context,
-    private val mUpdateIntervalInMilliseconds: Long,
-    private val mFastestUpdateIntervalInMilliseconds: Long,
-    private val mPriority: Int,
-    private var mRxLocationCallback: RxLocationCallback1?
-) : RxLocationProvider {
+class RxFusedLocationProvider private constructor(private val mContext: Context,
+                                                  private val mUpdateIntervalInMilliseconds: Long,
+                                                  private val mFastestUpdateIntervalInMilliseconds: Long,
+                                                  private val mPriority: Int,
+                                                  private var mRxLocationCallback: RxLocationCallback1?) :
+        RxLocationProvider {
     private var mSettingsClient: SettingsClient? = null
 
     private var mLocationSettingsRequest: LocationSettingsRequest? = null
@@ -56,18 +55,14 @@ class RxFusedLocationProvider private constructor(
     private var mTracking = false
 
     private val isInited: Boolean
-        get() = (mSettingsClient != null && mLocationSettingsRequest != null
-                && mFusedLocationProviderClient != null && mLocationRequest != null
-                && mLocationCallback != null)
+        get() = (mSettingsClient != null && mLocationSettingsRequest != null && mFusedLocationProviderClient != null && mLocationRequest != null && mLocationCallback != null)
 
     init {
-        Timber.d(
-            "constructor() {updateInterval=%d, fastestUpdateInterval=%d, " + "priority=%d, hasCallback=%b}",
-            mUpdateIntervalInMilliseconds,
-            mFastestUpdateIntervalInMilliseconds,
-            mPriority,
-            mRxLocationCallback != null
-        )
+        Timber.d("constructor() {updateInterval=%d, fastestUpdateInterval=%d, " + "priority=%d, hasCallback=%b}",
+                 mUpdateIntervalInMilliseconds,
+                 mFastestUpdateIntervalInMilliseconds,
+                 mPriority,
+                 mRxLocationCallback != null)
     }
 
 
@@ -94,14 +89,14 @@ class RxFusedLocationProvider private constructor(
             Timber.d("stop()")
             stopTracking()
             mFusedLocationProviderClient!!.removeLocationUpdates(mLocationCallback!!)
-                .addOnCompleteListener {
-                    mRequestingUpdates = false
-                    mFusedLocationProviderClient = null
-                    mLocationRequest = null
-                    mSettingsClient = null
-                    mLocationSettingsRequest = null
-                    mLocationCallback = null
-                }
+                    .addOnCompleteListener {
+                        mRequestingUpdates = false
+                        mFusedLocationProviderClient = null
+                        mLocationRequest = null
+                        mSettingsClient = null
+                        mLocationSettingsRequest = null
+                        mLocationCallback = null
+                    }
 
         }
     }
@@ -113,25 +108,21 @@ class RxFusedLocationProvider private constructor(
     @SuppressLint("MissingPermission")
     override fun getLastKnownLocation(): Observable<Location> {
         return Observable.create { subscriber ->
-            mFusedLocationProviderClient!!.lastLocation
-                .addOnSuccessListener { location ->
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        Timber.d(
-                            "getLastKnownLocation() {" + location.latitude + ": "
-                                    + location.longitude + "; Accuracy: " + location.accuracy
-                                    + "}"
-                        )
-                        subscriber.onNext(location)
-                        subscriber.isDisposed
-                    } else {
-                        Timber.d("getLastKnownLocation() = null")
-                        subscriber.onError(RuntimeException("No last location"))
-                    }
-                }.addOnFailureListener {
+            mFusedLocationProviderClient!!.lastLocation.addOnSuccessListener { location ->
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    Timber.d("getLastKnownLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+                    subscriber.onNext(location)
+                    subscriber.isDisposed
+                } else {
                     Timber.d("getLastKnownLocation() = null")
                     subscriber.onError(RuntimeException("No last location"))
                 }
+            }
+                    .addOnFailureListener {
+                        Timber.d("getLastKnownLocation() = null")
+                        subscriber.onError(RuntimeException("No last location"))
+                    }
         }
     }
 
@@ -150,15 +141,16 @@ class RxFusedLocationProvider private constructor(
         if (!mTracking) {
             Timber.d("startTracking()")
             mTracking = true
-            mTrackingSubscriptions
-                .add(
-                    Observable.interval(0, RxLocationProvider.TRACKING_INTERVAL_SECONDS.toLong(), TimeUnit.SECONDS)
-                        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ sendDsaLocation() }, { e ->
-                            mTracking = false
-                            Timber.e("", e)
-                        }, { Timber.d("Tracking stopped") })
-                )
+            mTrackingSubscriptions.add(Observable.interval(0,
+                                                           RxLocationProvider.TRACKING_INTERVAL_SECONDS.toLong(),
+                                                           TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ sendDsaLocation() },
+                                                                                                                                                              { e ->
+                                                                                                                                                                  mTracking =
+                                                                                                                                                                          false
+                                                                                                                                                                  Timber.e("",
+                                                                                                                                                                           e)
+                                                                                                                                                              },
+                                                                                                                                                              { Timber.d("Tracking stopped") }))
         }
     }
 
@@ -213,26 +205,22 @@ class RxFusedLocationProvider private constructor(
             Timber.d("requestLocationUpdates()")
             mRequestingUpdates = true
             mSettingsClient!!.checkLocationSettings(mLocationSettingsRequest)
-                .addOnSuccessListener {
-                    mFusedLocationProviderClient!!
-                        .requestLocationUpdates(
-                            mLocationRequest, mLocationCallback!!,
-                            Looper.myLooper()
-                        )
-                }.addOnFailureListener { e ->
-                    mRequestingUpdates = false
-                    if (mRxLocationCallback != null) {
-                        mRxLocationCallback!!.onLocationSettingsError(e)
+                    .addOnSuccessListener {
+                        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest,
+                                                                              mLocationCallback!!,
+                                                                              Looper.myLooper())
                     }
-                }
+                    .addOnFailureListener { e ->
+                        mRequestingUpdates = false
+                        if (mRxLocationCallback != null) {
+                            mRxLocationCallback!!.onLocationSettingsError(e)
+                        }
+                    }
         }
     }
 
     private fun pushNewLocation(location: Location) {
-        Timber.d(
-            "onLocationChanged() {" + location.latitude + ": " + location.longitude
-                    + "; Accuracy: " + location.accuracy + "}"
-        )
+        Timber.d("onLocationChanged() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
         mResultPublisher.onNext(location)
         mResultHistoryPublisher.onNext(location)
         if (mRxLocationCallback != null) {
@@ -245,14 +233,12 @@ class RxFusedLocationProvider private constructor(
         mFusedLocationProviderClient!!.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 // Send location to server (mTrackingSubscriptions)
-                Timber.d(
-                    "sendDsaLocation() {" + location.latitude + ": " + location
-                        .longitude + "; Accuracy: " + location.accuracy + "}"
-                )
+                Timber.d("sendDsaLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
             } else {
                 Timber.d("sendDsaLocation() skipped, no location")
             }
-        }.addOnFailureListener { Timber.d("sendDsaLocation() skipped, no location") }
+        }
+                .addOnFailureListener { Timber.d("sendDsaLocation() skipped, no location") }
     }
 
     class Builder(private val context: Context) {
@@ -286,10 +272,11 @@ class RxFusedLocationProvider private constructor(
         }
 
         fun build(): RxFusedLocationProvider {
-            return RxFusedLocationProvider(
-                context, updateInterval, fastestUpdateInterval,
-                priority, rxLocationCallback
-            )
+            return RxFusedLocationProvider(context,
+                                           updateInterval,
+                                           fastestUpdateInterval,
+                                           priority,
+                                           rxLocationCallback)
         }
     }
 }
