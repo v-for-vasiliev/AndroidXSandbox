@@ -110,7 +110,7 @@
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_close"
             android:tint="@color/white"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible" />
 
     </LinearLayout>

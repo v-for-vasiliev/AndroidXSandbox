@@ -9,9 +9,7 @@ public class PreviewModel {
     private Bitmap previewBitmap;
     private long previewBitmapCacheId;
 
-    public PreviewModel(CameraResult cameraResult,
-                        Bitmap previewBitmap,
-                        long previewBitmapCacheId) {
+    public PreviewModel(CameraResult cameraResult, Bitmap previewBitmap, long previewBitmapCacheId) {
         this.cameraResult = cameraResult;
         this.previewBitmap = previewBitmap;
         this.previewBitmapCacheId = previewBitmapCacheId;

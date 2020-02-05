@@ -1,23 +1,24 @@
 package ru.vasiliev.sandbox.camera2.framework.camera2;
 
+import ru.vasiliev.sandbox.common.java.Optional;
+
 public class Camera2Result {
 
     private String imageBase64;
     private Camera2Metadata metadata;
     private String barcode;
 
-    public Camera2Result(String imageBase64,
-                         Camera2Metadata metadata) {
+    public Camera2Result(String imageBase64, Camera2Metadata metadata) {
         this.imageBase64 = imageBase64;
         this.metadata = metadata;
     }
 
-    public Camera2Result(String imageBase64,
-                         Camera2Metadata metadata,
-                         String barcode) {
+    public Camera2Result(String imageBase64, Camera2Metadata metadata, Optional<String> barcodeOpt) {
         this.imageBase64 = imageBase64;
         this.metadata = metadata;
-        this.barcode = barcode;
+        if (barcodeOpt.isPresent()) {
+            this.barcode = barcodeOpt.get();
+        }
     }
 
     public boolean hasImage() {

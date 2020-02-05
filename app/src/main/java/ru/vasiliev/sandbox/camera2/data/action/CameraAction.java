@@ -31,15 +31,8 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
     private int order;
     private boolean multiPageDocument;
 
-    private CameraAction(CameraActionKind kind,
-                         long captureId,
-                         int captureQuality,
-                         long scanId,
-                         String scanPattern,
-                         long index,
-                         String description,
-                         int order,
-                         boolean multiPageDocument) {
+    private CameraAction(CameraActionKind kind, long captureId, int captureQuality, long scanId, String scanPattern,
+                         long index, String description, int order, boolean multiPageDocument) {
         this.kind = kind;
         this.captureId = captureId;
         this.captureQuality = captureQuality;
@@ -69,8 +62,7 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
     }
 
     @Override
-    public void writeToParcel(Parcel dest,
-                              int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(kind);
         dest.writeLong(captureId);
         dest.writeInt(captureQuality);
@@ -119,7 +111,12 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
     }
 
     public String getHashKey() {
-        return String.format(Locale.getDefault(), "%s:%d:%d:%d", kind.getCode(), captureId, scanId, index);
+        return String.format(Locale.getDefault(),
+                             "%s:%d:%d:%d",
+                             kind.getCode(),
+                             captureId,
+                             scanId,
+                             index);
     }
 
     @NonNull
@@ -130,7 +127,8 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
 
     @Override
     public int compareTo(CameraAction anotherAction) {
-        return Integer.compare(order, anotherAction.getOrder());
+        return Integer.compare(order,
+                               anotherAction.getOrder());
     }
 
     public static class Builder {
@@ -193,8 +191,15 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
         }
 
         public CameraAction build() {
-            return new CameraAction(kind, captureId, captureQuality, scanId, scanPattern, index, description, order,
-                    multiPageDocument);
+            return new CameraAction(kind,
+                                    captureId,
+                                    captureQuality,
+                                    scanId,
+                                    scanPattern,
+                                    index,
+                                    description,
+                                    order,
+                                    multiPageDocument);
         }
     }
 }

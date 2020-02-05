@@ -44,26 +44,34 @@ public class PreviewPresenter extends BaseMoxyPresenter<PreviewView> {
             for (CameraResult result : cameraResultList) {
                 if (result.getAction()
                           .getKind() == CameraActionKind.BARCODE) {
-                    Bitmap previewBitmap = ImageUtils.createBarcodeBitmap(result.getBarcode(), getDisplayWidth());
-                    previewModels.add(new PreviewModel(result, previewBitmap, System.currentTimeMillis()));
+                    Bitmap previewBitmap = ImageUtils.createBarcodeBitmap(result.getBarcode(),
+                                                                          getDisplayWidth());
+                    previewModels.add(new PreviewModel(result,
+                                                       previewBitmap,
+                                                       System.currentTimeMillis()));
                 } else {
                     Bitmap previewBitmap = ImageUtils.base64ToBitmap(result.getPhotoBase64());
                     previewBitmap = fixPreviewMaybe(previewBitmap);
-                    previewModels.add(new PreviewModel(result, previewBitmap, System.currentTimeMillis()));
+                    previewModels.add(new PreviewModel(result,
+                                                       previewBitmap,
+                                                       System.currentTimeMillis()));
                 }
             }
             this.previewModels = previewModels;
             return previewModels;
         })
-                                  .subscribe(previewModels -> getViewState().showPreview(previewModels), throwable -> {
-                                      Timber.e("", throwable);
-                                      getViewState().onPhotoLoadError();
-                                  }));
+                                  .subscribe(previewModels -> getViewState().showPreview(previewModels),
+                                             throwable -> {
+                                                 Timber.e("",
+                                                          throwable);
+                                                 getViewState().onPhotoLoadError();
+                                             }));
     }
 
     private Bitmap fixPreviewMaybe(Bitmap preview) {
         if (android.os.Build.MANUFACTURER.contains("samsung") && preview.getWidth() > preview.getHeight()) {
-            preview = fixSamsungPreviewOrientation(displayRotation, preview);
+            preview = fixSamsungPreviewOrientation(displayRotation,
+                                                   preview);
         }
         return preview;
     }
@@ -76,8 +84,7 @@ public class PreviewPresenter extends BaseMoxyPresenter<PreviewView> {
         }
     }
 
-    private Bitmap fixSamsungPreviewOrientation(int displayRotation,
-                                                Bitmap preview) {
+    private Bitmap fixSamsungPreviewOrientation(int displayRotation, Bitmap preview) {
         int fixedRotation = 0;
         switch (displayRotation) {
             case Surface.ROTATION_0:
@@ -93,7 +100,8 @@ public class PreviewPresenter extends BaseMoxyPresenter<PreviewView> {
                 fixedRotation = 180;
                 break;
         }
-        return ImageUtils.rotateBitmap(preview, fixedRotation);
+        return ImageUtils.rotateBitmap(preview,
+                                       fixedRotation);
     }
 
     public ArrayList<CameraResult> getCameraResultList() {

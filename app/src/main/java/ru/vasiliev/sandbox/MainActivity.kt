@@ -19,8 +19,7 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    @OnClick(R.id.location,
-             R.id.camera)
+    @OnClick(R.id.location, R.id.camera)
     fun onClick(view: View) {
         when (view.id) {
             R.id.location -> openLocation()
@@ -39,45 +38,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openLocation() {
-        val intent = Intent(this@MainActivity,
-                            LocationActivity::class.java)
+        val intent = Intent(this@MainActivity, LocationActivity::class.java)
         // intent.putExtra(KEY_PROVIDER_TYPE, PROVIDER_TYPE_FUSED);
         startActivity(intent)
     }
 
     private fun openCamera() {
         val actions = ArrayList<CameraAction>()
-        
-        // @formatter:off
-        actions.add(CameraAction.Builder(CameraActionKind.PHOTO_AND_BARCODE).
-                setCaptureId(0).
-                setCaptureQuality(70).
-                setScanId(0).
-                setScanPattern("\\d{12}").
-                setIndex(1).
-                setOrder(0).
-                setDescription("ПСК").
-                build())
 
-        actions.add(CameraAction.Builder(CameraActionKind.PHOTO).
-                setCaptureId(2).
-                setCaptureQuality(90).
-                setOrder(2).
-                setIndex(1).
-                setDescription("Фото клиента").
-                build())
+        actions.add(CameraAction.Builder(CameraActionKind.PHOTO_AND_BARCODE).setCaptureId(0).setCaptureQuality(
+                70).setScanId(0).setScanPattern("\\d{12}").setIndex(1).setOrder(0).setDescription("ПСК").build())
 
-        actions.add(CameraAction.Builder(CameraActionKind.BARCODE).
-                setScanId(2).
-                setScanPattern("\\d{12}").
-                setIndex(1).
-                setOrder(3).
-                setDescription("Анкета (штрих-код)").
-                build())
-        // @formatter:on
+        actions.add(
+                CameraAction.Builder(CameraActionKind.PHOTO).setCaptureId(2).setCaptureQuality(90).setOrder(2).setIndex(
+                        1).setDescription("Фото клиента").build())
 
-        CameraActivity.start(this,
-                             actions,
-                             CameraActivity.RequestKind.REQUEST_KIND_MIXED)
+        actions.add(CameraAction.Builder(CameraActionKind.BARCODE).setScanId(2).setScanPattern("\\d{12}").setIndex(
+                1).setOrder(3).setDescription("Анкета (штрих-код)").build())
+
+        CameraActivity.start(this, actions, CameraActivity.RequestKind.REQUEST_KIND_MIXED)
     }
 }

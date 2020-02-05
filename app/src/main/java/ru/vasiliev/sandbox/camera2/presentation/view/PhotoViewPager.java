@@ -14,9 +14,9 @@ public class PhotoViewPager extends ViewPager {
         super(context);
     }
 
-    public PhotoViewPager(@NonNull Context context,
-                          @Nullable AttributeSet attrs) {
-        super(context, attrs);
+    public PhotoViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context,
+              attrs);
     }
 
     @Override

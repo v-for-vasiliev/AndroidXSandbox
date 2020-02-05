@@ -26,16 +26,19 @@ public class CameraResultProvider {
         return InstanceHolder.INSTANCE;
     }
 
-    private String createHashKey(CameraActionKind kind,
-                                 long captureId,
-                                 long scanId,
-                                 long index) {
-        return String.format(Locale.getDefault(), "%s:%d:%d:%d", kind.getCode(), captureId, scanId, index);
+    private String createHashKey(CameraActionKind kind, long captureId, long scanId, long index) {
+        return String.format(Locale.getDefault(),
+                             "%s:%d:%d:%d",
+                             kind.getCode(),
+                             captureId,
+                             scanId,
+                             index);
     }
 
     public void put(CameraResult cameraResult) {
         storage.put(cameraResult.getAction()
-                                .getHashKey(), cameraResult);
+                                .getHashKey(),
+                    cameraResult);
         publisher.onNext(cameraResult);
     }
 
@@ -51,22 +54,22 @@ public class CameraResultProvider {
         return storage.containsKey(actionHashKey);
     }
 
-    public boolean contains(CameraActionKind kind,
-                            long captureId,
-                            long scanId,
-                            long index) {
-        return contains(createHashKey(kind, captureId, scanId, index));
+    public boolean contains(CameraActionKind kind, long captureId, long scanId, long index) {
+        return contains(createHashKey(kind,
+                                      captureId,
+                                      scanId,
+                                      index));
     }
 
     public CameraResult get(String actionHashKey) {
         return storage.get(actionHashKey);
     }
 
-    public CameraResult get(CameraActionKind kind,
-                            long captureId,
-                            long scanId,
-                            long index) {
-        return get(createHashKey(kind, captureId, scanId, index));
+    public CameraResult get(CameraActionKind kind, long captureId, long scanId, long index) {
+        return get(createHashKey(kind,
+                                 captureId,
+                                 scanId,
+                                 index));
     }
 
     public List<CameraResult> getAll() {

@@ -46,8 +46,8 @@ class LocationModule {
 
     @AppScope
     @Provides
-    fun provideLocationServices(app: App, @Named(BuildConfig.LOCATION_PROVIDER_TYPE) locationProvider: RxLocationProvider): LocationServices {
-        return LocationServices(app,
-                                locationProvider)
+    fun provideLocationServices(app: App, @Named(
+            BuildConfig.LOCATION_PROVIDER_TYPE) locationProvider: RxLocationProvider): LocationServices {
+        return LocationServices(app, locationProvider)
     }
 }

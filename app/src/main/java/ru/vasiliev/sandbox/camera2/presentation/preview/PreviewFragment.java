@@ -82,9 +82,10 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
     PreviewPresenter presenter;
     private CameraActionListener cameraActionListener;
 
-    private static String fmt(String template,
-                              Object... args) {
-        return String.format(Locale.getDefault(), template, args);
+    private static String fmt(String template, Object... args) {
+        return String.format(Locale.getDefault(),
+                             template,
+                             args);
     }
 
     @ProvidePresenter
@@ -92,13 +93,15 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
         return new PreviewPresenter();
     }
 
-    public PreviewFragment setResult(ArrayList<CameraResult> cameraResults,
-                                     boolean hasNextAction,
+    public PreviewFragment setResult(ArrayList<CameraResult> cameraResults, boolean hasNextAction,
                                      int visiblePreviewIndex) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(EXTRA_KEY_RESULT_LIST, cameraResults);
-        args.putBoolean(EXTRA_KEY_HAS_NEXT_ACTION, hasNextAction);
-        args.putInt(EXTRA_KEY_VISIBLE_PREVIEW_INDEX, visiblePreviewIndex);
+        args.putParcelableArrayList(EXTRA_KEY_RESULT_LIST,
+                                    cameraResults);
+        args.putBoolean(EXTRA_KEY_HAS_NEXT_ACTION,
+                        hasNextAction);
+        args.putInt(EXTRA_KEY_VISIBLE_PREVIEW_INDEX,
+                    visiblePreviewIndex);
         setArguments(args);
         return this;
     }
@@ -118,19 +121,20 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera_preview_page, container, false);
-        ButterKnife.bind(this, view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_camera_preview_page,
+                                     container,
+                                     false);
+        ButterKnife.bind(this,
+                         view);
         extractArguments(getArguments());
         return view;
     }
 
     @Override
-    public void onViewCreated(View view,
-                              @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view,
+                            savedInstanceState);
         cameraActionListener = (CameraActionListener) getActivity();
         initView();
     }
@@ -151,7 +155,8 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
     public void showPreview(List<PreviewModel> previewModels) {
         int visiblePreviewIndex = presenter.getVisiblePreviewIndex();
         setupVisiblePreviewInfo();
-        setupPreviewPager(previewModels, visiblePreviewIndex);
+        setupPreviewPager(previewModels,
+                          visiblePreviewIndex);
         if (presenter.hasNextAction()) {
             acceptPhotoButton.setText("ДАЛЬШЕ");
         } else {
@@ -162,8 +167,10 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
 
     private void extractArguments(Bundle args) {
         presenter.setCameraResultList(args.getParcelableArrayList(EXTRA_KEY_RESULT_LIST));
-        presenter.setHasNextAction(args.getBoolean(EXTRA_KEY_HAS_NEXT_ACTION, false));
-        presenter.setVisiblePreviewIndex(args.getInt(EXTRA_KEY_VISIBLE_PREVIEW_INDEX, 0));
+        presenter.setHasNextAction(args.getBoolean(EXTRA_KEY_HAS_NEXT_ACTION,
+                                                   false));
+        presenter.setVisiblePreviewIndex(args.getInt(EXTRA_KEY_VISIBLE_PREVIEW_INDEX,
+                                                     0));
     }
 
     private void initView() {
@@ -172,21 +179,20 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
                                                   .getRotation());
     }
 
-    private void setupPreviewPager(List<PreviewModel> previewModels,
-                                   int visiblePreviewIndex) {
-        PreviewPagerAdapter previewPagerAdapter = new PreviewPagerAdapter(getActivity(), previewModels);
+    private void setupPreviewPager(List<PreviewModel> previewModels, int visiblePreviewIndex) {
+        PreviewPagerAdapter previewPagerAdapter = new PreviewPagerAdapter(getActivity(),
+                                                                          previewModels);
         previewPager.setAdapter(previewPagerAdapter);
         if (previewModels.size() > 1) {
-            previewDots.setupWithViewPager(previewPager, true);
+            previewDots.setupWithViewPager(previewPager,
+                                           true);
         } else {
             previewDots.setVisibility(View.INVISIBLE);
         }
         previewPager.setCurrentItem(visiblePreviewIndex);
         previewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position,
-                                       float v,
-                                       int i1) {
+            public void onPageScrolled(int position, float v, int i1) {
             }
 
             @Override
@@ -218,10 +224,12 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
 
         if (result.getAction()
                   .isMultiPageDocument()) {
-            descriptionText.setText(String.format(Locale.getDefault(), "%s, стр. %d", result.getAction()
-                                                                                            .getDescription(),
-                    result.getAction()
-                          .getIndex()));
+            descriptionText.setText(String.format(Locale.getDefault(),
+                                                  "%s, стр. %d",
+                                                  result.getAction()
+                                                        .getDescription(),
+                                                  result.getAction()
+                                                        .getIndex()));
         } else {
             descriptionText.setText(result.getAction()
                                           .getDescription());
@@ -253,9 +261,11 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
         photoInfoCloseButton.setOnClickListener(v -> photoInfoLayout.setVisibility(View.INVISIBLE));
         if (metadata != null) {
             photoInfoTime.setText(fmt("Время создания: %s",
-                    new DateTime(metadata.getTimestamp()).toString(DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss"))));
-            photoInfoQuality.setText(fmt("Качество: %d%%", metadata.getQuality()));
-            photoInfoSize.setText(fmt("Размер: %dKb", base64TransferSizeKb));
+                                      new DateTime(metadata.getTimestamp()).toString(DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss"))));
+            photoInfoQuality.setText(fmt("Качество: %d%%",
+                                         metadata.getQuality()));
+            photoInfoSize.setText(fmt("Размер: %dKb",
+                                      base64TransferSizeKb));
             switch (metadata.getFocusMode()) {
                 case FOCUS_MODE_OFF:
                     photoInfoFocus.setText("Фокусировка: нет");
@@ -276,10 +286,11 @@ public class PreviewFragment extends MvpAppCompatFragment implements PreviewView
                                               .setTitle("Камера")
                                               .setMessage("Ошибка загрузки фотографии")
                                               .setIcon(R.drawable.ic_camera_red_24dp)
-                                              .setPositiveButton("OK", (dialogInterface, i) -> {
-                                                  dialogInterface.dismiss();
-                                                  getActivity().finish();
-                                              })
+                                              .setPositiveButton("OK",
+                                                                 (dialogInterface, i) -> {
+                                                                     dialogInterface.dismiss();
+                                                                     getActivity().finish();
+                                                                 })
                                               .create()
                                               .show();
     }

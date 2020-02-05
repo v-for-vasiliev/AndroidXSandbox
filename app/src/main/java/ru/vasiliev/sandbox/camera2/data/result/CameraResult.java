@@ -27,10 +27,7 @@ public class CameraResult implements Parcelable, Comparable<CameraResult> {
     private String photoBase64;
     private Camera2Metadata metadata;
 
-    private CameraResult(@NonNull CameraAction action,
-                         String barcode,
-                         String photoBase64,
-                         Camera2Metadata metadata) {
+    private CameraResult(@NonNull CameraAction action, String barcode, String photoBase64, Camera2Metadata metadata) {
         this.action = action;
         this.barcode = barcode;
         this.photoBase64 = photoBase64;
@@ -49,17 +46,18 @@ public class CameraResult implements Parcelable, Comparable<CameraResult> {
     }
 
     @Override
-    public void writeToParcel(Parcel dest,
-                              int flags) {
-        dest.writeParcelable(action, flags);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(action,
+                             flags);
         dest.writeString(barcode);
         dest.writeString(photoBase64);
     }
 
     @Override
     public int compareTo(CameraResult anotherResult) {
-        return Integer.compare(action.getOrder(), anotherResult.getAction()
-                                                               .getOrder());
+        return Integer.compare(action.getOrder(),
+                               anotherResult.getAction()
+                                            .getOrder());
     }
 
     public CameraAction getAction() {
@@ -126,7 +124,10 @@ public class CameraResult implements Parcelable, Comparable<CameraResult> {
         }
 
         public CameraResult build() {
-            return new CameraResult(action, barcode, photoBase64, metadata);
+            return new CameraResult(action,
+                                    barcode,
+                                    photoBase64,
+                                    metadata);
         }
     }
 }

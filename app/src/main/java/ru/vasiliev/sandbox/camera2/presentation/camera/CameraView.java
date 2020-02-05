@@ -13,9 +13,7 @@ interface CameraView extends MvpView {
 
     void setupActionFragment(CameraAction cameraAction);
 
-    void setupPreviewFragment(ArrayList<CameraResult> cameraResults,
-                              boolean hasNextAction,
-                              int visiblePreviewIndex);
+    void setupPreviewFragment(ArrayList<CameraResult> cameraResults, boolean hasNextAction, int visiblePreviewIndex);
 
     void onCaptureError(String error);
 

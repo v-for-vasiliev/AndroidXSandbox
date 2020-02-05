@@ -59,10 +59,8 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
 
     init {
         Timber.d("constructor() {updateInterval=%d, fastestUpdateInterval=%d, " + "priority=%d, hasCallback=%b}",
-                 mUpdateIntervalInMilliseconds,
-                 mFastestUpdateIntervalInMilliseconds,
-                 mPriority,
-                 mRxLocationCallback != null)
+                mUpdateIntervalInMilliseconds, mFastestUpdateIntervalInMilliseconds, mPriority,
+                mRxLocationCallback != null)
     }
 
 
@@ -111,7 +109,8 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
             mFusedLocationProviderClient!!.lastLocation.addOnSuccessListener { location ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-                    Timber.d("getLastKnownLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+                    Timber.d(
+                            "getLastKnownLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
                     subscriber.onNext(location)
                     subscriber.isDisposed
                 } else {
@@ -141,16 +140,12 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
         if (!mTracking) {
             Timber.d("startTracking()")
             mTracking = true
-            mTrackingSubscriptions.add(Observable.interval(0,
-                                                           RxLocationProvider.TRACKING_INTERVAL_SECONDS.toLong(),
-                                                           TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ sendDsaLocation() },
-                                                                                                                                                              { e ->
-                                                                                                                                                                  mTracking =
-                                                                                                                                                                          false
-                                                                                                                                                                  Timber.e("",
-                                                                                                                                                                           e)
-                                                                                                                                                              },
-                                                                                                                                                              { Timber.d("Tracking stopped") }))
+            mTrackingSubscriptions.add(Observable.interval(0, RxLocationProvider.TRACKING_INTERVAL_SECONDS.toLong(),
+                    TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                    { sendDsaLocation() }, { e ->
+                mTracking = false
+                Timber.e("", e)
+            }, { Timber.d("Tracking stopped") }))
         }
     }
 
@@ -206,9 +201,8 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
             mRequestingUpdates = true
             mSettingsClient!!.checkLocationSettings(mLocationSettingsRequest)
                     .addOnSuccessListener {
-                        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest,
-                                                                              mLocationCallback!!,
-                                                                              Looper.myLooper())
+                        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback!!,
+                                Looper.myLooper())
                     }
                     .addOnFailureListener { e ->
                         mRequestingUpdates = false
@@ -220,7 +214,8 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
     }
 
     private fun pushNewLocation(location: Location) {
-        Timber.d("onLocationChanged() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+        Timber.d(
+                "onLocationChanged() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
         mResultPublisher.onNext(location)
         mResultHistoryPublisher.onNext(location)
         if (mRxLocationCallback != null) {
@@ -233,7 +228,8 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
         mFusedLocationProviderClient!!.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 // Send location to server (mTrackingSubscriptions)
-                Timber.d("sendDsaLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+                Timber.d(
+                        "sendDsaLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
             } else {
                 Timber.d("sendDsaLocation() skipped, no location")
             }
@@ -272,11 +268,7 @@ class RxFusedLocationProvider private constructor(private val mContext: Context,
         }
 
         fun build(): RxFusedLocationProvider {
-            return RxFusedLocationProvider(context,
-                                           updateInterval,
-                                           fastestUpdateInterval,
-                                           priority,
-                                           rxLocationCallback)
+            return RxFusedLocationProvider(context, updateInterval, fastestUpdateInterval, priority, rxLocationCallback)
         }
     }
 }

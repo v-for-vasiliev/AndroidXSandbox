@@ -84,8 +84,9 @@ public class CameraPresenter extends BaseMoxyPresenter<CameraView> {
         } else {
             ArrayList<CameraResult> completedActionResultList = (ArrayList<CameraResult>) cameraResultProvider.getAll();
             if (completedActionResultList.size() > 0) {
-                getViewState().setupPreviewFragment(completedActionResultList, hasNext(),
-                        completedActionResultList.size() - 1);
+                getViewState().setupPreviewFragment(completedActionResultList,
+                                                    hasNext(),
+                                                    completedActionResultList.size() - 1);
             } else {
                 getViewState().onCaptureCancelled();
             }
@@ -95,8 +96,10 @@ public class CameraPresenter extends BaseMoxyPresenter<CameraView> {
     void onActionCompleted(String completedActionHashKey) {
         ArrayList<CameraResult> completedActionResultList = (ArrayList<CameraResult>) cameraResultProvider.getAll();
         if (completedActionResultList.size() > 0) {
-            getViewState().setupPreviewFragment(completedActionResultList, hasNext(),
-                    getVisiblePreviewIndex(completedActionResultList, completedActionHashKey));
+            getViewState().setupPreviewFragment(completedActionResultList,
+                                                hasNext(),
+                                                getVisiblePreviewIndex(completedActionResultList,
+                                                                       completedActionHashKey));
         } else {
             getViewState().onCaptureError("Ошибка обработки, пожалуйста переделайте фото");
         }
@@ -110,8 +113,7 @@ public class CameraPresenter extends BaseMoxyPresenter<CameraView> {
         }
     }
 
-    private int getVisiblePreviewIndex(ArrayList<CameraResult> completedActions,
-                                       String completedActionHashKey) {
+    private int getVisiblePreviewIndex(ArrayList<CameraResult> completedActions, String completedActionHashKey) {
         if (completedActions.size() > 0) {
             for (int index = 0; index < completedActions.size(); index++) {
                 if (completedActions.get(index)

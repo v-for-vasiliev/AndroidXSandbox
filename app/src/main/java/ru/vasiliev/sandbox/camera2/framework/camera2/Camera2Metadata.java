@@ -8,9 +8,7 @@ public class Camera2Metadata implements Serializable {
     private long timestamp;
     private Camera2FocusMode focusMode;
 
-    private Camera2Metadata(int quality,
-                            long timestamp,
-                            Camera2FocusMode focusMode) {
+    private Camera2Metadata(int quality, long timestamp, Camera2FocusMode focusMode) {
         this.quality = quality;
         this.timestamp = timestamp;
         this.focusMode = focusMode;
@@ -56,7 +54,9 @@ public class Camera2Metadata implements Serializable {
         }
 
         public Camera2Metadata build() {
-            return new Camera2Metadata(quality, timestamp, focusMode);
+            return new Camera2Metadata(quality,
+                                       timestamp,
+                                       focusMode);
         }
     }
 }

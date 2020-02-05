@@ -67,6 +67,7 @@ import ru.vasiliev.sandbox.camera2.framework.scanner.BarcodeScanner;
 import ru.vasiliev.sandbox.camera2.presentation.view.AutoFitTextureView;
 import ru.vasiliev.sandbox.camera2.presentation.view.FocusSurfaceView;
 import ru.vasiliev.sandbox.camera2.utils.ImageUtils;
+import ru.vasiliev.sandbox.common.java.Optional;
 import timber.log.Timber;
 
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_CONVERGED;
@@ -176,10 +177,14 @@ public class Camera2Api implements View.OnTouchListener {
     private static final int SCAN_BUFFER_SIZE = 6;
 
     static {
-        ORIENTATIONS.append(Surface.ROTATION_0, 90);
-        ORIENTATIONS.append(Surface.ROTATION_90, 0);
-        ORIENTATIONS.append(Surface.ROTATION_180, 270);
-        ORIENTATIONS.append(Surface.ROTATION_270, 180);
+        ORIENTATIONS.append(Surface.ROTATION_0,
+                            90);
+        ORIENTATIONS.append(Surface.ROTATION_90,
+                            0);
+        ORIENTATIONS.append(Surface.ROTATION_180,
+                            270);
+        ORIENTATIONS.append(Surface.ROTATION_270,
+                            180);
     }
 
     /**
@@ -282,6 +287,11 @@ public class Camera2Api implements View.OnTouchListener {
      */
     private Camera2ApiListener camera2ApiListener;
     /**
+     * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
+     * {@link TextureView}.
+     */
+    private final TextureView.SurfaceTextureListener previewSurfaceListener = getPreviewSurfaceListener();
+    /**
      * Capturing image quality (1..100)
      */
     private int captureQuality = DEFAULT_QUALITY;
@@ -326,13 +336,13 @@ public class Camera2Api implements View.OnTouchListener {
      * Scans with no barcode found count. Need to indicate barcode lost more precisely
      */
     private int barcodeEmptyScansCount;
+
+    // Callbacks
     /**
      * Callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * preview frame read.
      */
     private final ImageReader.OnImageAvailableListener barcodeImageAvailableListener = getBarcodeImageAvailableListener();
-
-    // Callbacks
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
      */
@@ -341,11 +351,6 @@ public class Camera2Api implements View.OnTouchListener {
      * {@link CameraDevice.StateCallback} is called when {@link CameraDevice} changes its state.
      */
     private final CameraDevice.StateCallback cameraStateCallback = getCameraOpenStateCallback();
-    /**
-     * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
-     * {@link TextureView}.
-     */
-    private final TextureView.SurfaceTextureListener previewSurfaceListener = getPreviewSurfaceListener();
     /**
      * Manual focus request callback
      */
@@ -359,12 +364,8 @@ public class Camera2Api implements View.OnTouchListener {
      * @param focusLayer         {@link FocusSurfaceView} view of camera capture view layout
      * @param camera2ApiListener listener to handle capture events
      */
-    public Camera2Api(Context context,
-                      AutoFitTextureView previewLayer,
-                      FocusSurfaceView focusLayer,
-                      BarcodeScanner barcodeScanner,
-                      Camera2Mode camera2Mode,
-                      Camera2ApiListener camera2ApiListener) {
+    public Camera2Api(Context context, AutoFitTextureView previewLayer, FocusSurfaceView focusLayer,
+                      BarcodeScanner barcodeScanner, Camera2Mode camera2Mode, Camera2ApiListener camera2ApiListener) {
         this.context = context;
         this.previewLayer = previewLayer;
         this.focusLayer = focusLayer;
@@ -373,8 +374,7 @@ public class Camera2Api implements View.OnTouchListener {
         this.camera2ApiListener = camera2ApiListener;
     }
 
-    private static Camera2Metadata createMetadata(TotalCaptureResult result,
-                                                  Camera2FocusMode focusMode) {
+    private static Camera2Metadata createMetadata(TotalCaptureResult result, Camera2FocusMode focusMode) {
         Camera2Metadata.Builder metadataBuilder = new Camera2Metadata.Builder();
         try {
             metadataBuilder.setQuality(
@@ -402,20 +402,17 @@ public class Camera2Api implements View.OnTouchListener {
      * @param captureSize          The aspect ratio
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
-    private static Size chooseOptimalSize(Size[] choices,
-                                          int previewSurfaceWidth,
-                                          int previewSurfaceHeight,
-                                          int maxPreviewWidth,
-                                          int maxPreviewHeight,
-                                          Size captureSize) {
+    private static Size chooseOptimalSize(Size[] choices, int previewSurfaceWidth, int previewSurfaceHeight,
+                                          int maxPreviewWidth, int maxPreviewHeight, Size captureSize) {
 
         // Collect the supported resolutions that are at least as big as the preview Surface
         List<Size> bigEnough = new ArrayList<>();
         // Collect the supported resolutions that are smaller than the preview Surface
         List<Size> notBigEnough = new ArrayList<>();
         for (Size option : choices) {
-            if (option.getWidth() <= maxPreviewWidth && option.getHeight() <= maxPreviewHeight && isAcceptableAspectRatio(
-                    captureSize, option)) {
+            if (option.getWidth() <= maxPreviewWidth && option.getHeight() <= maxPreviewHeight &&
+                isAcceptableAspectRatio(captureSize,
+                                        option)) {
                 if (option.getWidth() >= previewSurfaceWidth && option.getHeight() >= previewSurfaceHeight) {
                     bigEnough.add(option);
                 } else {
@@ -427,17 +424,18 @@ public class Camera2Api implements View.OnTouchListener {
         // Pick the smallest of those big enough. If there is no one big enough, pick the
         // largest of those not big enough.
         if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new ViewSizeComparator());
+            return Collections.min(bigEnough,
+                                   new ViewSizeComparator());
         } else if (notBigEnough.size() > 0) {
-            return Collections.max(notBigEnough, new ViewSizeComparator());
+            return Collections.max(notBigEnough,
+                                   new ViewSizeComparator());
         } else {
             e("Couldn't find any suitable preview size");
             return choices[0];
         }
     }
 
-    private static boolean isAcceptableAspectRatio(Size captureSize,
-                                                   Size targetSize) {
+    private static boolean isAcceptableAspectRatio(Size captureSize, Size targetSize) {
         float captureAspectRatio = captureSize.getWidth() / (float) captureSize.getHeight();
         float targetAspectRatio = targetSize.getWidth() / (float) targetSize.getHeight();
         return Math.abs(captureAspectRatio - targetAspectRatio) < MAX_ASPECT_RATIO_DELTA;
@@ -447,7 +445,8 @@ public class Camera2Api implements View.OnTouchListener {
      * Capture image with default Camera2API quality
      */
     public Observable<Camera2Result> capture() {
-        return capture(DEFAULT_QUALITY, DEFAULT_FOCUS_BEFORE_CAPTURE_STATE);
+        return capture(DEFAULT_QUALITY,
+                       DEFAULT_FOCUS_BEFORE_CAPTURE_STATE);
     }
 
     /**
@@ -455,8 +454,7 @@ public class Camera2Api implements View.OnTouchListener {
      *
      * @param captureQuality image quality percent (0..100)
      */
-    public Observable<Camera2Result> capture(int captureQuality,
-                                             boolean lockFocusBeforeCapture) {
+    public Observable<Camera2Result> capture(int captureQuality, boolean lockFocusBeforeCapture) {
         dbg("capture()");
         if (getCameraState() != STATE_PREVIEW || isCapturingPhoto() || manualFocusEngaged) {
             dbg("CameraNotReadyToCaptureException()");
@@ -480,12 +478,14 @@ public class Camera2Api implements View.OnTouchListener {
         }
 
         return Observable.zip(imageSubject.cast(Image.class)
-                                          .take(1)
-                                          .map(ImageUtils::imageToBase64), metadataSubject.cast(Camera2Metadata.class)
-                                                                                          .take(1),
-                Observable.just(barcode), Camera2Result::new)
-                         .subscribeOn(Schedulers.io())
-                         .observeOn(AndroidSchedulers.mainThread());
+                                      .take(1)
+                                      .map(ImageUtils::imageToBase64),
+                              metadataSubject.cast(Camera2Metadata.class)
+                                      .take(1),
+                              Observable.just(Optional.ofNullable(barcode)),
+                              Camera2Result::new)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void stop() {
@@ -496,7 +496,8 @@ public class Camera2Api implements View.OnTouchListener {
     public void start() {
         startBackgroundThread();
         if (previewLayer.isAvailable()) {
-            openCamera(previewLayer.getWidth(), previewLayer.getHeight());
+            openCamera(previewLayer.getWidth(),
+                       previewLayer.getHeight());
         } else {
             previewLayer.setSurfaceTextureListener(previewSurfaceListener);
         }
@@ -561,7 +562,8 @@ public class Camera2Api implements View.OnTouchListener {
                     dbg("State changed: STATE_TAKING_PICTURE");
                     break;
                 default:
-                    dbg("State changed: %d", cameraState);
+                    dbg("State changed: %d",
+                        cameraState);
                     break;
             }
         }
@@ -581,7 +583,8 @@ public class Camera2Api implements View.OnTouchListener {
                     initFocusOverlay();
                 } else {
                     cameraOpenCloseLock.release();
-                    Camera2Api.this.onError(null, "Данный телефон не поддерживает текущую версию модуля камеры.");
+                    Camera2Api.this.onError(null,
+                                            "Данный телефон не поддерживает текущую версию модуля камеры.");
                 }
             }
 
@@ -590,16 +593,17 @@ public class Camera2Api implements View.OnTouchListener {
                 cameraOpenCloseLock.release();
                 cameraDevice.close();
                 Camera2Api.this.cameraDevice = null;
-                Camera2Api.this.onError(null, "Камера недоступна.");
+                Camera2Api.this.onError(null,
+                                        "Камера недоступна.");
             }
 
             @Override
-            public void onError(@NonNull CameraDevice cameraDevice,
-                                int error) {
+            public void onError(@NonNull CameraDevice cameraDevice, int error) {
                 cameraOpenCloseLock.release();
                 cameraDevice.close();
                 Camera2Api.this.cameraDevice = null;
-                Camera2Api.this.onError(null, "Камера недоступна.");
+                Camera2Api.this.onError(null,
+                                        "Камера недоступна.");
             }
 
         };
@@ -609,17 +613,15 @@ public class Camera2Api implements View.OnTouchListener {
         return new TextureView.SurfaceTextureListener() {
 
             @Override
-            public void onSurfaceTextureAvailable(SurfaceTexture texture,
-                                                  int width,
-                                                  int height) {
-                openCamera(width, height);
+            public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
+                openCamera(width,
+                           height);
             }
 
             @Override
-            public void onSurfaceTextureSizeChanged(SurfaceTexture texture,
-                                                    int width,
-                                                    int height) {
-                configureTransform(width, height);
+            public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {
+                configureTransform(width,
+                                   height);
             }
 
             @Override
@@ -637,14 +639,13 @@ public class Camera2Api implements View.OnTouchListener {
     private CameraCaptureSession.CaptureCallback getPrecaptureResultCallback() {
         return new CameraCaptureSession.CaptureCallback() {
 
-            private void dbgState(String state,
-                                  Integer afMode,
-                                  Integer afState,
-                                  Integer aeMode,
-                                  Integer aeState) {
-                dbg("PrecaptureCallback {%s, %s, %s, %s, %s}", state, Camera2Utils.getAfModeString(afMode),
-                        Camera2Utils.getAfStateString(afState), Camera2Utils.getAeModeString(aeMode),
-                        Camera2Utils.getAeStateString(aeState));
+            private void dbgState(String state, Integer afMode, Integer afState, Integer aeMode, Integer aeState) {
+                dbg("PrecaptureCallback {%s, %s, %s, %s, %s}",
+                    state,
+                    Camera2Utils.getAfModeString(afMode),
+                    Camera2Utils.getAfStateString(afState),
+                    Camera2Utils.getAeModeString(aeMode),
+                    Camera2Utils.getAeStateString(aeState));
             }
 
             private void process(CaptureResult result) {
@@ -656,11 +657,19 @@ public class Camera2Api implements View.OnTouchListener {
                 switch (cameraState) {
                     case STATE_PREVIEW: {
                         // We have nothing to do when the camera preview is working normally.
-                        dbgState("STATE_PREVIEW", afMode, afState, aeMode, aeState);
+                        dbgState("STATE_PREVIEW",
+                                 afMode,
+                                 afState,
+                                 aeMode,
+                                 aeState);
                         break;
                     }
                     case STATE_WAITING_LOCK: {
-                        dbgState("STATE_WAITING_LOCK", afMode, afState, aeMode, aeState);
+                        dbgState("STATE_WAITING_LOCK",
+                                 afMode,
+                                 afState,
+                                 aeMode,
+                                 aeState);
                         if (afState == null) {
                             setCameraState(STATE_TAKING_PICTURE);
                             captureStillPicture();
@@ -688,14 +697,23 @@ public class Camera2Api implements View.OnTouchListener {
                         break;
                     }
                     case STATE_WAITING_PRECAPTURE: {
-                        dbgState("STATE_WAITING_PRECAPTURE", afMode, afState, aeMode, aeState);
-                        if (aeState == null || aeState == CONTROL_AE_STATE_PRECAPTURE || aeState == CONTROL_AE_STATE_FLASH_REQUIRED) {
+                        dbgState("STATE_WAITING_PRECAPTURE",
+                                 afMode,
+                                 afState,
+                                 aeMode,
+                                 aeState);
+                        if (aeState == null || aeState == CONTROL_AE_STATE_PRECAPTURE ||
+                            aeState == CONTROL_AE_STATE_FLASH_REQUIRED) {
                             setCameraState(STATE_WAITING_NON_PRECAPTURE);
                         }
                         break;
                     }
                     case STATE_WAITING_NON_PRECAPTURE: {
-                        dbgState("STATE_WAITING_NON_PRECAPTURE", afMode, afState, aeMode, aeState);
+                        dbgState("STATE_WAITING_NON_PRECAPTURE",
+                                 afMode,
+                                 afState,
+                                 aeMode,
+                                 aeState);
                         if (aeState == null || aeState != CONTROL_AE_STATE_PRECAPTURE) {
                             setCameraState(STATE_TAKING_PICTURE);
                             captureStillPicture();
@@ -706,26 +724,27 @@ public class Camera2Api implements View.OnTouchListener {
             }
 
             @Override
-            public void onCaptureProgressed(@NonNull CameraCaptureSession session,
-                                            @NonNull CaptureRequest request,
+            public void onCaptureProgressed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                             @NonNull CaptureResult partialResult) {
                 process(partialResult);
             }
 
             @Override
-            public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                           @NonNull CaptureRequest request,
+            public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                            @NonNull TotalCaptureResult result) {
                 process(result);
             }
 
             @Override
-            public void onCaptureFailed(@NonNull CameraCaptureSession session,
-                                        @NonNull CaptureRequest request,
+            public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                         @NonNull CaptureFailure failure) {
-                super.onCaptureFailed(session, request, failure);
-                dbg("(Precapture callback) onCaptureFailed(reason: %d)", failure.getReason());
-                onError(null, "Камера недоступна");
+                super.onCaptureFailed(session,
+                                      request,
+                                      failure);
+                dbg("(Precapture callback) onCaptureFailed(reason: %d)",
+                    failure.getReason());
+                onError(null,
+                        "Камера недоступна");
             }
         };
     }
@@ -740,8 +759,7 @@ public class Camera2Api implements View.OnTouchListener {
     private CameraCaptureSession.CaptureCallback getCaptureResultCallback() {
         return new CameraCaptureSession.CaptureCallback() {
             @Override
-            public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                           @NonNull CaptureRequest request,
+            public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                            @NonNull TotalCaptureResult result) {
                 dbg("(Capture callback) onCaptureCompleted()");
                 unlockFocus();
@@ -751,17 +769,20 @@ public class Camera2Api implements View.OnTouchListener {
                 } else {
                     focusMode = manualFocusLocked ? Camera2FocusMode.FOCUS_MODE_MANUAL : Camera2FocusMode.FOCUS_MODE_OFF;
                 }
-                metadataSubject.onNext(createMetadata(result, focusMode));
+                metadataSubject.onNext(createMetadata(result,
+                                                      focusMode));
                 setpCapturingPhoto(false);
             }
 
             @Override
-            public void onCaptureFailed(@NonNull CameraCaptureSession session,
-                                        @NonNull CaptureRequest request,
+            public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                         @NonNull CaptureFailure failure) {
-                super.onCaptureFailed(session, request, failure);
-                dbg("(Capture callback) onCaptureFailed(reason: %d, imageCaptured: %b)", failure.getReason(),
-                        failure.wasImageCaptured());
+                super.onCaptureFailed(session,
+                                      request,
+                                      failure);
+                dbg("(Capture callback) onCaptureFailed(reason: %d, imageCaptured: %b)",
+                    failure.getReason(),
+                    failure.wasImageCaptured());
                 setpCapturingPhoto(false);
             }
         };
@@ -770,28 +791,33 @@ public class Camera2Api implements View.OnTouchListener {
     private CameraCaptureSession.CaptureCallback getFocusResultCallback() {
         return new CameraCaptureSession.CaptureCallback() {
             @Override
-            public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                           @NonNull CaptureRequest request,
+            public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                            @NonNull TotalCaptureResult result) {
-                super.onCaptureCompleted(session, request, result);
+                super.onCaptureCompleted(session,
+                                         request,
+                                         result);
                 dbg("(Focus callback) onCaptureCompleted()");
                 manualFocusEngaged = false;
                 manualFocusLocked = true;
-                drawFocus(manualFocusIndicatorRect, FOCUS_LOCKED_COLOR);
+                drawFocus(manualFocusIndicatorRect,
+                          FOCUS_LOCKED_COLOR);
                 clearOverlayDelayed(FOCUS_CLEAR_TIMEOUT_MS);
                 unlockFocus();
             }
 
             @Override
-            public void onCaptureFailed(@NonNull CameraCaptureSession session,
-                                        @NonNull CaptureRequest request,
+            public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
                                         @NonNull CaptureFailure failure) {
-                super.onCaptureFailed(session, request, failure);
+                super.onCaptureFailed(session,
+                                      request,
+                                      failure);
                 manualFocusEngaged = false;
                 manualFocusLocked = false;
-                drawFocus(manualFocusIndicatorRect, FOCUS_LOCK_ERROR_COLOR);
+                drawFocus(manualFocusIndicatorRect,
+                          FOCUS_LOCK_ERROR_COLOR);
                 clearOverlayDelayed(FOCUS_CLEAR_TIMEOUT_MS);
-                dbg("(Focus callback) onCaptureFailed(reson: %d)", failure.getReason());
+                dbg("(Focus callback) onCaptureFailed(reson: %d)",
+                    failure.getReason());
             }
         };
     }
@@ -840,7 +866,8 @@ public class Camera2Api implements View.OnTouchListener {
                     new Handler(Looper.getMainLooper()).post(() -> {
                         if (camera2ApiListener != null) {
                             camera2ApiListener.onBarcodeFound(barcode);
-                            dbg("Barcode found: %s", barcode);
+                            dbg("Barcode found: %s",
+                                barcode);
                         }
                     });
                 } else {
@@ -856,7 +883,8 @@ public class Camera2Api implements View.OnTouchListener {
                     }
                 }
             } catch (final Throwable t) {
-                dbg("scanImageBarcode()", t);
+                dbg("scanImageBarcode()",
+                    t);
             } finally {
                 setScanningBarcode(false);
             }
@@ -901,28 +929,37 @@ public class Camera2Api implements View.OnTouchListener {
         }
     }
 
-    private void openCamera(int width,
-                            int height) {
-        dbg("openCamera(%d, %d)", width, height);
+    private void openCamera(int width, int height) {
+        dbg("openCamera(%d, %d)",
+            width,
+            height);
         if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            onError(null, "Не получено разрешение на использование камеры.");
+                                              Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            onError(null,
+                    "Не получено разрешение на использование камеры.");
             return;
         }
 
-        setUpCameraOutputs(width, height);
-        configureTransform(width, height);
+        setUpCameraOutputs(width,
+                           height);
+        configureTransform(width,
+                           height);
         Activity activity = (Activity) context;
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
 
         try {
-            if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+            if (!cameraOpenCloseLock.tryAcquire(2500,
+                                                TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cameraId, cameraStateCallback, backgroundTaskHandler);
+            manager.openCamera(cameraId,
+                               cameraStateCallback,
+                               backgroundTaskHandler);
         } catch (final Throwable t) {
-            dbg("openCamera() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("openCamera() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
@@ -950,7 +987,8 @@ public class Camera2Api implements View.OnTouchListener {
                 barcodeImageReader = null;
             }
         } catch (InterruptedException e) {
-            throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
+            throw new RuntimeException("Interrupted while trying to lock camera closing.",
+                                       e);
         } finally {
             cameraOpenCloseLock.release();
         }
@@ -962,9 +1000,10 @@ public class Camera2Api implements View.OnTouchListener {
      * @param width  The width of available size for camera preview
      * @param height The height of available size for camera preview
      */
-    private void setUpCameraOutputs(int width,
-                                    int height) {
-        dbg("setUpCameraOutputs(%d, %d)", width, height);
+    private void setUpCameraOutputs(int width, int height) {
+        dbg("setUpCameraOutputs(%d, %d)",
+            width,
+            height);
         Activity activity = (Activity) context;
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -978,30 +1017,34 @@ public class Camera2Api implements View.OnTouchListener {
                     continue;
                 }
 
-                StreamConfigurationMap map = cameraCharacteristics.get(
-                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 if (map == null) {
                     continue;
                 }
 
                 List<Size> listOfCaptureSizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
-                Collections.sort(listOfCaptureSizes, new ViewSizeComparator());
+                Collections.sort(listOfCaptureSizes,
+                                 new ViewSizeComparator());
                 Size captureSize = listOfCaptureSizes.get(0); // Init with smallest size
                 for (Size s : listOfCaptureSizes) {
-                    if (s.getWidth() <= (MAX_CAPTURE_WIDTH + MAX_OUTPUT_SIZE_DELTA) && s.getHeight() <= (MAX_CAPTURE_HEIGHT + MAX_OUTPUT_SIZE_DELTA)) {
+                    if (s.getWidth() <= (MAX_CAPTURE_WIDTH + MAX_OUTPUT_SIZE_DELTA) &&
+                        s.getHeight() <= (MAX_CAPTURE_HEIGHT + MAX_OUTPUT_SIZE_DELTA)) {
                         captureSize = s;
                     }
                 }
                 // Capture reader
-                capturedImageReader = ImageReader.newInstance(captureSize.getWidth(), captureSize.getHeight(),
-                        ImageFormat.JPEG, CAPTURE_BUFFER_SIZE);
-                capturedImageReader.setOnImageAvailableListener(capturedImageAvailableListener, backgroundTaskHandler);
+                capturedImageReader = ImageReader.newInstance(captureSize.getWidth(),
+                                                              captureSize.getHeight(),
+                                                              ImageFormat.JPEG,
+                                                              CAPTURE_BUFFER_SIZE);
+                capturedImageReader.setOnImageAvailableListener(capturedImageAvailableListener,
+                                                                backgroundTaskHandler);
 
 
                 // Find out if we need to swap dimension to get the preview size relative to sensor coordinate.
                 int displayRotation = activity.getWindowManager()
-                                              .getDefaultDisplay()
-                                              .getRotation();
+                        .getDefaultDisplay()
+                        .getRotation();
                 // noinspection ConstantConditions
                 sensorOrientation = cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
                 boolean swappedDimensions = false;
@@ -1048,38 +1091,49 @@ public class Camera2Api implements View.OnTouchListener {
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
                 // garbage capture data.
                 previewLayerOptimalSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                        previewSurfaceWidth, previewSurfaceHeight, maxPreviewWidth, maxPreviewHeight, captureSize);
+                                                            previewSurfaceWidth,
+                                                            previewSurfaceHeight,
+                                                            maxPreviewWidth,
+                                                            maxPreviewHeight,
+                                                            captureSize);
 
                 // We fit the aspect ratio of TextureView to the size of preview we picked.
                 int orientation = context.getResources()
-                                         .getConfiguration().orientation;
+                        .getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     previewLayer.setAspectRatio(previewLayerOptimalSize.getWidth(),
-                            previewLayerOptimalSize.getHeight());
+                                                previewLayerOptimalSize.getHeight());
                 } else {
                     previewLayer.setAspectRatio(previewLayerOptimalSize.getHeight(),
-                            previewLayerOptimalSize.getWidth());
+                                                previewLayerOptimalSize.getWidth());
                 }
 
-                int maxScanWidth = (previewLayerOptimalSize.getWidth() > MAX_SCAN_IMAGE_WIDTH) ? MAX_SCAN_IMAGE_WIDTH : previewLayerOptimalSize.getWidth();
-                int maxScanHeight = (previewLayerOptimalSize.getHeight() > MAX_SCAN_IMAGE_HEIGHT) ? MAX_SCAN_IMAGE_HEIGHT : previewLayerOptimalSize.getHeight();
+                int maxScanWidth = (previewLayerOptimalSize.getWidth() >
+                                    MAX_SCAN_IMAGE_WIDTH) ? MAX_SCAN_IMAGE_WIDTH : previewLayerOptimalSize.getWidth();
+                int maxScanHeight = (previewLayerOptimalSize.getHeight() >
+                                     MAX_SCAN_IMAGE_HEIGHT) ? MAX_SCAN_IMAGE_HEIGHT : previewLayerOptimalSize.getHeight();
                 // Max size of YUV scan target in combination with JPEG capture target can't be bigger than preview
                 // layer size.
                 // https://developer.android.com/reference/android/hardware/camera2/CameraDevice#createCaptureSession(android.hardware.camera2.params.SessionConfiguration)
                 List<Size> listOfScanSizes = Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888));
-                Collections.sort(listOfScanSizes, new ViewSizeComparator());
+                Collections.sort(listOfScanSizes,
+                                 new ViewSizeComparator());
                 Size scanSize = listOfScanSizes.get(0);
                 for (Size option : listOfScanSizes) {
-                    if (option.getWidth() <= maxScanWidth && option.getHeight() <= maxScanHeight && isAcceptableAspectRatio(
-                            previewLayerOptimalSize, option)) {
+                    if (option.getWidth() <= maxScanWidth && option.getHeight() <= maxScanHeight &&
+                        isAcceptableAspectRatio(previewLayerOptimalSize,
+                                                option)) {
                         scanSize = option;
                     }
                 }
 
                 // Scan images reader, the google recommendation is to use ImageFormat.YUV_420_888 for frame analysis
-                barcodeImageReader = ImageReader.newInstance(scanSize.getWidth(), scanSize.getHeight(),
-                        ImageFormat.YUV_420_888, SCAN_BUFFER_SIZE);
-                barcodeImageReader.setOnImageAvailableListener(barcodeImageAvailableListener, backgroundTaskHandler);
+                barcodeImageReader = ImageReader.newInstance(scanSize.getWidth(),
+                                                             scanSize.getHeight(),
+                                                             ImageFormat.YUV_420_888,
+                                                             SCAN_BUFFER_SIZE);
+                barcodeImageReader.setOnImageAvailableListener(barcodeImageAvailableListener,
+                                                               backgroundTaskHandler);
 
                 // Check if the flash is supported.
                 Boolean available = cameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
@@ -1091,8 +1145,10 @@ public class Camera2Api implements View.OnTouchListener {
         } catch (final Throwable t) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            dbg("setUpCameraOutputs() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("setUpCameraOutputs() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
@@ -1111,7 +1167,7 @@ public class Camera2Api implements View.OnTouchListener {
 
             // We configure the size of default buffer to be the size of camera preview we want.
             previewLayerTexture.setDefaultBufferSize(previewLayerOptimalSize.getWidth(),
-                    previewLayerOptimalSize.getHeight());
+                                                     previewLayerOptimalSize.getHeight());
 
             // This is the output Surface we need to start preview.
             Surface previewLayerSurface = new Surface(previewLayerTexture);
@@ -1141,82 +1197,103 @@ public class Camera2Api implements View.OnTouchListener {
             }
 
             // Create a CameraCaptureSession for camera preview
-            cameraDevice.createCaptureSession(previewSurfaces, new CameraCaptureSession.StateCallback() {
+            cameraDevice.createCaptureSession(previewSurfaces,
+                                              new CameraCaptureSession.StateCallback() {
 
-                @Override
-                public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    // The camera is already closed
-                    if (null == cameraDevice) {
-                        return;
-                    }
+                                                  @Override
+                                                  public void onConfigured(
+                                                          @NonNull CameraCaptureSession cameraCaptureSession) {
+                                                      // The camera is already closed
+                                                      if (null == cameraDevice) {
+                                                          return;
+                                                      }
 
-                    // When the session is ready, we start displaying the preview.
-                    Camera2Api.this.cameraCaptureSession = cameraCaptureSession;
-                    try {
-                        // Setup preview params, like auto-focus/exposure
-                        setupPreviewRequestParams(precaptureRequestBuilder);
+                                                      // When the session is ready, we start displaying the preview.
+                                                      Camera2Api.this.cameraCaptureSession = cameraCaptureSession;
+                                                      try {
+                                                          // Setup preview params, like auto-focus/exposure
+                                                          setupPreviewRequestParams(precaptureRequestBuilder);
 
-                        // Start displaying the camera preview.
-                        precaptureRequest = precaptureRequestBuilder.build();
-                        Camera2Api.this.cameraCaptureSession.setRepeatingRequest(precaptureRequest, precaptureCallback,
-                                backgroundTaskHandler);
-                    } catch (final Throwable t) {
-                        onError(t, "Камера недоступна.");
-                    }
-                }
+                                                          // Start displaying the camera preview.
+                                                          precaptureRequest = precaptureRequestBuilder.build();
+                                                          Camera2Api.this.cameraCaptureSession.setRepeatingRequest(precaptureRequest,
+                                                                                                                   precaptureCallback,
+                                                                                                                   backgroundTaskHandler);
+                                                      } catch (final Throwable t) {
+                                                          onError(t,
+                                                                  "Камера недоступна.");
+                                                      }
+                                                  }
 
-                @Override
-                public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    onError(null, "Камера недоступна.");
-                }
-            }, null);
+                                                  @Override
+                                                  public void onConfigureFailed(
+                                                          @NonNull CameraCaptureSession cameraCaptureSession) {
+                                                      onError(null,
+                                                              "Камера недоступна.");
+                                                  }
+                                              },
+                                              null);
         } catch (final Throwable t) {
-            dbg("createCameraPreviewSession() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("createCameraPreviewSession() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
     private void setupPreviewRequestParams(CaptureRequest.Builder requestBuilder) {
         String afMode = null, aeMode = null, awbMode = null;
-        requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        requestBuilder.set(CaptureRequest.CONTROL_MODE,
+                           CaptureRequest.CONTROL_MODE_AUTO);
 
         if (camera2Info.isAutoFocusSupported()) {
             int[] afModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
-            if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, afModes)) {
-                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE,
+                         afModes)) {
+                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                                   CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                 afMode = "CONTROL_AF_MODE_CONTINUOUS_PICTURE";
             } else {
-                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                                   CaptureRequest.CONTROL_AF_MODE_AUTO);
                 afMode = "CONTROL_AF_MODE_AUTO";
             }
         }
 
         if (camera2Info.isAutoExposureSupported()) {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                               CaptureRequest.CONTROL_AE_MODE_ON);
             aeMode = "CONTROL_AE_MODE_ON";
         }
 
         if (camera2Info.isAWBSupported()) {
-            requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO);
+            requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE,
+                               CaptureRequest.CONTROL_AWB_MODE_AUTO);
             awbMode = "CONTROL_AWB_MODE_AUTO";
         }
 
         setupFlashMode(requestBuilder);
 
-        dbg("setupPreviewRequestParams(AF: %s, AE: %s, AWB: %s)", afMode, aeMode, awbMode);
+        dbg("setupPreviewRequestParams(AF: %s, AE: %s, AWB: %s)",
+            afMode,
+            aeMode,
+            awbMode);
     }
 
     private void setupFlashMode(CaptureRequest.Builder requestBuilder) {
         if (flashSupported) {
             switch (flashStatus) {
                 case FLASH_AUTO:
-                    requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+                    requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                                       CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
                     break;
                 case FLASH_TURN_OFF:
-                    requestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
+                    requestBuilder.set(CaptureRequest.FLASH_MODE,
+                                       CameraMetadata.FLASH_MODE_OFF);
                     break;
                 case FLASH_TURN_ON:
-                    requestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
+                    requestBuilder.set(CaptureRequest.FLASH_MODE,
+                                       CameraMetadata.FLASH_MODE_TORCH);
                     break;
             }
         }
@@ -1237,19 +1314,24 @@ public class Camera2Api implements View.OnTouchListener {
         try {
             // Tell the camera to trigger precapture sequence.
             precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
-                    CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+                                         CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
 
             // Prevent CONTROL_AE_PRECAPTURE_TRIGGER from calling over and over again
             CaptureRequest precaptureRequest = precaptureRequestBuilder.build();
-            precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, null);
+            precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
+                                         null);
 
             // Preview callback: wait for the precapture sequence to be set.
             setCameraState(STATE_WAITING_PRECAPTURE);
 
-            cameraCaptureSession.capture(precaptureRequest, precaptureCallback, backgroundTaskHandler);
+            cameraCaptureSession.capture(precaptureRequest,
+                                         precaptureCallback,
+                                         backgroundTaskHandler);
         } catch (final Throwable t) {
-            dbg("runPrecaptureSequence() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("runPrecaptureSequence() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
@@ -1258,7 +1340,8 @@ public class Camera2Api implements View.OnTouchListener {
      * {@link #precaptureCallback} from both {@link #captureStillPictureLocked()}.
      */
     private void captureStillPicture() {
-        dbg("captureStillPicture(q = %d)", captureQuality);
+        dbg("captureStillPicture(q = %d)",
+            captureQuality);
         try {
             final Activity activity = (Activity) context;
             if (null == activity || null == cameraDevice) {
@@ -1266,55 +1349,66 @@ public class Camera2Api implements View.OnTouchListener {
             }
 
             // This is the CaptureRequest.Builder that we use to take a picture.
-            final CaptureRequest.Builder captureRequestBuilder = cameraDevice.createCaptureRequest(
-                    CameraDevice.TEMPLATE_STILL_CAPTURE);
+            final CaptureRequest.Builder captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureRequestBuilder.addTarget(capturedImageReader.getSurface());
 
             // Copy request params from preview request.
-            setupCaptureRequestParams(captureRequestBuilder, activity.getWindowManager()
-                                                                     .getDefaultDisplay()
-                                                                     .getRotation());
+            setupCaptureRequestParams(captureRequestBuilder,
+                                      activity.getWindowManager()
+                                              .getDefaultDisplay()
+                                              .getRotation());
 
             // Discard all captures currently pending and in-progress as fast as possible and
             // stop preview repeating request.
             cameraCaptureSession.stopRepeating();
 
             // Take a shot.
-            cameraCaptureSession.capture(captureRequestBuilder.build(), getCaptureResultCallback(), null);
+            cameraCaptureSession.capture(captureRequestBuilder.build(),
+                                         getCaptureResultCallback(),
+                                         null);
         } catch (final Throwable t) {
-            dbg("captureStillPicture() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("captureStillPicture() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
-    private void setupCaptureRequestParams(CaptureRequest.Builder requestBuilder,
-                                           int rotation) {
+    private void setupCaptureRequestParams(CaptureRequest.Builder requestBuilder, int rotation) {
         // Use the same AE/AF/AWB/Flash modes as the preview - just copy them from precaptureRequestBuilder
-        requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        requestBuilder.set(CaptureRequest.CONTROL_MODE,
+                           CaptureRequest.CONTROL_MODE_AUTO);
 
         // Focus. When manual focus is locked then the lens are already in position, just take a shot
         if (camera2Info.isAutoFocusSupported() && !manualFocusLocked) {
             int[] afModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
-            if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, afModes)) {
-                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE,
+                         afModes)) {
+                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                                   CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
             } else {
-                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+                requestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                                   CaptureRequest.CONTROL_AF_MODE_AUTO);
             }
         }
 
         // Exposure
-        requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, precaptureRequest.get(CaptureRequest.CONTROL_AE_MODE));
+        requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                           precaptureRequest.get(CaptureRequest.CONTROL_AE_MODE));
 
         // White balance
-        requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE, precaptureRequest.get(CaptureRequest.CONTROL_AWB_MODE));
+        requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE,
+                           precaptureRequest.get(CaptureRequest.CONTROL_AWB_MODE));
 
         // Capture quality
         if (captureQuality != DEFAULT_QUALITY && captureQuality > 0 && captureQuality <= 100) {
-            requestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) ((0xFF) & captureQuality));
+            requestBuilder.set(CaptureRequest.JPEG_QUALITY,
+                               (byte) ((0xFF) & captureQuality));
         }
 
         // Orientation
-        requestBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
+        requestBuilder.set(CaptureRequest.JPEG_ORIENTATION,
+                           getOrientation(rotation));
 
         // Flash
         setupFlashMode(requestBuilder);
@@ -1335,20 +1429,24 @@ public class Camera2Api implements View.OnTouchListener {
             } else {
                 // Tell the camera to lock focus
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CameraMetadata.CONTROL_AF_TRIGGER_START);
+                                             CameraMetadata.CONTROL_AF_TRIGGER_START);
 
                 // Preview capture callback: wait for focus lock state.
                 setCameraState(STATE_WAITING_LOCK);
 
                 // Tell capture callback to wait for the lock.
-                cameraCaptureSession.capture(precaptureRequestBuilder.build(), precaptureCallback,
-                        backgroundTaskHandler);
+                cameraCaptureSession.capture(precaptureRequestBuilder.build(),
+                                             precaptureCallback,
+                                             backgroundTaskHandler);
 
-                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, null);
+                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                                             null);
             }
         } catch (final Throwable t) {
-            dbg("captureStillPictureLocked() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("captureStillPictureLocked() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
@@ -1362,33 +1460,38 @@ public class Camera2Api implements View.OnTouchListener {
             if (camera2Info.isAutoFocusSupported()) {
                 // Cancel auto-focus trigger.
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+                                             CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
 
                 setupFlashMode(precaptureRequestBuilder);
 
                 // Capture once to cancel trigger.
-                cameraCaptureSession.capture(precaptureRequestBuilder.build(), precaptureCallback,
-                        backgroundTaskHandler);
+                cameraCaptureSession.capture(precaptureRequestBuilder.build(),
+                                             precaptureCallback,
+                                             backgroundTaskHandler);
 
                 // Restore AF trigger.
-                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                                             CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
             }
 
             // Precapture callback: go back to the normal state of preview.
             setCameraState(STATE_PREVIEW);
 
             // Resume preview
-            cameraCaptureSession.setRepeatingRequest(precaptureRequest, precaptureCallback, backgroundTaskHandler);
+            cameraCaptureSession.setRepeatingRequest(precaptureRequest,
+                                                     precaptureCallback,
+                                                     backgroundTaskHandler);
         } catch (final Throwable t) {
-            dbg("unlockFocus() error: ", t);
-            onError(t, "Камера недоступна.");
+            dbg("unlockFocus() error: ",
+                t);
+            onError(t,
+                    "Камера недоступна.");
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public boolean onTouch(View v,
-                           MotionEvent event) {
+    public boolean onTouch(View v, MotionEvent event) {
         if (isCapturingPhoto()) {
             return true;
         }
@@ -1404,7 +1507,9 @@ public class Camera2Api implements View.OnTouchListener {
     }
 
     private void lockFocus(MotionEvent event) {
-        dbg("lockFocus(%.2f, %.2f)", event.getX(), event.getY());
+        dbg("lockFocus(%.2f, %.2f)",
+            event.getX(),
+            event.getY());
         try {
             manualFocusEngaged = true;
 
@@ -1414,8 +1519,7 @@ public class Camera2Api implements View.OnTouchListener {
             // the region that actually receives light from the scene) after any geometric correction
             // has been applied, and should be treated as the maximum size in pixels of any of the
             // image output formats aside from the raw formats.
-            final Rect sensorActiveRegion = cameraCharacteristics.get(
-                    CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+            final Rect sensorActiveRegion = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
 
             int viewWidth = previewLayer.getWidth();
             int viewHeight = previewLayer.getHeight();
@@ -1429,46 +1533,69 @@ public class Camera2Api implements View.OnTouchListener {
             // Touch coordinates projection to sensor active region
             int projectionX = ((centerX * overlayWidth) - FOCUS_RECT_SIZE) / viewWidth;
             int projectionY = ((centerY * overlayHeight) - FOCUS_RECT_SIZE) / viewHeight;
-            int focusLeft = clamp(projectionX, 0, overlayWidth);
-            int focusBottom = clamp(projectionY, 0, overlayHeight);
+            int focusLeft = clamp(projectionX,
+                                  0,
+                                  overlayWidth);
+            int focusBottom = clamp(projectionY,
+                                    0,
+                                    overlayHeight);
 
-            Rect focusRect = new Rect(focusLeft, focusBottom, focusLeft + FOCUS_RECT_SIZE,
-                    focusBottom + FOCUS_RECT_SIZE);
-            MeteringRectangle focusArea = new MeteringRectangle(focusRect, 500);
+            Rect focusRect = new Rect(focusLeft,
+                                      focusBottom,
+                                      focusLeft + FOCUS_RECT_SIZE,
+                                      focusBottom + FOCUS_RECT_SIZE);
+            MeteringRectangle focusArea = new MeteringRectangle(focusRect,
+                                                                500);
 
             // Draw focus rectangle
-            drawFocus(this.manualFocusIndicatorRect = new Rect(Math.max(centerX - (FOCUS_RECT_SIZE / 2), 0),
-                    Math.max(centerY + (FOCUS_RECT_SIZE / 2), 0), Math.max(centerX + (FOCUS_RECT_SIZE / 2), 0),
-                    Math.max(centerY - (FOCUS_RECT_SIZE / 2), 0)));
+            drawFocus(this.manualFocusIndicatorRect = new Rect(Math.max(centerX - (FOCUS_RECT_SIZE / 2),
+                                                                        0),
+                                                               Math.max(centerY + (FOCUS_RECT_SIZE / 2),
+                                                                        0),
+                                                               Math.max(centerX + (FOCUS_RECT_SIZE / 2),
+                                                                        0),
+                                                               Math.max(centerY - (FOCUS_RECT_SIZE / 2),
+                                                                        0)));
 
             // First stop the existing repeating request
             cameraCaptureSession.stopRepeating();
 
             // Start AF trigger
-            precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                                         CameraMetadata.CONTROL_AF_TRIGGER_START);
 
             // Capture once to apply your settings
-            cameraCaptureSession.capture(precaptureRequestBuilder.build(), focusCallback, backgroundTaskHandler);
+            cameraCaptureSession.capture(precaptureRequestBuilder.build(),
+                                         focusCallback,
+                                         backgroundTaskHandler);
 
             // Check if AF and AE regions are supported. If they are supported then apply focus/exposure regions
             if (camera2Info.isAeMeteringAreaSupported()) {
                 dbg("lockFocus(): AE regions are supported");
-                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, new MeteringRectangle[]{focusArea});
+                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS,
+                                             new MeteringRectangle[]{focusArea});
             }
             if (camera2Info.isAfMeteringAreaSupported()) {
                 dbg("lockFocus(): AF regions are supported");
-                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, new MeteringRectangle[]{focusArea});
-                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS,
+                                             new MeteringRectangle[]{focusArea});
+                precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                                             CaptureRequest.CONTROL_AF_MODE_AUTO);
             }
 
             // Capture once again to set the focus
-            cameraCaptureSession.capture(precaptureRequestBuilder.build(), focusCallback, backgroundTaskHandler);
+            cameraCaptureSession.capture(precaptureRequestBuilder.build(),
+                                         focusCallback,
+                                         backgroundTaskHandler);
         } catch (Throwable t) {
             clearOverlay();
             manualFocusEngaged = false;
-            Timber.e(t, "");
-            Toast.makeText(context, "Ошибка фокусировки, перезапустите камеру", Toast.LENGTH_LONG)
-                 .show();
+            Timber.e(t,
+                     "");
+            Toast.makeText(context,
+                           "Ошибка фокусировки, перезапустите камеру",
+                           Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -1490,7 +1617,8 @@ public class Camera2Api implements View.OnTouchListener {
             if (overlayHolder != null) {
                 Canvas canvas = overlayHolder.lockCanvas(null);
                 if (canvas != null) {
-                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                    canvas.drawColor(Color.TRANSPARENT,
+                                     PorterDuff.Mode.CLEAR);
                     overlayHolder.unlockCanvasAndPost(canvas);
                 }
             }
@@ -1504,10 +1632,11 @@ public class Camera2Api implements View.OnTouchListener {
      * @param ms - delay, milliseconds
      */
     private void clearOverlayDelayed(int ms) {
-        Observable.timer(ms, TimeUnit.MILLISECONDS)
-                  .subscribeOn(Schedulers.io())
-                  .observeOn(Schedulers.io())
-                  .subscribe(aLong -> clearOverlay());
+        Observable.timer(ms,
+                         TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(aLong -> clearOverlay());
     }
 
     /**
@@ -1516,7 +1645,8 @@ public class Camera2Api implements View.OnTouchListener {
      * @param rect focus rectangle
      */
     private void drawFocus(Rect rect) {
-        drawFocus(rect, FOCUS_LOCKING_COLOR);
+        drawFocus(rect,
+                  FOCUS_LOCKING_COLOR);
     }
 
     /**
@@ -1525,14 +1655,14 @@ public class Camera2Api implements View.OnTouchListener {
      * @param rect  focus rectangle
      * @param color focus rectangle color
      */
-    private void drawFocus(Rect rect,
-                           int color) {
+    private void drawFocus(Rect rect, int color) {
         SurfaceHolder overlayHolder = focusLayer.getHolder();
         if (overlayHolder != null) {
             Canvas canvas = overlayHolder.lockCanvas(null);
             if (canvas != null) {
                 // Clear canvas
-                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                canvas.drawColor(Color.TRANSPARENT,
+                                 PorterDuff.Mode.CLEAR);
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setStyle(Paint.Style.STROKE);
                 if (Build.MANUFACTURER.equalsIgnoreCase("LENOVO")) {
@@ -1542,31 +1672,44 @@ public class Camera2Api implements View.OnTouchListener {
                 }
                 paint.setColor(color);
                 paint.setStrokeJoin(Paint.Join.MITER);
-                canvas.drawPath(createFocusCornerPath(rect, FOCUS_RECT_CORNER_SIZE), paint);
+                canvas.drawPath(createFocusCornerPath(rect,
+                                                      FOCUS_RECT_CORNER_SIZE),
+                                paint);
                 overlayHolder.unlockCanvasAndPost(canvas);
             }
         }
     }
 
-    private Path createFocusCornerPath(Rect rect,
-                                       int cornerWidth) {
+    private Path createFocusCornerPath(Rect rect, int cornerWidth) {
         Path path = new Path();
 
-        path.moveTo(rect.left, rect.top - cornerWidth);
-        path.lineTo(rect.left, rect.top);
-        path.lineTo(rect.left + cornerWidth, rect.top);
+        path.moveTo(rect.left,
+                    rect.top - cornerWidth);
+        path.lineTo(rect.left,
+                    rect.top);
+        path.lineTo(rect.left + cornerWidth,
+                    rect.top);
 
-        path.moveTo(rect.right - cornerWidth, rect.top);
-        path.lineTo(rect.right, rect.top);
-        path.lineTo(rect.right, rect.top - cornerWidth);
+        path.moveTo(rect.right - cornerWidth,
+                    rect.top);
+        path.lineTo(rect.right,
+                    rect.top);
+        path.lineTo(rect.right,
+                    rect.top - cornerWidth);
 
-        path.moveTo(rect.left, rect.bottom + cornerWidth);
-        path.lineTo(rect.left, rect.bottom);
-        path.lineTo(rect.left + cornerWidth, rect.bottom);
+        path.moveTo(rect.left,
+                    rect.bottom + cornerWidth);
+        path.lineTo(rect.left,
+                    rect.bottom);
+        path.lineTo(rect.left + cornerWidth,
+                    rect.bottom);
 
-        path.moveTo(rect.right - cornerWidth, rect.bottom);
-        path.lineTo(rect.right, rect.bottom);
-        path.lineTo(rect.right, rect.bottom + cornerWidth);
+        path.moveTo(rect.right - cornerWidth,
+                    rect.bottom);
+        path.lineTo(rect.right,
+                    rect.bottom);
+        path.lineTo(rect.right,
+                    rect.bottom + cornerWidth);
 
         return path;
     }
@@ -1593,38 +1736,53 @@ public class Camera2Api implements View.OnTouchListener {
      * @param viewWidth  The width of `mTextureView`
      * @param viewHeight The height of `mTextureView`
      */
-    private void configureTransform(int viewWidth,
-                                    int viewHeight) {
+    private void configureTransform(int viewWidth, int viewHeight) {
         Activity activity = (Activity) context;
         if (null == previewLayer || null == previewLayerOptimalSize || null == activity) {
             return;
         }
         int rotation = activity.getWindowManager()
-                               .getDefaultDisplay()
-                               .getRotation();
+                .getDefaultDisplay()
+                .getRotation();
         Matrix matrix = new Matrix();
-        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
-        RectF bufferRect = new RectF(0, 0, previewLayerOptimalSize.getHeight(), previewLayerOptimalSize.getWidth());
+        RectF viewRect = new RectF(0,
+                                   0,
+                                   viewWidth,
+                                   viewHeight);
+        RectF bufferRect = new RectF(0,
+                                     0,
+                                     previewLayerOptimalSize.getHeight(),
+                                     previewLayerOptimalSize.getWidth());
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
         if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
-            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
-            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            bufferRect.offset(centerX - bufferRect.centerX(),
+                              centerY - bufferRect.centerY());
+            matrix.setRectToRect(viewRect,
+                                 bufferRect,
+                                 Matrix.ScaleToFit.FILL);
             float scale = Math.max((float) viewHeight / previewLayerOptimalSize.getHeight(),
-                    (float) viewWidth / previewLayerOptimalSize.getWidth());
-            matrix.postScale(scale, scale, centerX, centerY);
-            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+                                   (float) viewWidth / previewLayerOptimalSize.getWidth());
+            matrix.postScale(scale,
+                             scale,
+                             centerX,
+                             centerY);
+            matrix.postRotate(90 * (rotation - 2),
+                              centerX,
+                              centerY);
         } else if (Surface.ROTATION_180 == rotation) {
-            matrix.postRotate(180, centerX, centerY);
+            matrix.postRotate(180,
+                              centerX,
+                              centerY);
         }
         previewLayer.setTransform(matrix);
     }
 
-    private void onError(Throwable t,
-                         String message) {
+    private void onError(Throwable t, String message) {
         Timber.e(message);
         if (t != null) {
-            Timber.e(t, "");
+            Timber.e(t,
+                     "");
         }
 
         if (camera2ApiListener != null) {
@@ -1641,9 +1799,7 @@ public class Camera2Api implements View.OnTouchListener {
         return Build.MANUFACTURER.equalsIgnoreCase("LENOVO");
     }
 
-    private int clamp(int x,
-                      int min,
-                      int max) {
+    private int clamp(int x, int min, int max) {
         if (x < min) {
             return min;
         } else if (x > max) {
@@ -1653,8 +1809,7 @@ public class Camera2Api implements View.OnTouchListener {
         }
     }
 
-    private boolean contains(int value,
-                             int[] array) {
+    private boolean contains(int value, int[] array) {
         if (array == null) {
             return false;
         }
@@ -1671,8 +1826,7 @@ public class Camera2Api implements View.OnTouchListener {
      */
     private static class ViewSizeComparator implements Comparator<Size> {
         @Override
-        public int compare(Size lhs,
-                           Size rhs) {
+        public int compare(Size lhs, Size rhs) {
             // We cast here to ensure the multiplications won't overflow
             return Long.signum((long) lhs.getWidth() * lhs.getHeight() - (long) rhs.getWidth() * rhs.getHeight());
         }

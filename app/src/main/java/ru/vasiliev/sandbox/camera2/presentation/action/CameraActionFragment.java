@@ -84,12 +84,14 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
     private Camera2Api camera2Api;
     private BarcodeScanner barcodeScanner;
     private RxPermissions rxPermissions;
-    private CompositeDisposable rxSubsriptions = new CompositeDisposable();
+    private CompositeDisposable rxSubscriptions = new CompositeDisposable();
+    private boolean cameraPermissionGranted = false;
 
     public static CameraActionFragment newInstance(CameraAction cameraAction) {
         CameraActionFragment fragment = new CameraActionFragment();
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_KEY_CAMERA_ACTION, cameraAction);
+        args.putParcelable(EXTRA_KEY_CAMERA_ACTION,
+                           cameraAction);
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,13 +103,14 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
 
     public CameraActionFragment setAction(CameraAction cameraAction) {
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_KEY_CAMERA_ACTION, cameraAction);
+        args.putParcelable(EXTRA_KEY_CAMERA_ACTION,
+                           cameraAction);
         setArguments(args);
         return this;
     }
 
     @OnClick({R.id.backButton, R.id.captureButton, R.id.flashButton, R.id.barcodeDiscardButton})
-    public void onClick(View view) {
+    void onClick(View view) {
         switch (view.getId()) {
             case R.id.backButton:
                 back();
@@ -127,47 +130,53 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera_action, container, false);
-        ButterKnife.bind(this, view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_camera_action,
+                                     container,
+                                     false);
+        ButterKnife.bind(this,
+                         view);
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view,
-                              @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view,
+                            savedInstanceState);
         extractArguments(getArguments());
         rxPermissions = new RxPermissions(this);
-        rxSubsriptions.add(rxPermissions.request(Manifest.permission.CAMERA)
-                                        .subscribe(granted -> {
-                                            if (granted) {
-                                                initCamera2Api();
-                                                initView();
-                                            } else {
-                                                showErrorAndCloseCamera("Приложению нужен доступ к камере");
-                                            }
-                                        }));
+        rxSubscriptions.add(rxPermissions.request(Manifest.permission.CAMERA)
+                                    .subscribe(granted -> {
+                                        cameraPermissionGranted = granted;
+                                        if (granted) {
+                                            initCamera2Api();
+                                            initView();
+                                        } else {
+                                            showErrorAndCloseCamera("Приложению нужен доступ к камере");
+                                        }
+                                    }));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        camera2Api.start();
+        if (cameraPermissionGranted) {
+            camera2Api.start();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        camera2Api.stop();
+        if (cameraPermissionGranted) {
+            camera2Api.stop();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        rxSubsriptions.dispose();
+        rxSubscriptions.dispose();
     }
 
     @Override
@@ -218,15 +227,14 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
         // Show barcode layout
         barcodeLayout.setVisibility(View.VISIBLE);
         barcodeText.setText(barcode);
-        // barcodeDiscardButton.setVisibility(View.VISIBLE); // Uncomment if you want user to able discard barcode
+        barcodeDiscardButton.setVisibility(View.VISIBLE); // Uncomment if you want user to able discard barcode
         // after it was found.
     }
 
     @Override
     public void showBarcodeFormatError() {
         barcodeLayout.setVisibility(View.INVISIBLE);
-        barcodeErrorPopUp.setText(
-                "Неизвестный формат штрих-кода документа. Убедитесь в том, что Вы сканируете правильный документ.");
+        barcodeErrorPopUp.setText("Неизвестный формат штрих-кода документа. Убедитесь в том, что Вы сканируете правильный документ.");
         barcodeErrorPopUp.setVisibility(View.VISIBLE);
         camera2Api.discardBarcode();
     }
@@ -234,17 +242,16 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
     @Override
     public void showBarcodeAlreadyScannedError(String documentDescription) {
         barcodeLayout.setVisibility(View.INVISIBLE);
-        barcodeErrorPopUp.setText(
-                String.format(Locale.getDefault(), "Штрих-код документа уже был отсканирован ранее (%s).",
-                        documentDescription));
+        barcodeErrorPopUp.setText(String.format(Locale.getDefault(),
+                                                "Штрих-код документа уже был отсканирован ранее (%s).",
+                                                documentDescription));
         barcodeErrorPopUp.setVisibility(View.VISIBLE);
         camera2Api.discardBarcode();
     }
 
     @Override
     public void showBarcodeNotFoundError() {
-        showError(
-                "Не удалось распознать штрих-код документа. Проверьте документ или сделайте фотографию лучшего качества.");
+        showError("Не удалось распознать штрих-код документа. Проверьте документ или сделайте фотографию лучшего качества.");
     }
 
     private void discardBarcode() {
@@ -256,44 +263,45 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
     @Override
     public void onActionCompleted() {
         cameraActionListener.onActionCompleted(presenter.getCameraAction()
-                                                        .getHashKey());
+                                                       .getHashKey());
     }
 
     @Override
     public void showError(String error) {
         new AlertDialog.Builder(getActivity()).setTitle("Ошибка")
-                                              .setMessage(error)
-                                              .setCancelable(false)
-                                              .setIcon(R.drawable.ic_camera_red_24dp)
-                                              .setPositiveButton("OK",
-                                                      (dialogInterface, i) -> dialogInterface.dismiss())
-                                              .create()
-                                              .show();
+                .setMessage(error)
+                .setCancelable(false)
+                .setIcon(R.drawable.ic_camera_red_24dp)
+                .setPositiveButton("OK",
+                                   (dialogInterface, i) -> dialogInterface.dismiss())
+                .create()
+                .show();
     }
 
     @Override
     public void showErrorAndCloseCamera(String error) {
         new AlertDialog.Builder(getActivity()).setTitle("Ошибка")
-                                              .setMessage(error)
-                                              .setCancelable(false)
-                                              .setIcon(R.drawable.ic_camera_red_24dp)
-                                              .setPositiveButton("OK", (dialogInterface, i) -> {
-                                                  dialogInterface.dismiss();
-                                                  getActivity().setResult(Activity.RESULT_CANCELED);
-                                                  getActivity().finish();
-                                              })
-                                              .create()
-                                              .show();
+                .setMessage(error)
+                .setCancelable(false)
+                .setIcon(R.drawable.ic_camera_red_24dp)
+                .setPositiveButton("OK",
+                                   (dialogInterface, i) -> {
+                                       dialogInterface.dismiss();
+                                       getActivity().setResult(Activity.RESULT_CANCELED);
+                                       getActivity().finish();
+                                   })
+                .create()
+                .show();
     }
 
-    void extractArguments(Bundle args) {
+    private void extractArguments(Bundle args) {
         presenter.setCameraAction(args.getParcelable(EXTRA_KEY_CAMERA_ACTION));
     }
 
     private void initCamera2Api() {
         Camera2Mode camera2Mode;
         switch (presenter.getCameraAction()
-                         .getKind()) {
+                .getKind()) {
             case PHOTO_AND_BARCODE:
                 camera2Mode = Camera2Mode.CAPTURE_AND_SCAN;
                 break;
@@ -308,7 +316,12 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
         }
         //barcodeScanner = new ZBarBarcodeScanner();
         barcodeScanner = new GMSBarcodeScanner(getActivity());
-        camera2Api = new Camera2Api(getActivity(), previewLayer, focusLayer, barcodeScanner, camera2Mode, this);
+        camera2Api = new Camera2Api(getActivity(),
+                                    previewLayer,
+                                    focusLayer,
+                                    barcodeScanner,
+                                    camera2Mode,
+                                    this);
     }
 
     private void initView() {
@@ -318,7 +331,7 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
         showCaptureControls();
 
         if (presenter.getCameraAction()
-                     .getKind() == CameraActionKind.BARCODE) {
+                    .getKind() == CameraActionKind.BARCODE) {
             captureButton.setVisibility(View.INVISIBLE);
             scannerOverlay.setVisibility(View.VISIBLE);
         }
@@ -332,43 +345,50 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
         }
 
         if (presenter.getCameraAction()
-                     .getKind() == CameraActionKind.PHOTO_AND_BARCODE) {
+                    .getKind() == CameraActionKind.PHOTO_AND_BARCODE) {
             if (presenter.getCameraAction()
-                         .isMultiPageDocument()) {
-                descriptionText.setText(String.format(Locale.getDefault(), "%s, стр. %d (фото и штрих-код)",
-                        presenter.getCameraAction()
-                                 .getDescription(), presenter.getCameraAction()
-                                                             .getIndex()));
+                    .isMultiPageDocument()) {
+                descriptionText.setText(String.format(Locale.getDefault(),
+                                                      "%s, стр. %d (фото и штрих-код)",
+                                                      presenter.getCameraAction()
+                                                              .getDescription(),
+                                                      presenter.getCameraAction()
+                                                              .getIndex()));
             } else {
                 descriptionText.setText(presenter.getCameraAction()
-                                                 .getDescription());
+                                                .getDescription());
             }
         } else {
             if (presenter.getCameraAction()
-                         .isMultiPageDocument()) {
-                descriptionText.setText(String.format(Locale.getDefault(), "%s, стр. %d", presenter.getCameraAction()
-                                                                                                   .getDescription(),
-                        presenter.getCameraAction()
-                                 .getIndex()));
+                    .isMultiPageDocument()) {
+                descriptionText.setText(String.format(Locale.getDefault(),
+                                                      "%s, стр. %d",
+                                                      presenter.getCameraAction()
+                                                              .getDescription(),
+                                                      presenter.getCameraAction()
+                                                              .getIndex()));
             } else {
                 descriptionText.setText(presenter.getCameraAction()
-                                                 .getDescription());
+                                                .getDescription());
             }
         }
     }
 
-    protected void capturePhoto() {
+    private void capturePhoto() {
         barcodeDiscardButton.setVisibility(View.GONE);
         presenter.handleResult(camera2Api.capture(presenter.getCameraAction()
-                                                           .getCaptureQuality(),
-                BuildConfig.CAMERA2_AUTO_LOCK_FOCUS_BEFORE_CAPTURE));
+                                                          .getCaptureQuality(),
+                                                  BuildConfig.CAMERA2_AUTO_LOCK_FOCUS_BEFORE_CAPTURE));
     }
 
-    protected void back() {
+    private void back() {
         cameraActionListener.onNavigateBack();
     }
 
-    protected void toggleFlash() {
+    private void toggleFlash() {
+        if (!cameraPermissionGranted) {
+            return;
+        }
         int flashStatus = presenter.getFlashStatus();
         if (flashStatus == FLASH_AUTO || flashStatus == FLASH_TURN_OFF) {
             flashStatus = FLASH_TURN_ON;

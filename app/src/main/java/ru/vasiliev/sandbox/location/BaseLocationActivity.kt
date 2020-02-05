@@ -116,13 +116,13 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
         when (statusCode) {
             LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
                 val rae = e as ResolvableApiException
-                rae.startResolutionForResult(this@BaseLocationActivity,
-                                             REQUEST_CODE_LOCATION_SETTINGS)
+                rae.startResolutionForResult(this@BaseLocationActivity, REQUEST_CODE_LOCATION_SETTINGS)
             } catch (sie: IntentSender.SendIntentException) {
                 onLocationSettingsUnresolvableError(sie)
             }
 
-            LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> onLocationSettingsUnresolvableError(RuntimeException("SETTINGS_CHANGE_UNAVAILABLE"))
+            LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> onLocationSettingsUnresolvableError(
+                    RuntimeException("SETTINGS_CHANGE_UNAVAILABLE"))
         }
     }
 
@@ -132,9 +132,7 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this,
-                                               resultCode,
-                                               PLAY_SERVICES_RESOLUTION_REQUEST)
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
             } else {
                 return false
             }
@@ -144,9 +142,7 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
     }
 
     @SuppressLint("MissingPermission")
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             REQUEST_CODE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
@@ -175,12 +171,11 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
 
     override fun onConnected(bundle: Bundle?) {
         if (ActivityCompat.checkSelfPermission(this,
-                                               Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                                                                                                                                                                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                                                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
@@ -188,9 +183,8 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,
-                                                  arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
-                                                          Manifest.permission.ACCESS_FINE_LOCATION),
-                                                  REQUEST_CODE_LOCATION)
+                        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+                        REQUEST_CODE_LOCATION)
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
