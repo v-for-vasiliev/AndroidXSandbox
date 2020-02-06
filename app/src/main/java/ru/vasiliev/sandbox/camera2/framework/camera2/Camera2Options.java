@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import static java.util.Objects.requireNonNull;
 import static ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Debug.dbg;
 
-class Camera2Info {
+class Camera2Options {
 
     private CameraCharacteristics characteristics;
 
-    Camera2Info(@NonNull CameraCharacteristics characteristics) {
+    Camera2Options(@NonNull CameraCharacteristics characteristics) {
         this.characteristics = characteristics;
     }
 
@@ -57,21 +57,6 @@ class Camera2Info {
     }
 
     /**
-     * Indicates that device support auto-focus feature.
-     *
-     * @return true if support, false otherwise.
-     */
-    boolean isAutoFocusSupported() {
-        if (characteristics == null) {
-            return false;
-        }
-        int[] supportedAfModes = characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
-        boolean afModeSupported = contains(CameraMetadata.CONTROL_AF_MODE_AUTO, supportedAfModes) ||
-                                  contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes);
-        return afModeSupported && !isLensFixedFocus();
-    }
-
-    /**
      * Indicates that device has fixed focus and the camera lens can't move, so we can't set AF mode to streaming
      * preview requests, only for capture.
      *
@@ -98,12 +83,48 @@ class Camera2Info {
         return (lensMinimumFocusDistance != null) ? lensMinimumFocusDistance : 0.0f;
     }
 
+    /**
+     * Indicates that device support auto-focus feature.
+     *
+     * @return true if support, false otherwise.
+     */
+    boolean isAutoFocusSupported() {
+        if (characteristics == null) {
+            return false;
+        }
+        int[] supportedAfModes = characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+        return contains(CameraMetadata.CONTROL_AF_MODE_AUTO, supportedAfModes) ||
+               contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes);
+    }
+
+    int getAutoFocusMode() {
+        int[] supportedAfModes = characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+        if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes)) {
+            return CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE;
+        } else if (contains(CameraMetadata.CONTROL_AF_MODE_AUTO, supportedAfModes)) {
+            return CameraMetadata.CONTROL_AF_MODE_AUTO;
+        } else {
+            throw new IllegalStateException("AUTO_FOCUS_NOT_SUPPORTED");
+        }
+    }
+
     boolean isAutoExposureSupported() {
         if (characteristics == null) {
             return false;
         }
         int[] aeModes = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
         return contains(CaptureRequest.CONTROL_AE_MODE_ON, aeModes);
+    }
+
+    int getAutoExposureMode(boolean flashRequired) {
+        // If flash required and there is an auto-magical flash control mode available, use it, otherwise default to
+        // the "on" mode, which is guaranteed to always be available.
+        if (flashRequired && contains(CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH,
+                                      characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES))) {
+            return CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH;
+        } else {
+            return CaptureRequest.CONTROL_AE_MODE_ON;
+        }
     }
 
     boolean isAWBSupported() {

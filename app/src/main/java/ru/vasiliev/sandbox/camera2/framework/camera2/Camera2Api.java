@@ -249,7 +249,7 @@ public class Camera2Api implements View.OnTouchListener {
      * Camera characteristics
      */
     private CameraCharacteristics cameraCharacteristics;
-    private Camera2Info camera2Info;
+    private Camera2Options camera2Options;
     /**
      * Manual focus indicator recatangle
      */
@@ -350,7 +350,7 @@ public class Camera2Api implements View.OnTouchListener {
     /**
      * Manual focus request callback
      */
-    private CameraCaptureSession.CaptureCallback focusCallback = getFocusResultCallback();
+    private CameraCaptureSession.CaptureCallback manualFocusCallback = getManualFocusResultCallback();
 
     /**
      * Constructor
@@ -564,8 +564,8 @@ public class Camera2Api implements View.OnTouchListener {
 
             @Override
             public void onOpened(@NonNull CameraDevice cameraDevice) {
-                camera2Info.printCameraCharacteristics();
-                if (camera2Info.isDeviceCameraSupported(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)) {
+                camera2Options.printCameraCharacteristics();
+                if (camera2Options.isDeviceCameraSupported(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)) {
                     // This method is called when the camera is opened.  We start camera preview here.
                     cameraOpenCloseLock.release();
                     Camera2Api.this.cameraDevice = cameraDevice;
@@ -750,7 +750,7 @@ public class Camera2Api implements View.OnTouchListener {
         };
     }
 
-    private CameraCaptureSession.CaptureCallback getFocusResultCallback() {
+    private CameraCaptureSession.CaptureCallback getManualFocusResultCallback() {
         return new CameraCaptureSession.CaptureCallback() {
             @Override
             public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request,
@@ -949,7 +949,7 @@ public class Camera2Api implements View.OnTouchListener {
         try {
             for (String cameraId : manager.getCameraIdList()) {
                 cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
-                camera2Info = new Camera2Info(cameraCharacteristics);
+                camera2Options = new Camera2Options(cameraCharacteristics);
 
                 // We don't use a front facing camera.
                 Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
@@ -1170,7 +1170,7 @@ public class Camera2Api implements View.OnTouchListener {
         String afMode = null, aeMode = null, awbMode = null;
         requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
 
-        if (camera2Info.isAutoFocusSupported()) {
+        if (camera2Options.isAutoFocusSupported()) {
             int[] afModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
             if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, afModes)) {
                 requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
@@ -1181,12 +1181,12 @@ public class Camera2Api implements View.OnTouchListener {
             }
         }
 
-        if (camera2Info.isAutoExposureSupported()) {
+        if (camera2Options.isAutoExposureSupported()) {
             requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
             aeMode = "CONTROL_AE_MODE_ON";
         }
 
-        if (camera2Info.isAWBSupported()) {
+        if (camera2Options.isAWBSupported()) {
             requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO);
             awbMode = "CONTROL_AWB_MODE_AUTO";
         }
@@ -1282,7 +1282,7 @@ public class Camera2Api implements View.OnTouchListener {
         requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
 
         // Focus. When manual focus is locked then the lens are already in position, just take a shot
-        if (camera2Info.isAutoFocusSupported() && !manualFocusLocked) {
+        if (camera2Options.isAutoFocusSupported() && !manualFocusLocked) {
             int[] afModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
             if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, afModes)) {
                 requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
@@ -1315,14 +1315,14 @@ public class Camera2Api implements View.OnTouchListener {
     private void captureStillPictureLocked() {
         dbg("captureStillPictureLocked()");
         try {
-            // Lens is fixed-focus and we need to skip the AF run.
-            if (!camera2Info.isAutoFocusSupported()) {
+            // No auto-focus supported.
+            if (!camera2Options.isAutoFocusSupported()) {
                 // Preview capture callback: wait for focus lock state.
                 setCameraState(STATE_WAITING_LOCK);
 
                 captureStillPicture();
             } else {
-                // Tell the camera to lock focus
+                // Tell the camera to lock focus.
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                                              CameraMetadata.CONTROL_AF_TRIGGER_START);
 
@@ -1349,7 +1349,7 @@ public class Camera2Api implements View.OnTouchListener {
     private void unlockFocus() {
         dbg("unlockFocus()");
         try {
-            if (camera2Info.isAutoFocusSupported()) {
+            if (camera2Options.isAutoFocusSupported()) {
                 // Cancel auto-focus trigger.
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                                              CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
@@ -1440,21 +1440,21 @@ public class Camera2Api implements View.OnTouchListener {
             precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
 
             // Capture once to apply your settings
-            cameraCaptureSession.capture(precaptureRequestBuilder.build(), focusCallback, backgroundTaskHandler);
+            cameraCaptureSession.capture(precaptureRequestBuilder.build(), manualFocusCallback, backgroundTaskHandler);
 
             // Check if AF and AE regions are supported. If they are supported then apply focus/exposure regions
-            if (camera2Info.isAeMeteringAreaSupported()) {
+            if (camera2Options.isAeMeteringAreaSupported()) {
                 dbg("lockFocus(): AE regions are supported");
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, new MeteringRectangle[]{focusArea});
             }
-            if (camera2Info.isAfMeteringAreaSupported()) {
+            if (camera2Options.isAfMeteringAreaSupported()) {
                 dbg("lockFocus(): AF regions are supported");
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, new MeteringRectangle[]{focusArea});
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
             }
 
             // Capture once again to set the focus
-            cameraCaptureSession.capture(precaptureRequestBuilder.build(), focusCallback, backgroundTaskHandler);
+            cameraCaptureSession.capture(precaptureRequestBuilder.build(), manualFocusCallback, backgroundTaskHandler);
         } catch (Throwable t) {
             clearOverlay();
             manualFocusEngaged = false;
