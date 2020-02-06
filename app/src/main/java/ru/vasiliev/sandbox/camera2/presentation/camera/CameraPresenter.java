@@ -29,7 +29,7 @@ public class CameraPresenter extends BaseMoxyPresenter<CameraView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         CameraResultProvider.getInstance()
-                            .clear();
+                .clear();
         getViewState().setupActionFragment(getNextAction());
     }
 
@@ -37,7 +37,7 @@ public class CameraPresenter extends BaseMoxyPresenter<CameraView> {
     public void onDestroy() {
         super.onDestroy();
         Glide.get(App.Companion.getInstance())
-             .clearMemory();
+                .clearMemory();
     }
 
     void setActions(List<CameraAction> actions) {
@@ -117,9 +117,9 @@ public class CameraPresenter extends BaseMoxyPresenter<CameraView> {
         if (completedActions.size() > 0) {
             for (int index = 0; index < completedActions.size(); index++) {
                 if (completedActions.get(index)
-                                    .getAction()
-                                    .getHashKey()
-                                    .equals(completedActionHashKey)) {
+                        .getAction()
+                        .getHashKey()
+                        .equals(completedActionHashKey)) {
                     return index;
                 }
             }

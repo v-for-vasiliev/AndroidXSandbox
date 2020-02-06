@@ -90,8 +90,7 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
     public static CameraActionFragment newInstance(CameraAction cameraAction) {
         CameraActionFragment fragment = new CameraActionFragment();
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_KEY_CAMERA_ACTION,
-                           cameraAction);
+        args.putParcelable(EXTRA_KEY_CAMERA_ACTION, cameraAction);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,8 +102,7 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
 
     public CameraActionFragment setAction(CameraAction cameraAction) {
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_KEY_CAMERA_ACTION,
-                           cameraAction);
+        args.putParcelable(EXTRA_KEY_CAMERA_ACTION, cameraAction);
         setArguments(args);
         return this;
     }
@@ -131,18 +129,14 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera_action,
-                                     container,
-                                     false);
-        ButterKnife.bind(this,
-                         view);
+        View view = inflater.inflate(R.layout.fragment_camera_action, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view,
-                            savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
         extractArguments(getArguments());
         rxPermissions = new RxPermissions(this);
         rxSubscriptions.add(rxPermissions.request(Manifest.permission.CAMERA)
@@ -234,7 +228,8 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
     @Override
     public void showBarcodeFormatError() {
         barcodeLayout.setVisibility(View.INVISIBLE);
-        barcodeErrorPopUp.setText("Неизвестный формат штрих-кода документа. Убедитесь в том, что Вы сканируете правильный документ.");
+        barcodeErrorPopUp.setText(
+                "Неизвестный формат штрих-кода документа. Убедитесь в том, что Вы сканируете правильный документ.");
         barcodeErrorPopUp.setVisibility(View.VISIBLE);
         camera2Api.discardBarcode();
     }
@@ -251,7 +246,8 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
 
     @Override
     public void showBarcodeNotFoundError() {
-        showError("Не удалось распознать штрих-код документа. Проверьте документ или сделайте фотографию лучшего качества.");
+        showError(
+                "Не удалось распознать штрих-код документа. Проверьте документ или сделайте фотографию лучшего качества.");
     }
 
     private void discardBarcode() {
@@ -272,8 +268,7 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
                 .setMessage(error)
                 .setCancelable(false)
                 .setIcon(R.drawable.ic_camera_red_24dp)
-                .setPositiveButton("OK",
-                                   (dialogInterface, i) -> dialogInterface.dismiss())
+                .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create()
                 .show();
     }
@@ -284,12 +279,11 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
                 .setMessage(error)
                 .setCancelable(false)
                 .setIcon(R.drawable.ic_camera_red_24dp)
-                .setPositiveButton("OK",
-                                   (dialogInterface, i) -> {
-                                       dialogInterface.dismiss();
-                                       getActivity().setResult(Activity.RESULT_CANCELED);
-                                       getActivity().finish();
-                                   })
+                .setPositiveButton("OK", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    getActivity().setResult(Activity.RESULT_CANCELED);
+                    getActivity().finish();
+                })
                 .create()
                 .show();
     }
@@ -316,12 +310,7 @@ public class CameraActionFragment extends MvpAppCompatFragment implements Camera
         }
         //barcodeScanner = new ZBarBarcodeScanner();
         barcodeScanner = new GMSBarcodeScanner(getActivity());
-        camera2Api = new Camera2Api(getActivity(),
-                                    previewLayer,
-                                    focusLayer,
-                                    barcodeScanner,
-                                    camera2Mode,
-                                    this);
+        camera2Api = new Camera2Api(getActivity(), previewLayer, focusLayer, barcodeScanner, camera2Mode, this);
     }
 
     private void initView() {

@@ -27,18 +27,12 @@ public class CameraResultProvider {
     }
 
     private String createHashKey(CameraActionKind kind, long captureId, long scanId, long index) {
-        return String.format(Locale.getDefault(),
-                             "%s:%d:%d:%d",
-                             kind.getCode(),
-                             captureId,
-                             scanId,
-                             index);
+        return String.format(Locale.getDefault(), "%s:%d:%d:%d", kind.getCode(), captureId, scanId, index);
     }
 
     public void put(CameraResult cameraResult) {
         storage.put(cameraResult.getAction()
-                                .getHashKey(),
-                    cameraResult);
+                            .getHashKey(), cameraResult);
         publisher.onNext(cameraResult);
     }
 
@@ -55,10 +49,7 @@ public class CameraResultProvider {
     }
 
     public boolean contains(CameraActionKind kind, long captureId, long scanId, long index) {
-        return contains(createHashKey(kind,
-                                      captureId,
-                                      scanId,
-                                      index));
+        return contains(createHashKey(kind, captureId, scanId, index));
     }
 
     public CameraResult get(String actionHashKey) {
@@ -66,10 +57,7 @@ public class CameraResultProvider {
     }
 
     public CameraResult get(CameraActionKind kind, long captureId, long scanId, long index) {
-        return get(createHashKey(kind,
-                                 captureId,
-                                 scanId,
-                                 index));
+        return get(createHashKey(kind, captureId, scanId, index));
     }
 
     public List<CameraResult> getAll() {
@@ -86,7 +74,7 @@ public class CameraResultProvider {
         for (Map.Entry<String, CameraResult> entry : storage.entrySet()) {
             CameraResult result = entry.getValue();
             if (result.getAction()
-                      .getKind() == kind) {
+                        .getKind() == kind) {
                 resultList.add(result);
             }
         }
@@ -98,7 +86,7 @@ public class CameraResultProvider {
         for (Map.Entry<String, CameraResult> entry : storage.entrySet()) {
             CameraResult result = entry.getValue();
             if (result.hasBarcode() && result.getBarcode()
-                                             .equals(barcode)) {
+                    .equals(barcode)) {
                 return result;
             }
         }
@@ -110,12 +98,12 @@ public class CameraResultProvider {
             return;
         }
         Iterator<Map.Entry<String, CameraResult>> iter = storage.entrySet()
-                                                                .iterator();
+                .iterator();
         while (iter.hasNext()) {
             Map.Entry<String, CameraResult> entry = iter.next();
             if (actionHashKey.equals(entry.getValue()
-                                          .getAction()
-                                          .getHashKey())) {
+                                             .getAction()
+                                             .getHashKey())) {
                 iter.remove();
             }
         }

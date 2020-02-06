@@ -58,10 +58,10 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
         super.onCreate(savedInstanceState)
 
         mGoogleApiClient = GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build()
+            .addApi(LocationServices.API)
+            .addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this)
+            .build()
 
         /*
         int providerType = getIntent().getIntExtra(KEY_PROVIDER_TYPE, PROVIDER_TYPE_LEGACY);
@@ -171,8 +171,9 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
 
     override fun onConnected(bundle: Bundle?) {
         if (ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                               Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -183,8 +184,9 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
-                        REQUEST_CODE_LOCATION)
+                                                  arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                          Manifest.permission.ACCESS_FINE_LOCATION),
+                                                  REQUEST_CODE_LOCATION)
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the

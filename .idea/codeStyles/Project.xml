@@ -14,7 +14,7 @@
       <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
       <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
       <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
-      <option name="CALL_PARAMETERS_WRAP" value="2" />
+      <option name="CALL_PARAMETERS_WRAP" value="5" />
       <option name="METHOD_PARAMETERS_WRAP" value="1" />
       <option name="EXTENDS_LIST_WRAP" value="1" />
       <option name="THROWS_LIST_WRAP" value="1" />
@@ -139,7 +139,8 @@
       <option name="RIGHT_MARGIN" value="120" />
       <option name="KEEP_LINE_BREAKS" value="false" />
       <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
-      <option name="CALL_PARAMETERS_WRAP" value="2" />
+      <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+      <option name="CALL_PARAMETERS_WRAP" value="5" />
       <option name="METHOD_PARAMETERS_WRAP" value="1" />
       <option name="EXTENDS_LIST_WRAP" value="1" />
       <option name="METHOD_CALL_CHAIN_WRAP" value="2" />

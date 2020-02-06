@@ -34,8 +34,7 @@ public class ImageUtils {
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
-            String base64Image = Base64.encodeToString(bytes,
-                                                       Base64.NO_WRAP);
+            String base64Image = Base64.encodeToString(bytes, Base64.NO_WRAP);
             image.close();
             return base64Image;
         }
@@ -47,10 +46,7 @@ public class ImageUtils {
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
-            return BitmapFactory.decodeByteArray(bytes,
-                                                 0,
-                                                 bytes.length,
-                                                 null);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
         }
         return null;
     }
@@ -63,33 +59,20 @@ public class ImageUtils {
         int buffer0_size = buffer0.remaining();
         int buffer2_size = buffer2.remaining();
         data = new byte[buffer0_size + buffer2_size];
-        buffer0.get(data,
-                    0,
-                    buffer0_size);
-        buffer2.get(data,
-                    buffer0_size,
-                    buffer2_size);
+        buffer0.get(data, 0, buffer0_size);
+        buffer2.get(data, buffer0_size, buffer2_size);
         return data;
     }
 
     public static Bitmap base64ToBitmap(String base64photo) {
-        byte[] imageAsBytes = Base64.decode(base64photo.getBytes(),
-                                            Base64.NO_WRAP);
-        return BitmapFactory.decodeByteArray(imageAsBytes,
-                                             0,
-                                             imageAsBytes.length);
+        byte[] imageAsBytes = Base64.decode(base64photo.getBytes(), Base64.NO_WRAP);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }
 
     public static Bitmap rotateBitmap(Bitmap source, int angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
-        return Bitmap.createBitmap(source,
-                                   0,
-                                   0,
-                                   source.getWidth(),
-                                   source.getHeight(),
-                                   matrix,
-                                   true);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     public static Bitmap textToBitmap(String text, float textSize) {
@@ -102,24 +85,18 @@ public class ImageUtils {
         int width = (int) (textPaint.measureText(text) + 0.5f);
         int height = (int) (baseline + textPaint.descent() + 0.5f);
 
-        Bitmap bitmap = Bitmap.createBitmap(width,
-                                            height,
-                                            Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawText(text,
-                        0,
-                        baseline,
-                        textPaint);
+        canvas.drawText(text, 0, baseline, textPaint);
 
         return bitmap;
     }
 
     public static Bitmap createQRCodeBitmap(String barcode, int widthPx, int heightPx) {
         return QRCode.from(barcode)
-                     .withSize(widthPx,
-                               heightPx)
-                     .bitmap();
+                .withSize(widthPx, heightPx)
+                .bitmap();
     }
 
     public static Bitmap createBarcodeBitmap(String data, int width) throws WriterException {
@@ -128,55 +105,37 @@ public class ImageUtils {
         String finalData = Uri.encode(data);
 
         // Use 1 as the height of the matrix as this is a 1D Barcode.
-        BitMatrix bm = writer.encode(finalData,
-                                     BarcodeFormat.CODE_128,
-                                     width,
-                                     1);
+        BitMatrix bm = writer.encode(finalData, BarcodeFormat.CODE_128, width, 1);
         int bmWidth = bm.getWidth();
 
-        Bitmap imageBitmap = Bitmap.createBitmap(bmWidth,
-                                                 height,
-                                                 Bitmap.Config.ARGB_8888);
+        Bitmap imageBitmap = Bitmap.createBitmap(bmWidth, height, Bitmap.Config.ARGB_8888);
         for (int i = 0; i < bmWidth; i++) {
             // Paint columns of width 1
             int[] column = new int[height];
-            Arrays.fill(column,
-                        bm.get(i,
-                               0) ? Color.BLACK : Color.WHITE);
-            imageBitmap.setPixels(column,
-                                  0,
-                                  1,
-                                  i,
-                                  0,
-                                  1,
-                                  height);
+            Arrays.fill(column, bm.get(i, 0) ? Color.BLACK : Color.WHITE);
+            imageBitmap.setPixels(column, 0, 1, i, 0, 1, height);
         }
 
         return imageBitmap;
     }
 
     public static void dumpToFile(Context context, String base64photo) {
-        dumpToFile(context,
-                   base64photo,
-                   null);
+        dumpToFile(context, base64photo, null);
     }
 
     public static void dumpToFile(Context context, String base64photo, String fileName) {
         File dumpFile;
         if (fileName == null) {
-            dumpFile = new File(context.getFilesDir() + String.format(Locale.getDefault(),
-                                                                      "/camera/photo_%d.jpg",
-                                                                      System.currentTimeMillis()));
+            dumpFile = new File(context.getFilesDir() +
+                                String.format(Locale.getDefault(), "/camera/photo_%d.jpg", System.currentTimeMillis()));
         } else {
             dumpFile = new File(context.getFilesDir() + "/camera/" + fileName);
         }
-        byte[] rawImageBytes = Base64.decode(base64photo,
-                                             Base64.NO_WRAP);
+        byte[] rawImageBytes = Base64.decode(base64photo, Base64.NO_WRAP);
         try (FileOutputStream out = new FileOutputStream(dumpFile)) {
             out.write(rawImageBytes);
         } catch (IOException e) {
-            Timber.e("",
-                     e);
+            Timber.e("", e);
         }
     }
 }

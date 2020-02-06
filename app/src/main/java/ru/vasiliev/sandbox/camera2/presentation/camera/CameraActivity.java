@@ -42,36 +42,27 @@ public class CameraActivity extends MvpAppCompatActivity implements CameraView, 
         if (actions == null || actions.size() == 0) {
             return;
         }
-        Intent startIntent = new Intent(activity,
-                                        CameraActivity.class);
-        startIntent.putParcelableArrayListExtra(EXTRA_KEY_ACTIONS,
-                                                actions);
-        activity.startActivityForResult(startIntent,
-                                        requestKind.getRequestCode());
+        Intent startIntent = new Intent(activity, CameraActivity.class);
+        startIntent.putParcelableArrayListExtra(EXTRA_KEY_ACTIONS, actions);
+        activity.startActivityForResult(startIntent, requestKind.getRequestCode());
     }
 
     public static void start(Fragment fragment, ArrayList<CameraAction> actions, RequestKind requestKind) {
         if (actions == null || actions.size() == 0) {
             return;
         }
-        Intent startIntent = new Intent(fragment.getActivity(),
-                                        CameraActivity.class);
-        startIntent.putParcelableArrayListExtra(EXTRA_KEY_ACTIONS,
-                                                actions);
-        fragment.startActivityForResult(startIntent,
-                                        requestKind.getRequestCode());
+        Intent startIntent = new Intent(fragment.getActivity(), CameraActivity.class);
+        startIntent.putParcelableArrayListExtra(EXTRA_KEY_ACTIONS, actions);
+        fragment.startActivityForResult(startIntent, requestKind.getRequestCode());
     }
 
     public static void start(android.app.Fragment fragment, ArrayList<CameraAction> actions, RequestKind requestKind) {
         if (actions == null || actions.size() == 0) {
             return;
         }
-        Intent startIntent = new Intent(fragment.getActivity(),
-                                        CameraActivity.class);
-        startIntent.putParcelableArrayListExtra(EXTRA_KEY_ACTIONS,
-                                                actions);
-        fragment.startActivityForResult(startIntent,
-                                        requestKind.getRequestCode());
+        Intent startIntent = new Intent(fragment.getActivity(), CameraActivity.class);
+        startIntent.putParcelableArrayListExtra(EXTRA_KEY_ACTIONS, actions);
+        fragment.startActivityForResult(startIntent, requestKind.getRequestCode());
     }
 
     @ProvidePresenter
@@ -83,12 +74,11 @@ public class CameraActivity extends MvpAppCompatActivity implements CameraView, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         CameraComponent component = App.Companion.getAppComponent()
-                                                 .getCameraComponent();
+                .getCameraComponent();
         component.inject(this);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_camera);
         extractArguments(getIntent().getExtras());
         setResult(Activity.RESULT_CANCELED);
@@ -101,8 +91,7 @@ public class CameraActivity extends MvpAppCompatActivity implements CameraView, 
     @Override
     public void setupActionFragment(CameraAction cameraAction) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container,
-                            cameraActionFragment.setAction(cameraAction));
+        transaction.replace(R.id.container, cameraActionFragment.setAction(cameraAction));
         transaction.commitAllowingStateLoss();
         presenter.setShowingPreview(false);
     }
@@ -112,9 +101,7 @@ public class CameraActivity extends MvpAppCompatActivity implements CameraView, 
                                      int visiblePreviewIndex) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container,
-                            previewFragment.setResult(cameraResults,
-                                                      hasNextAction,
-                                                      visiblePreviewIndex));
+                            previewFragment.setResult(cameraResults, hasNextAction, visiblePreviewIndex));
         transaction.commitAllowingStateLoss();
         presenter.setShowingPreview(true);
     }
@@ -122,15 +109,14 @@ public class CameraActivity extends MvpAppCompatActivity implements CameraView, 
     @Override
     public void onCaptureError(String error) {
         new AlertDialog.Builder(this).setTitle("Камера")
-                                     .setMessage(error)
-                                     .setIcon(R.drawable.ic_camera_black_24dp)
-                                     .setPositiveButton("OK",
-                                                        (dialogInterface, i) -> {
-                                                            dialogInterface.dismiss();
-                                                            presenter.recapturePhoto();
-                                                        })
-                                     .create()
-                                     .show();
+                .setMessage(error)
+                .setIcon(R.drawable.ic_camera_black_24dp)
+                .setPositiveButton("OK", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    presenter.recapturePhoto();
+                })
+                .create()
+                .show();
     }
 
     @Override
@@ -174,7 +160,8 @@ public class CameraActivity extends MvpAppCompatActivity implements CameraView, 
 
     public enum RequestKind {
 
-        REQUEST_KIND_MIXED(REQUEST_CODE_MIXED_DOCUMENTS), REQUEST_KIND_PHOTO(REQUEST_CODE_PHOTO), REQUEST_KIND_BARCODE(REQUEST_CODE_BARCODE);
+        REQUEST_KIND_MIXED(REQUEST_CODE_MIXED_DOCUMENTS), REQUEST_KIND_PHOTO(REQUEST_CODE_PHOTO), REQUEST_KIND_BARCODE(
+                REQUEST_CODE_BARCODE);
 
         private int requestCode;
 

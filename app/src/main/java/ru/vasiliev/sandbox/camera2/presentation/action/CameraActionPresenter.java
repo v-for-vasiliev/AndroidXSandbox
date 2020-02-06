@@ -39,8 +39,9 @@ public class CameraActionPresenter extends BaseMoxyPresenter<CameraActionView> {
     CameraActionPresenter(int flashStatus) {
         postCaptureBarcodeDetectionEnabled = BuildConfig.CAMERA2_POST_CAPTURE_BARCODE_DETECTION_ENABLED;
         if (postCaptureBarcodeDetectionEnabled) {
-            postCaptureBarcodeDetector = new BarcodeDetector.Builder(App.Companion.getInstance()).setBarcodeFormats(Barcode.CODE_128)
-                                                                                                 .build();
+            postCaptureBarcodeDetector = new BarcodeDetector.Builder(App.Companion.getInstance()).setBarcodeFormats(
+                    Barcode.CODE_128)
+                    .build();
         }
         this.flashStatus = flashStatus;
     }
@@ -52,47 +53,52 @@ public class CameraActionPresenter extends BaseMoxyPresenter<CameraActionView> {
                 detectBarcodeAndUpdateResult(camera2Result);
             }
         })
-                                        .subscribe(camera2Result -> {
-                                                       CameraActionKind kind = cameraAction.getKind();
-                                                       if (kind == CameraActionKind.PHOTO_AND_BARCODE) {
-                                                           if (!camera2Result.hasBarcode() || isNotValidBarcode(camera2Result.getBarcode())) {
-                                                               getViewState().showBarcodeNotFoundError();
-                                                               getViewState().showCaptureControls();
-                                                           } else if (cameraResultProvider.searchBarcode(camera2Result.getBarcode()) != null) {
-                                                               CameraResult alreadyScannedResult = cameraResultProvider.searchBarcode(camera2Result.getBarcode());
-                                                               if (alreadyScannedResult.getAction()
-                                                                                       .isMultiPageDocument()) {
-                                                                   getViewState().showBarcodeAlreadyScannedError(String.format(Locale.getDefault(),
-                                                                                                                               "%s, стр. %d",
-                                                                                                                               alreadyScannedResult.getAction()
-                                                                                                                                                   .getDescription(),
-                                                                                                                               alreadyScannedResult.getAction()
-                                                                                                                                                   .getIndex()));
-                                                               } else {
-                                                                   getViewState().showBarcodeAlreadyScannedError(alreadyScannedResult.getAction()
-                                                                                                                                     .getDescription());
-                                                               }
-                                                           } else {
-                                                               getViewState().hideControlPanel();
-                                                               cameraResultProvider.put(new CameraResult.Builder(cameraAction).setCamera2Result(camera2Result)
-                                                                                                                              .build());
-                                                               getViewState().onActionCompleted();
-                                                           }
-                                                       } else { // PHOTO
-                                                           getViewState().hideControlPanel();
-                                                           cameraResultProvider.put(new CameraResult.Builder(cameraAction).setCamera2Result(camera2Result)
-                                                                                                                          .build());
-                                                           getViewState().onActionCompleted();
-                                                       }
-                                                   },
-                                                   throwable -> {
-                                                       if (throwable instanceof CameraNotReadyToCaptureException || throwable instanceof CameraInvalidModeException) {
-                                                           Timber.w(throwable.getMessage());
-                                                           getViewState().showCaptureControls();
-                                                       } else {
-                                                           getViewState().showErrorAndCloseCamera("При работе с камерой произошла ошибка.");
-                                                       }
-                                                   }));
+                                .subscribe(camera2Result -> {
+                                    CameraActionKind kind = cameraAction.getKind();
+                                    if (kind == CameraActionKind.PHOTO_AND_BARCODE) {
+                                        if (!camera2Result.hasBarcode() ||
+                                            isNotValidBarcode(camera2Result.getBarcode())) {
+                                            getViewState().showBarcodeNotFoundError();
+                                            getViewState().showCaptureControls();
+                                        } else if (cameraResultProvider.searchBarcode(camera2Result.getBarcode()) !=
+                                                   null) {
+                                            CameraResult alreadyScannedResult = cameraResultProvider.searchBarcode(
+                                                    camera2Result.getBarcode());
+                                            if (alreadyScannedResult.getAction()
+                                                    .isMultiPageDocument()) {
+                                                getViewState().showBarcodeAlreadyScannedError(String.format(Locale.getDefault(),
+                                                                                                            "%s, стр. %d",
+                                                                                                            alreadyScannedResult.getAction()
+                                                                                                                    .getDescription(),
+                                                                                                            alreadyScannedResult.getAction()
+                                                                                                                    .getIndex()));
+                                            } else {
+                                                getViewState().showBarcodeAlreadyScannedError(alreadyScannedResult.getAction()
+                                                                                                      .getDescription());
+                                            }
+                                        } else {
+                                            getViewState().hideControlPanel();
+                                            cameraResultProvider.put(new CameraResult.Builder(cameraAction).setCamera2Result(
+                                                    camera2Result)
+                                                                             .build());
+                                            getViewState().onActionCompleted();
+                                        }
+                                    } else { // PHOTO
+                                        getViewState().hideControlPanel();
+                                        cameraResultProvider.put(new CameraResult.Builder(cameraAction).setCamera2Result(
+                                                camera2Result)
+                                                                         .build());
+                                        getViewState().onActionCompleted();
+                                    }
+                                }, throwable -> {
+                                    if (throwable instanceof CameraNotReadyToCaptureException ||
+                                        throwable instanceof CameraInvalidModeException) {
+                                        Timber.w(throwable.getMessage());
+                                        getViewState().showCaptureControls();
+                                    } else {
+                                        getViewState().showErrorAndCloseCamera("При работе с камерой произошла ошибка.");
+                                    }
+                                }));
     }
 
     void handleResult(String barcode) {
@@ -101,20 +107,20 @@ public class CameraActionPresenter extends BaseMoxyPresenter<CameraActionView> {
         } else if (cameraResultProvider.searchBarcode(barcode) != null) {
             CameraResult alreadyScannedResult = cameraResultProvider.searchBarcode(barcode);
             if (alreadyScannedResult.getAction()
-                                    .isMultiPageDocument()) {
+                    .isMultiPageDocument()) {
                 getViewState().showBarcodeAlreadyScannedError(String.format(Locale.getDefault(),
                                                                             "%s, стр. %d",
                                                                             alreadyScannedResult.getAction()
-                                                                                                .getDescription(),
+                                                                                    .getDescription(),
                                                                             alreadyScannedResult.getAction()
-                                                                                                .getIndex()));
+                                                                                    .getIndex()));
             } else {
                 getViewState().showBarcodeAlreadyScannedError(alreadyScannedResult.getAction()
-                                                                                  .getDescription());
+                                                                      .getDescription());
             }
         } else if (cameraAction.getKind() == CameraActionKind.BARCODE) {
             cameraResultProvider.put(new CameraResult.Builder(cameraAction).setBarcode(barcode)
-                                                                           .build());
+                                             .build());
             getViewState().onActionCompleted();
         } else {
             getViewState().showBarcode(barcode);
@@ -135,11 +141,12 @@ public class CameraActionPresenter extends BaseMoxyPresenter<CameraActionView> {
         if (kind == CameraActionKind.PHOTO_AND_BARCODE/* && !camera2Result.hasBarcode()*/) {
             Bitmap bitmap = ImageUtils.base64ToBitmap(camera2Result.getImageBase64());
             SparseArray<Barcode> barcodes = postCaptureBarcodeDetector.detect(new Frame.Builder().setBitmap(bitmap)
-                                                                                                 .build());
+                                                                                      .build());
             for (int i = 0; i < barcodes.size(); i++) {
                 int key = barcodes.keyAt(i);
                 Barcode barcode = barcodes.get(key);
-                if (barcode != null && barcode.rawValue != null && !barcode.rawValue.equals(camera2Result.getBarcode())) {
+                if (barcode != null && barcode.rawValue != null &&
+                    !barcode.rawValue.equals(camera2Result.getBarcode())) {
                     camera2Result.updateBarcode(barcode.rawValue);
                     break;
                 }

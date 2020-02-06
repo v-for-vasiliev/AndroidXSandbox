@@ -111,12 +111,7 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
     }
 
     public String getHashKey() {
-        return String.format(Locale.getDefault(),
-                             "%s:%d:%d:%d",
-                             kind.getCode(),
-                             captureId,
-                             scanId,
-                             index);
+        return String.format(Locale.getDefault(), "%s:%d:%d:%d", kind.getCode(), captureId, scanId, index);
     }
 
     @NonNull
@@ -127,8 +122,7 @@ public class CameraAction implements Parcelable, Comparable<CameraAction> {
 
     @Override
     public int compareTo(CameraAction anotherAction) {
-        return Integer.compare(order,
-                               anotherAction.getOrder());
+        return Integer.compare(order, anotherAction.getOrder());
     }
 
     public static class Builder {

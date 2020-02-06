@@ -63,11 +63,11 @@ class LocationActivity : BaseLocationActivity() {
         mLastLocationButton!!.setOnClickListener {
             if (isLocationRequestingRunning) {
                 mOutputLastLocation!!.text = "Requesting location..."
-                mSubscriptions.add(
-                        lastLocation.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                { location ->
-                                    mOutputLastLocation!!.text = (location.latitude.toString() + " : " + location.longitude + "; " + "Accuracy: " + location.accuracy)
-                                }, { throwable ->
+                mSubscriptions.add(lastLocation.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        { location ->
+                            mOutputLastLocation!!.text = (location.latitude.toString() + " : " + location.longitude + "; " + "Accuracy: " + location.accuracy)
+                        },
+                        { throwable ->
                             mOutputLastLocation!!.text = "getLastLocation(): error: " + throwable.message
                         }))
             } else {
@@ -78,13 +78,13 @@ class LocationActivity : BaseLocationActivity() {
         mLocationButton!!.setOnClickListener {
             if (isLocationRequestingRunning) {
                 mOutputLocation!!.text = "Requesting location..."
-                mSubscriptions.add(
-                        location.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                { location ->
-                                    val locationString = location.latitude.toString() + " : " + location.longitude + "; " + "Accuracy: " + location.accuracy
-                                    Timber.d("getLocation(): $locationString")
-                                    mOutputLocation!!.text = locationString
-                                }, { throwable ->
+                mSubscriptions.add(location.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        { location ->
+                            val locationString = location.latitude.toString() + " : " + location.longitude + "; " + "Accuracy: " + location.accuracy
+                            Timber.d("getLocation(): $locationString")
+                            mOutputLocation!!.text = locationString
+                        },
+                        { throwable ->
                             mOutputLocation!!.text = "getLocation(): error: " + throwable.message
                         }))
             } else {
@@ -95,15 +95,14 @@ class LocationActivity : BaseLocationActivity() {
         mLocationsHistoryButton!!.setOnClickListener {
             if (isLocationRequestingRunning) {
                 mOutputLocationHistory!!.text = "Requesting location..."
-                mSubscriptions.add(
-                        locationHistory.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).take(
-                                1).subscribe({ location ->
-                            val locationString = location.latitude.toString() + " : " + location.longitude + "; " + "Accuracy: " + location.accuracy
-                            Timber.d("getLocationHistory(): $locationString")
-                            mOutputLocationHistory!!.text = locationString
-                        }, { throwable ->
-                            mOutputLocationHistory!!.text = "getLocationHistory(): error: " + throwable.message
-                        }))
+                mSubscriptions.add(locationHistory.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).take(
+                        1).subscribe({ location ->
+                                         val locationString = location.latitude.toString() + " : " + location.longitude + "; " + "Accuracy: " + location.accuracy
+                                         Timber.d("getLocationHistory(): $locationString")
+                                         mOutputLocationHistory!!.text = locationString
+                                     }, { throwable ->
+                                         mOutputLocationHistory!!.text = "getLocationHistory(): error: " + throwable.message
+                                     }))
             } else {
                 mOutputLocationHistory!!.text = "Location monitor is not running"
             }

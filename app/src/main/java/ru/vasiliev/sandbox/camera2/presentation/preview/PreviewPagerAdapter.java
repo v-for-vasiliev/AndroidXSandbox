@@ -40,29 +40,27 @@ public class PreviewPagerAdapter extends PagerAdapter {
         PreviewModel pm = previewModels.get(position);
         CameraResult result = pm.getCameraResult();
         if (result.getAction()
-                  .getKind() == CameraActionKind.BARCODE) {
+                    .getKind() == CameraActionKind.BARCODE) {
             View previewContainer = LayoutInflater.from(context)
-                                                  .inflate(R.layout.layout_camera_scan_preview_page,
-                                                           null);
+                    .inflate(R.layout.layout_camera_scan_preview_page, null);
             TextView barcode = previewContainer.findViewById(R.id.barcode_value);
             barcode.setText(result.getBarcode());
             ImageView preview = previewContainer.findViewById(R.id.barcode_preview);
             Glide.with(context)
-                 .load(pm.getPreviewBitmap())
-                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-                                            .signature(new ObjectKey(pm.getPreviewBitmapCacheId())))
-                 .into(preview);
+                    .load(pm.getPreviewBitmap())
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+                                   .signature(new ObjectKey(pm.getPreviewBitmapCacheId())))
+                    .into(preview);
             container.addView(previewContainer);
             return previewContainer;
         } else {
             PhotoView preview = (PhotoView) LayoutInflater.from(context)
-                                                          .inflate(R.layout.layout_camera_capture_preview_page,
-                                                                   null);
+                    .inflate(R.layout.layout_camera_capture_preview_page, null);
             Glide.with(context)
-                 .load(pm.getPreviewBitmap())
-                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-                                            .signature(new ObjectKey(pm.getPreviewBitmapCacheId())))
-                 .into(preview);
+                    .load(pm.getPreviewBitmap())
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+                                   .signature(new ObjectKey(pm.getPreviewBitmapCacheId())))
+                    .into(preview);
             container.addView(preview);
             return preview;
         }

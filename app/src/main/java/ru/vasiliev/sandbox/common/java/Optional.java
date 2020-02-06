@@ -159,8 +159,7 @@ public final class Optional<T> {
         }
 
         Optional<?> other = (Optional<?>) obj;
-        return Objects.equals(value,
-                              other.value);
+        return Objects.equals(value, other.value);
     }
 
     /**
@@ -186,7 +185,6 @@ public final class Optional<T> {
      */
     @Override
     public String toString() {
-        return value != null ? String.format("Optional[%s]",
-                                             value) : "Optional.empty";
+        return value != null ? String.format("Optional[%s]", value) : "Optional.empty";
     }
 }

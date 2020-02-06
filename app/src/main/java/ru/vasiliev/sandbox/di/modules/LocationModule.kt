@@ -26,10 +26,10 @@ class LocationModule {
     @Provides
     fun provideRxFusedLocationProvider(app: App): RxLocationProvider {
         return RxFusedLocationProvider.Builder(app)
-                .updateIntervalMilliseconds(BuildConfig.LOCATION_UPDATE_INTERVAL_MS)
-                .fastestIntervalMilliseconds(BuildConfig.LOCATION_FASTEST_UPDATE_INTERVAL_MS)
-                .priority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .build()
+            .updateIntervalMilliseconds(BuildConfig.LOCATION_UPDATE_INTERVAL_MS)
+            .fastestIntervalMilliseconds(BuildConfig.LOCATION_FASTEST_UPDATE_INTERVAL_MS)
+            .priority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+            .build()
     }
 
     @Named("legacy")
@@ -37,17 +37,17 @@ class LocationModule {
     @Provides
     fun provideRxLegacyLocationProvider(app: App): RxLocationProvider {
         return RxLegacyLocationProvider.Builder(app)
-                .provider(LocationManager.NETWORK_PROVIDER)
-                .updateIntervalMilliseconds(BuildConfig.LOCATION_UPDATE_INTERVAL_MS)
-                .fastestIntervalMilliseconds(BuildConfig.LOCATION_FASTEST_UPDATE_INTERVAL_MS)
-                .priority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .build()
+            .provider(LocationManager.NETWORK_PROVIDER)
+            .updateIntervalMilliseconds(BuildConfig.LOCATION_UPDATE_INTERVAL_MS)
+            .fastestIntervalMilliseconds(BuildConfig.LOCATION_FASTEST_UPDATE_INTERVAL_MS)
+            .priority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+            .build()
     }
 
     @AppScope
     @Provides
-    fun provideLocationServices(app: App, @Named(
-            BuildConfig.LOCATION_PROVIDER_TYPE) locationProvider: RxLocationProvider): LocationServices {
+    fun provideLocationServices(
+            app: App, @Named(BuildConfig.LOCATION_PROVIDER_TYPE) locationProvider: RxLocationProvider): LocationServices {
         return LocationServices(app, locationProvider)
     }
 }

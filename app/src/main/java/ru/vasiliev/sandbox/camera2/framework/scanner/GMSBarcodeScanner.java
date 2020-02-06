@@ -19,7 +19,7 @@ public class GMSBarcodeScanner implements BarcodeScanner {
 
     public GMSBarcodeScanner(Context context) {
         barcodeDetector = new BarcodeDetector.Builder(context).setBarcodeFormats(Barcode.CODE_128)
-                                                              .build();
+                .build();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GMSBarcodeScanner implements BarcodeScanner {
                                                        image.getWidth(),
                                                        image.getHeight(),
                                                        ImageFormat.NV21)
-                                         .build();
+                .build();
         SparseArray<Barcode> barcodes = barcodeDetector.detect(frame);
         for (int i = 0; i < barcodes.size(); i++) {
             int key = barcodes.keyAt(i);

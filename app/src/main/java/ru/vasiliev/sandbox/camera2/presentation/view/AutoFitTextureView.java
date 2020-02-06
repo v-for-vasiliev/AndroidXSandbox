@@ -11,20 +11,15 @@ public class AutoFitTextureView extends TextureView {
     private int ratioHeight = 0;
 
     public AutoFitTextureView(Context context) {
-        this(context,
-             null);
+        this(context, null);
     }
 
     public AutoFitTextureView(Context context, AttributeSet attrs) {
-        this(context,
-             attrs,
-             0);
+        this(context, attrs, 0);
     }
 
     public AutoFitTextureView(Context context, AttributeSet attrs, int defStyle) {
-        super(context,
-              attrs,
-              defStyle);
+        super(context, attrs, defStyle);
     }
 
     public void setAspectRatio(int width, int height) {
@@ -38,20 +33,16 @@ public class AutoFitTextureView extends TextureView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec,
-                        heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         if (0 == ratioWidth || 0 == ratioHeight) {
-            setMeasuredDimension(width,
-                                 height);
+            setMeasuredDimension(width, height);
         } else {
             if (width < height * ratioWidth / ratioHeight) {
-                setMeasuredDimension(width,
-                                     width * ratioHeight / ratioWidth);
+                setMeasuredDimension(width, width * ratioHeight / ratioWidth);
             } else {
-                setMeasuredDimension(height * ratioWidth / ratioHeight,
-                                     height);
+                setMeasuredDimension(height * ratioWidth / ratioHeight, height);
             }
         }
     }

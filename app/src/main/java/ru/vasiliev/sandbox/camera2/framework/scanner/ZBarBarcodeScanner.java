@@ -25,13 +25,9 @@ public class ZBarBarcodeScanner implements BarcodeScanner {
     public String scan(android.media.Image image) {
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] data = new byte[buffer.capacity()];
-        buffer.get(data,
-                   0,
-                   data.length);
+        buffer.get(data, 0, data.length);
 
-        Image barcodeImage = new Image(image.getWidth(),
-                                       image.getHeight(),
-                                       "Y800");
+        Image barcodeImage = new Image(image.getWidth(), image.getHeight(), "Y800");
         barcodeImage.setData(data);
 
         int result = scanner.scanImage(barcodeImage);
@@ -42,8 +38,7 @@ public class ZBarBarcodeScanner implements BarcodeScanner {
                 // use getDataBytes() rather than getData() which uses C strings.
                 // Weirdly ZBar transforms all data to UTF-8, even the data returned
                 // by getDataBytes() so we have to decode it as UTF-8.
-                String barcode = new String(symbol.getDataBytes(),
-                                            StandardCharsets.UTF_8);
+                String barcode = new String(symbol.getDataBytes(), StandardCharsets.UTF_8);
                 if (!TextUtils.isEmpty(barcode)) {
                     return barcode;
                 }
@@ -55,20 +50,12 @@ public class ZBarBarcodeScanner implements BarcodeScanner {
 
     private void setupScanner() {
         scanner = new ImageScanner();
-        scanner.setConfig(0,
-                          Config.X_DENSITY,
-                          3);
-        scanner.setConfig(0,
-                          Config.Y_DENSITY,
-                          3);
+        scanner.setConfig(0, Config.X_DENSITY, 3);
+        scanner.setConfig(0, Config.Y_DENSITY, 3);
 
-        scanner.setConfig(Symbol.NONE,
-                          Config.ENABLE,
-                          0);
+        scanner.setConfig(Symbol.NONE, Config.ENABLE, 0);
         for (BarcodeFormat format : BarcodeFormat.ALL_FORMATS) {
-            scanner.setConfig(format.getId(),
-                              Config.ENABLE,
-                              1);
+            scanner.setConfig(format.getId(), Config.ENABLE, 1);
         }
     }
 }

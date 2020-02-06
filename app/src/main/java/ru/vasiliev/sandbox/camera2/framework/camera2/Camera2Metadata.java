@@ -54,9 +54,7 @@ public class Camera2Metadata implements Serializable {
         }
 
         public Camera2Metadata build() {
-            return new Camera2Metadata(quality,
-                                       timestamp,
-                                       focusMode);
+            return new Camera2Metadata(quality, timestamp, focusMode);
         }
     }
 }

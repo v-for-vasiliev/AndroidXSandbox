@@ -58,10 +58,12 @@ class RxLegacyLocationProvider private constructor(private val mContext: Context
         get() = (mSettingsClient != null && mLocationSettingsRequest != null && mLegacyLocationManager != null && mLocationRequest != null && mLegacyLocationListener != null)
 
     init {
-        Timber.d(
-                "constructor() {provider=%s, updateInterval=%d, " + "fastestUpdateInterval=%d, priority=%d, hasCallback=%b}",
-                mProvider, mUpdateIntervalInMilliseconds, mFastestUpdateIntervalInMilliseconds, mPriority,
-                mRxLocationCallback != null)
+        Timber.d("constructor() {provider=%s, updateInterval=%d, " + "fastestUpdateInterval=%d, priority=%d, hasCallback=%b}",
+                 mProvider,
+                 mUpdateIntervalInMilliseconds,
+                 mFastestUpdateIntervalInMilliseconds,
+                 mPriority,
+                 mRxLocationCallback != null)
     }
 
     override fun setCallback(callback: RxLocationCallback) {
@@ -106,8 +108,7 @@ class RxLegacyLocationProvider private constructor(private val mContext: Context
         return Observable.create { subscriber ->
             val location = mLegacyLocationManager!!.getLastKnownLocation(mProvider)
             if (location != null) {
-                Timber.d(
-                        "getLastKnownLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+                Timber.d("getLastKnownLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
                 subscriber.onNext(location)
                 subscriber.onComplete()
             } else {
@@ -131,9 +132,10 @@ class RxLegacyLocationProvider private constructor(private val mContext: Context
     override fun startTracking() {
         if (!mTracking) {
             mTracking = true
-            mTrackingSubscriptions.add(Observable.interval(0, RxLocationProvider.TRACKING_INTERVAL_SECONDS.toLong(),
-                    TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                    { sendDsaLocation() }, { e ->
+            mTrackingSubscriptions.add(Observable.interval(0,
+                                                           RxLocationProvider.TRACKING_INTERVAL_SECONDS.toLong(),
+                                                           TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe({ sendDsaLocation() }, { e ->
                 mTracking = false
                 Timber.e("", e)
             }, { Timber.d("Tracking stopped") }))
@@ -206,22 +208,23 @@ class RxLegacyLocationProvider private constructor(private val mContext: Context
             Timber.d("requestLocationUpdates()")
             mRequestingUpdates = true
             mSettingsClient!!.checkLocationSettings(mLocationSettingsRequest)
-                    .addOnSuccessListener {
-                        mLegacyLocationManager!!.requestLocationUpdates(mProvider, mFastestUpdateIntervalInMilliseconds,
-                                0.0f, mLegacyLocationListener)
+                .addOnSuccessListener {
+                    mLegacyLocationManager!!.requestLocationUpdates(mProvider,
+                                                                    mFastestUpdateIntervalInMilliseconds,
+                                                                    0.0f,
+                                                                    mLegacyLocationListener)
+                }
+                .addOnFailureListener { e ->
+                    mRequestingUpdates = false
+                    if (mRxLocationCallback != null) {
+                        mRxLocationCallback!!.onLocationSettingsError(e)
                     }
-                    .addOnFailureListener { e ->
-                        mRequestingUpdates = false
-                        if (mRxLocationCallback != null) {
-                            mRxLocationCallback!!.onLocationSettingsError(e)
-                        }
-                    }
+                }
         }
     }
 
     private fun pushNewLocation(location: Location) {
-        Timber.d(
-                "onLocationChanged() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+        Timber.d("onLocationChanged() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
         mResultPublisher.onNext(location)
         mResultHistoryPublisher.onNext(location)
         if (mRxLocationCallback != null) {
@@ -234,8 +237,7 @@ class RxLegacyLocationProvider private constructor(private val mContext: Context
         val location = mLegacyLocationManager!!.getLastKnownLocation(mProvider)
         if (location != null) {
             // Send location to server (mTrackingSubscriptions)
-            Timber.d(
-                    "sendDsaLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
+            Timber.d("sendDsaLocation() {" + location.latitude + ": " + location.longitude + "; Accuracy: " + location.accuracy + "}")
         } else {
             Timber.d("sendDsaLocation() skipped, no location")
         }
@@ -287,8 +289,12 @@ class RxLegacyLocationProvider private constructor(private val mContext: Context
         }
 
         fun build(): RxLegacyLocationProvider {
-            return RxLegacyLocationProvider(context, provider, updateInterval, fastestUpdateInterval, priority,
-                    rxLocationCallback)
+            return RxLegacyLocationProvider(context,
+                                            provider,
+                                            updateInterval,
+                                            fastestUpdateInterval,
+                                            priority,
+                                            rxLocationCallback)
         }
     }
 }

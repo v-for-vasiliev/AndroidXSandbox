@@ -19,7 +19,8 @@ class Camera2Info {
 
     boolean isLegacyHardware() {
         try {
-            return requireNonNull(characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL)) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+            return requireNonNull(characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL)) ==
+                   CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
         } catch (final Throwable ignore) {
             return false;
         }
@@ -39,8 +40,7 @@ class Camera2Info {
                 hardwareLevelSupported = requiredHardwareLevel <= deviceLevel;
             }
         } catch (final Throwable t) {
-            dbg("isDeviceCameraSupported() error:",
-                t);
+            dbg("isDeviceCameraSupported() error:", t);
         }
         return hardwareLevelSupported;
     }
@@ -51,8 +51,7 @@ class Camera2Info {
         }
         int[] cameraCapabilities = characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES);
         if (cameraCapabilities != null) {
-            return contains(CameraMetadata.REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE,
-                            cameraCapabilities);
+            return contains(CameraMetadata.REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE, cameraCapabilities);
         }
         return false;
     }
@@ -67,9 +66,8 @@ class Camera2Info {
             return false;
         }
         int[] supportedAfModes = characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
-        boolean afModeSupported = contains(CameraMetadata.CONTROL_AF_MODE_AUTO,
-                                           supportedAfModes) || contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE,
-                                                                         supportedAfModes);
+        boolean afModeSupported = contains(CameraMetadata.CONTROL_AF_MODE_AUTO, supportedAfModes) ||
+                                  contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes);
         return afModeSupported && !isLensFixedFocus();
     }
 
@@ -95,8 +93,7 @@ class Camera2Info {
         try {
             lensMinimumFocusDistance = characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
         } catch (final Throwable t) {
-            dbg("getMinimumFocusDistance() error:",
-                t);
+            dbg("getMinimumFocusDistance() error:", t);
         }
         return (lensMinimumFocusDistance != null) ? lensMinimumFocusDistance : 0.0f;
     }
@@ -106,8 +103,7 @@ class Camera2Info {
             return false;
         }
         int[] aeModes = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
-        return contains(CaptureRequest.CONTROL_AE_MODE_ON,
-                        aeModes);
+        return contains(CaptureRequest.CONTROL_AE_MODE_ON, aeModes);
     }
 
     boolean isAWBSupported() {
@@ -115,8 +111,7 @@ class Camera2Info {
             return false;
         }
         int[] awbModes = characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
-        return contains(CaptureRequest.CONTROL_AWB_MODE_AUTO,
-                        awbModes);
+        return contains(CaptureRequest.CONTROL_AWB_MODE_AUTO, awbModes);
     }
 
     boolean isAfMeteringAreaSupported() {
@@ -174,8 +169,7 @@ class Camera2Info {
             }
         }
 
-        dbg("Minimum focus distance: %.2f",
-            getMinimumFocusDistance());
+        dbg("Minimum focus distance: %.2f", getMinimumFocusDistance());
     }
 
     private boolean contains(int value, int[] array) {

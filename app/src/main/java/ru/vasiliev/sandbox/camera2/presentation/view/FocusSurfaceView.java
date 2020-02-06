@@ -20,8 +20,7 @@ public class FocusSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     public FocusSurfaceView(Context context, AttributeSet attrs) {
-        super(context,
-              attrs);
+        super(context, attrs);
         mSurfaceHolder = getHolder();
         setFocusable(true);
         setZOrderOnTop(true);
