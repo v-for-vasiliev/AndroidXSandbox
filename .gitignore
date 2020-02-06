@@ -45,6 +45,7 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .idea/caches
+.idea/inspectionProfiles
 
 # OS X files
 .DS_Store
