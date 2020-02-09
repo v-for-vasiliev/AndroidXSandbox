@@ -19,11 +19,12 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    @OnClick(R.id.location, R.id.camera)
+    @OnClick(R.id.location, R.id.camera, R.id.view)
     fun onClick(view: View) {
         when (view.id) {
             R.id.location -> openLocation()
             R.id.camera -> openCamera()
+            R.id.view -> openViewActivity()
             else -> {
             }
         }
@@ -56,5 +57,9 @@ class MainActivity : AppCompatActivity() {
                 3).setDescription("Анкета (штрих-код)").build())
 
         CameraActivity.start(this, actions, CameraActivity.RequestKind.REQUEST_KIND_MIXED)
+    }
+
+    private fun openViewActivity() {
+        ViewActivity.start(this@MainActivity)
     }
 }

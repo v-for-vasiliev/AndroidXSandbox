@@ -7,13 +7,37 @@ import android.hardware.camera2.CaptureRequest;
 import androidx.annotation.NonNull;
 
 import static java.util.Objects.requireNonNull;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Debug.dbg;
+import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraDbg.dbg;
 
-class Camera2Options {
+class CameraConfig {
+
+    /**
+     * Max preview width that is guaranteed by Camera2 API
+     */
+    private static final int MAX_PREVIEW_WIDTH = 1920;
+
+    /**
+     * Max preview height that is guaranteed by Camera2 API
+     */
+    private static final int MAX_PREVIEW_HEIGHT = 1080;
+
+    static AspectRatio DEFAULT_ASPECT_RATIO = AspectRatio.of(4, 3);
+
+    int FACING_BACK = 0;
+    int FACING_FRONT = 1;
+
+    int FLASH_OFF = 0;
+    int FLASH_ON = 1;
+    int FLASH_TORCH = 2;
+    int FLASH_AUTO = 3;
+    int FLASH_RED_EYE = 4;
+
+    int LANDSCAPE_90 = 90;
+    int LANDSCAPE_270 = 270;
 
     private CameraCharacteristics characteristics;
 
-    Camera2Options(@NonNull CameraCharacteristics characteristics) {
+    CameraConfig(@NonNull CameraCharacteristics characteristics) {
         this.characteristics = characteristics;
     }
 
@@ -201,7 +225,53 @@ class Camera2Options {
             if (v == value) {
                 return true;
             }
+            //java.
         }
         return false;
     }
+
+    /*
+
+    /**
+     * <p>Collects some information from {@link #mCameraCharacteristics}.</p>
+     * <p>This rewrites {@link #mPreviewSizes}, {@link #mPictureSizes}, and optionally,
+     * {@link #mAspectRatio}.</p>
+     */
+    /*
+    private void collectCameraInfo() {
+        StreamConfigurationMap map = mCameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (map == null) {
+            throw new IllegalStateException("Failed to get configuration map: " + mCameraId);
+        }
+        mPreviewSizes.clear();
+        for (android.util.Size size : map.getOutputSizes(mPreview.getOutputClass())) {
+            int width = size.getWidth();
+            int height = size.getHeight();
+            if (width <= MAX_PREVIEW_WIDTH && height <= MAX_PREVIEW_HEIGHT) {
+                mPreviewSizes.add(new Size(width, height));
+            }
+        }
+        mPictureSizes.clear();
+        collectPictureSizes(mPictureSizes, map);
+        for (AspectRatio ratio : mPreviewSizes.ratios()) {
+            if (!mPictureSizes.ratios()
+                    .contains(ratio)) {
+                mPreviewSizes.remove(ratio);
+            }
+        }
+
+        if (!mPreviewSizes.ratios()
+                .contains(mAspectRatio)) {
+            mAspectRatio = mPreviewSizes.ratios()
+                    .iterator()
+                    .next();
+        }
+    }
+
+    protected void collectPictureSizes(SizeMap sizes, StreamConfigurationMap map) {
+        for (android.util.Size size : map.getOutputSizes(ImageFormat.JPEG)) {
+            mPictureSizes.add(new Size(size.getWidth(), size.getHeight()));
+        }
+    }
+    */
 }

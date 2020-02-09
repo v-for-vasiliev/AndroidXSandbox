@@ -73,7 +73,7 @@ import timber.log.Timber;
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_CONVERGED;
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_FLASH_REQUIRED;
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_PRECAPTURE;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Debug.dbg;
+import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraDbg.dbg;
 import static timber.log.Timber.e;
 
 // Helpful topics:
@@ -249,7 +249,7 @@ public class Camera2Api implements View.OnTouchListener {
      * Camera characteristics
      */
     private CameraCharacteristics cameraCharacteristics;
-    private Camera2Options camera2Options;
+    private CameraConfig cameraConfig;
     /**
      * Manual focus indicator recatangle
      */
@@ -564,8 +564,8 @@ public class Camera2Api implements View.OnTouchListener {
 
             @Override
             public void onOpened(@NonNull CameraDevice cameraDevice) {
-                camera2Options.printCameraCharacteristics();
-                if (camera2Options.isDeviceCameraSupported(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)) {
+                cameraConfig.printCameraCharacteristics();
+                if (cameraConfig.isDeviceCameraSupported(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)) {
                     // This method is called when the camera is opened.  We start camera preview here.
                     cameraOpenCloseLock.release();
                     Camera2Api.this.cameraDevice = cameraDevice;
@@ -949,7 +949,7 @@ public class Camera2Api implements View.OnTouchListener {
         try {
             for (String cameraId : manager.getCameraIdList()) {
                 cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
-                camera2Options = new Camera2Options(cameraCharacteristics);
+                cameraConfig = new CameraConfig(cameraCharacteristics);
 
                 // We don't use a front facing camera.
                 Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
@@ -1170,7 +1170,7 @@ public class Camera2Api implements View.OnTouchListener {
         String afMode = null, aeMode = null, awbMode = null;
         requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
 
-        if (camera2Options.isAutoFocusSupported()) {
+        if (cameraConfig.isAutoFocusSupported()) {
             int[] afModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
             if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, afModes)) {
                 requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
@@ -1181,12 +1181,12 @@ public class Camera2Api implements View.OnTouchListener {
             }
         }
 
-        if (camera2Options.isAutoExposureSupported()) {
+        if (cameraConfig.isAutoExposureSupported()) {
             requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
             aeMode = "CONTROL_AE_MODE_ON";
         }
 
-        if (camera2Options.isAWBSupported()) {
+        if (cameraConfig.isAWBSupported()) {
             requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO);
             awbMode = "CONTROL_AWB_MODE_AUTO";
         }
@@ -1282,7 +1282,7 @@ public class Camera2Api implements View.OnTouchListener {
         requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
 
         // Focus. When manual focus is locked then the lens are already in position, just take a shot
-        if (camera2Options.isAutoFocusSupported() && !manualFocusLocked) {
+        if (cameraConfig.isAutoFocusSupported() && !manualFocusLocked) {
             int[] afModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
             if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, afModes)) {
                 requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
@@ -1316,7 +1316,7 @@ public class Camera2Api implements View.OnTouchListener {
         dbg("captureStillPictureLocked()");
         try {
             // No auto-focus supported.
-            if (!camera2Options.isAutoFocusSupported()) {
+            if (!cameraConfig.isAutoFocusSupported()) {
                 // Preview capture callback: wait for focus lock state.
                 setCameraState(STATE_WAITING_LOCK);
 
@@ -1349,7 +1349,7 @@ public class Camera2Api implements View.OnTouchListener {
     private void unlockFocus() {
         dbg("unlockFocus()");
         try {
-            if (camera2Options.isAutoFocusSupported()) {
+            if (cameraConfig.isAutoFocusSupported()) {
                 // Cancel auto-focus trigger.
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                                              CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
@@ -1443,11 +1443,11 @@ public class Camera2Api implements View.OnTouchListener {
             cameraCaptureSession.capture(precaptureRequestBuilder.build(), manualFocusCallback, backgroundTaskHandler);
 
             // Check if AF and AE regions are supported. If they are supported then apply focus/exposure regions
-            if (camera2Options.isAeMeteringAreaSupported()) {
+            if (cameraConfig.isAeMeteringAreaSupported()) {
                 dbg("lockFocus(): AE regions are supported");
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, new MeteringRectangle[]{focusArea});
             }
-            if (camera2Options.isAfMeteringAreaSupported()) {
+            if (cameraConfig.isAfMeteringAreaSupported()) {
                 dbg("lockFocus(): AF regions are supported");
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, new MeteringRectangle[]{focusArea});
                 precaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);

@@ -7,17 +7,17 @@ import android.view.Surface;
 
 import java.util.List;
 
-public class CaptureRequestManager {
+public class RequestManager {
 
     private CameraDevice cameraDevice;
 
-    private Camera2Options camera2Options;
+    private CameraConfig cameraConfig;
 
     private CaptureRequest previewRequest;
 
-    CaptureRequestManager(CameraDevice cameraDevice, Camera2Options camera2Options) {
+    RequestManager(CameraDevice cameraDevice, CameraConfig cameraConfig) {
         this.cameraDevice = cameraDevice;
-        this.camera2Options = camera2Options;
+        this.cameraConfig = cameraConfig;
     }
 
     CaptureRequest getPreviewRequest(List<Surface> outputSurfaces) throws CameraAccessException {
@@ -35,15 +35,15 @@ public class CaptureRequestManager {
         // Enable auto-magical 3A run by camera device
         requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
 
-        if (camera2Options.isAutoFocusSupported()) {
-            requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, camera2Options.getAutoFocusMode());
+        if (cameraConfig.isAutoFocusSupported()) {
+            requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraConfig.getAutoFocusMode());
         }
 
-        if (camera2Options.isAutoExposureSupported()) {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, camera2Options.getAutoExposureMode(false));
+        if (cameraConfig.isAutoExposureSupported()) {
+            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraConfig.getAutoExposureMode(false));
         }
 
-        if (camera2Options.isAWBSupported()) {
+        if (cameraConfig.isAWBSupported()) {
             requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO);
         }
     }
