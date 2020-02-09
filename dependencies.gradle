@@ -20,6 +20,7 @@ versions.playservices_location = "17.0.0"
 versions.playservices_vision = "19.0.0"
 
 // Support
+versions.appcomap = "1.1.0";
 versions.support = "1.0.0"
 versions.core_ktx = "1.0.1"
 versions.fragment = "1.1.0-alpha09"
@@ -97,6 +98,7 @@ play_services.vision = "com.google.android.gms:play-services-vision:${versions.p
 deps.play_services = play_services
 
 def support = [:]
+support.appcompat = "androidx.appcompat:appcompat:${versions.appcompat}"
 support.design = "com.google.android.material:material:${versions.support}"
 support.recyclerview = "androidx.recyclerview:recyclerview:${versions.support}"
 support.cardview = "androidx.cardview:cardview:${versions.support}"

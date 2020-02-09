@@ -93,6 +93,7 @@ dependencies {
     implementation deps.play_services.vision
 
     // Support
+    implementation deps.support.appcompat
     implementation deps.support.design
     implementation deps.support.recyclerview
     implementation deps.support.cardview
@@ -175,4 +176,3 @@ dependencies {
     implementation deps.ui.barcodescanner
     implementation deps.ui.zbar
 }
-
