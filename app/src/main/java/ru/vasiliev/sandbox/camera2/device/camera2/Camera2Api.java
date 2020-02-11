@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.framework.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera2;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -61,9 +61,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
-import ru.vasiliev.sandbox.camera2.framework.camera2.exception.CameraInvalidModeException;
-import ru.vasiliev.sandbox.camera2.framework.camera2.exception.CameraNotReadyToCaptureException;
-import ru.vasiliev.sandbox.camera2.framework.scanner.BarcodeScanner;
+import ru.vasiliev.sandbox.camera2.device.camera2.exception.CameraInvalidModeException;
+import ru.vasiliev.sandbox.camera2.device.camera2.exception.CameraNotReadyToCaptureException;
+import ru.vasiliev.sandbox.camera2.device.scanner.BarcodeScanner;
 import ru.vasiliev.sandbox.camera2.presentation.view.AutoFitTextureView;
 import ru.vasiliev.sandbox.camera2.presentation.view.FocusSurfaceView;
 import ru.vasiliev.sandbox.camera2.utils.ImageUtils;
@@ -73,7 +73,7 @@ import timber.log.Timber;
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_CONVERGED;
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_FLASH_REQUIRED;
 import static android.hardware.camera2.CameraMetadata.CONTROL_AE_STATE_PRECAPTURE;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraDbg.dbg;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraDbg.dbg;
 import static timber.log.Timber.e;
 
 // Helpful topics:

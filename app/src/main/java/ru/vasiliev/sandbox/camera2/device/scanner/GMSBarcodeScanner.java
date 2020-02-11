@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.framework.scanner;
+package ru.vasiliev.sandbox.camera2.device.scanner;
 
 import android.content.Context;
 import android.graphics.ImageFormat;

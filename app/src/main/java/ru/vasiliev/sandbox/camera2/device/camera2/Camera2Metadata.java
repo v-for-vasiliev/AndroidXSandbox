@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.framework.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera2;
 
 import java.io.Serializable;
 

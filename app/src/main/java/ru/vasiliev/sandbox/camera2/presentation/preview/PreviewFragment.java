@@ -34,7 +34,7 @@ import moxy.presenter.ProvidePresenter;
 import ru.vasiliev.sandbox.R;
 import ru.vasiliev.sandbox.camera2.data.action.CameraActionKind;
 import ru.vasiliev.sandbox.camera2.data.result.CameraResult;
-import ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Metadata;
+import ru.vasiliev.sandbox.camera2.device.camera2.Camera2Metadata;
 import ru.vasiliev.sandbox.camera2.presentation.CameraActionListener;
 import ru.vasiliev.sandbox.camera2.presentation.preview.viewmodel.PreviewModel;
 import ru.vasiliev.sandbox.camera2.presentation.view.PhotoViewPager;

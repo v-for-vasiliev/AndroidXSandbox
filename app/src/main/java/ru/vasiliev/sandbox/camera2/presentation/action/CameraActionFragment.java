@@ -31,19 +31,19 @@ import ru.vasiliev.sandbox.BuildConfig;
 import ru.vasiliev.sandbox.R;
 import ru.vasiliev.sandbox.camera2.data.action.CameraAction;
 import ru.vasiliev.sandbox.camera2.data.action.CameraActionKind;
-import ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Api;
-import ru.vasiliev.sandbox.camera2.framework.camera2.Camera2ApiListener;
-import ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Mode;
-import ru.vasiliev.sandbox.camera2.framework.scanner.BarcodeScanner;
-import ru.vasiliev.sandbox.camera2.framework.scanner.GMSBarcodeScanner;
+import ru.vasiliev.sandbox.camera2.device.camera2.Camera2Api;
+import ru.vasiliev.sandbox.camera2.device.camera2.Camera2ApiListener;
+import ru.vasiliev.sandbox.camera2.device.camera2.Camera2Mode;
+import ru.vasiliev.sandbox.camera2.device.scanner.BarcodeScanner;
+import ru.vasiliev.sandbox.camera2.device.scanner.GMSBarcodeScanner;
 import ru.vasiliev.sandbox.camera2.presentation.CameraActionListener;
 import ru.vasiliev.sandbox.camera2.presentation.view.AutoFitTextureView;
 import ru.vasiliev.sandbox.camera2.presentation.view.FocusSurfaceView;
 import ru.vasiliev.sandbox.camera2.presentation.view.ScannerOverlayView;
 
-import static ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Api.FLASH_AUTO;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Api.FLASH_TURN_OFF;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Api.FLASH_TURN_ON;
+import static ru.vasiliev.sandbox.camera2.device.camera2.Camera2Api.FLASH_AUTO;
+import static ru.vasiliev.sandbox.camera2.device.camera2.Camera2Api.FLASH_TURN_OFF;
+import static ru.vasiliev.sandbox.camera2.device.camera2.Camera2Api.FLASH_TURN_ON;
 
 
 public class CameraActionFragment extends MvpAppCompatFragment implements CameraActionView, Camera2ApiListener {

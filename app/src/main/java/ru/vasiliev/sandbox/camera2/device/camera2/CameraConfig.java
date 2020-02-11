@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.framework.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera2;
 
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraMetadata;
@@ -7,7 +7,7 @@ import android.hardware.camera2.CaptureRequest;
 import androidx.annotation.NonNull;
 
 import static java.util.Objects.requireNonNull;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraDbg.dbg;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraDbg.dbg;
 
 class CameraConfig {
 

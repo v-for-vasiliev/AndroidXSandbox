@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import ru.vasiliev.sandbox.camera2.data.action.CameraAction;
-import ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Metadata;
-import ru.vasiliev.sandbox.camera2.framework.camera2.Camera2Result;
+import ru.vasiliev.sandbox.camera2.device.camera2.Camera2Metadata;
+import ru.vasiliev.sandbox.camera2.device.camera2.Camera2Result;
 
 public class CameraResult implements Parcelable, Comparable<CameraResult> {
 

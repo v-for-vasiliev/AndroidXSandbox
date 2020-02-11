@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.framework.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera2;
 
 import androidx.annotation.Nullable;
 
@@ -6,12 +6,12 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraStateMachine.STATE_CAPTURING;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraStateMachine.STATE_LOCKED;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraStateMachine.STATE_LOCKING;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraStateMachine.STATE_PRECAPTURE;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraStateMachine.STATE_PREVIEW;
-import static ru.vasiliev.sandbox.camera2.framework.camera2.CameraStateMachine.STATE_WAITING;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraStateMachine.STATE_CAPTURING;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraStateMachine.STATE_LOCKED;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraStateMachine.STATE_LOCKING;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraStateMachine.STATE_PRECAPTURE;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraStateMachine.STATE_PREVIEW;
+import static ru.vasiliev.sandbox.camera2.device.camera2.CameraStateMachine.STATE_WAITING;
 
 class CameraDbg {
 

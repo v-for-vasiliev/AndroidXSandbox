@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.framework.camera2.exception;
+package ru.vasiliev.sandbox.camera2.device.camera2.exception;
 
 public class CameraInvalidModeException extends Exception {
 
