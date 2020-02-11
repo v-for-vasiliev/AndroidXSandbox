@@ -36,18 +36,18 @@ public class RequestManager {
     }
 
     private void setup3AControls(CaptureRequest.Builder requestBuilder) {
-        // Enable auto-magical 3A run by camera device
+        // Enable auto-magical 3A run by cameraDevice device
         requestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
 
-        if (cameraConfig.isAutoFocusSupported()) {
-            requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraConfig.getAutoFocusMode());
+        if (cameraConfig.isAfSupported()) {
+            requestBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraConfig.getAfMode());
         }
 
-        if (cameraConfig.isAutoExposureSupported()) {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraConfig.getAutoExposureMode(false));
+        if (cameraConfig.isAeSupported()) {
+            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraConfig.getAeMode(false));
         }
 
-        if (cameraConfig.isAWBSupported()) {
+        if (cameraConfig.isAwbSupported()) {
             requestBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO);
         }
     }

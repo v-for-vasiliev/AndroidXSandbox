@@ -54,7 +54,7 @@ public class CameraConfig {
      * <p>This rewrites {@link #previewSizes}, {@link #pictureSizes}, and optionally,
      * {@link #aspectRatio}.</p>
      */
-    private void collectCameraInfo() {
+    void collectCameraInfo() {
         StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         if (map == null) {
             throw new IllegalStateException("Failed to get configuration map");
@@ -91,10 +91,10 @@ public class CameraConfig {
     }
 
     /**
-     * Indicates whether the camera device lens has fixed focus. When camera device has fixed focus lens can't
+     * Indicates whether the cameraDevice device lens has fixed focus. When cameraDevice device has fixed focus lens can't
      * move, so we can't set AF mode to streaming preview requests, only for capture.
      *
-     * @return true if camera device has fixed focus, false otherwise.
+     * @return true if cameraDevice device has fixed focus, false otherwise.
      */
     boolean isLensFixedFocus() {
         return getMinimumFocusDistance() == 0.0f;
@@ -102,7 +102,7 @@ public class CameraConfig {
 
     /**
      * Shortest distance from frontmost surface of the lens that can be brought into sharp focus.
-     * If the lens is fixed-focus (doesn't support manual focus), this will be 0.
+     * If the lens is fixed focus (doesn't support manual focus), this will be 0.
      */
     private float getMinimumFocusDistance() {
         Float lensMinimumFocusDistance = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
@@ -110,15 +110,18 @@ public class CameraConfig {
     }
 
     /**
-     * @return true if device support auto-focus feature, false otherwise.
+     * @return true if device support auto focus feature, false otherwise.
      */
-    boolean isAutoFocusSupported() {
+    boolean isAfSupported() {
         int[] supportedAfModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         return contains(CameraMetadata.CONTROL_AF_MODE_AUTO, supportedAfModes) ||
                contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes);
     }
 
-    int getAutoFocusMode() {
+    /**
+     * @return the most suitable auto focus mode, if auto focus feature supported, throw exception otherwise.
+     */
+    int getAfMode() {
         int[] supportedAfModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes)) {
             return CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE;
@@ -129,32 +132,50 @@ public class CameraConfig {
         }
     }
 
-    boolean isAutoExposureSupported() {
+    /**
+     * @return true if auto exposure feature supported, false otherwise.
+     */
+    boolean isAeSupported() {
         int[] aeModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
         return contains(CaptureRequest.CONTROL_AE_MODE_ON, aeModes);
     }
 
-    int getAutoExposureMode(boolean flashRequired) {
+    /**
+     * @return the most suitable auto exposure mode, if auto exposure feature supported, throw exception otherwise.
+     */
+    int getAeMode(boolean flashRequired) {
         // If flash required and there is an auto-magical flash control mode available, use it, otherwise default to
         // the "on" mode, which is guaranteed to always be available.
         if (flashRequired && contains(CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH,
                                       cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES))) {
             return CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH;
-        } else {
+        } else if (contains(CaptureRequest.CONTROL_AE_MODE_ON,
+                            cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES))) {
             return CaptureRequest.CONTROL_AE_MODE_ON;
+        } else {
+            throw new IllegalStateException("Auto-focus not supported");
         }
     }
 
-    boolean isAWBSupported() {
+    /**
+     * @return true if auto white balance feature supported, false otherwise.
+     */
+    boolean isAwbSupported() {
         int[] awbModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
         return contains(CaptureRequest.CONTROL_AWB_MODE_AUTO, awbModes);
     }
 
+    /**
+     * @return true if auto focus regions are supported, false otherwise.
+     */
     boolean isAfMeteringAreaSupported() {
         Integer maxRegions = cameraCharacteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AF);
         return maxRegions != null && maxRegions >= 1;
     }
 
+    /**
+     * @return true if auto exposure regions are supported, false otherwise.
+     */
     boolean isAeMeteringAreaSupported() {
         Integer maxRegions = cameraCharacteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE);
         return maxRegions != null && maxRegions > 0;
