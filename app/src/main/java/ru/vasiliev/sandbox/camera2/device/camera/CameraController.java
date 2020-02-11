@@ -1,10 +1,14 @@
-package ru.vasiliev.sandbox.camera2.device.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera;
 
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.media.ImageReader;
+
+import ru.vasiliev.sandbox.camera2.device.camera.util.AspectRatio;
+import ru.vasiliev.sandbox.camera2.device.camera2.CameraInfo;
+import ru.vasiliev.sandbox.camera2.device.camera2.SizeMap;
 
 public class CameraController extends CameraStateMachine {
 
@@ -26,7 +30,7 @@ public class CameraController extends CameraStateMachine {
 
     private int mFacing;
 
-    private AspectRatio mAspectRatio = CameraConfig.DEFAULT_ASPECT_RATIO;
+    private AspectRatio mAspectRatio = CameraInfo.DEFAULT_ASPECT_RATIO;
 
     private boolean mAutoFocus;
 

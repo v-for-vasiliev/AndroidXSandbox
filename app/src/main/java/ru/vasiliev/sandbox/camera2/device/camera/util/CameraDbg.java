@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.device.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera.util;
 
 import androidx.annotation.Nullable;
 
@@ -13,42 +13,42 @@ import static ru.vasiliev.sandbox.camera2.device.camera.CameraStateMachine.STATE
 import static ru.vasiliev.sandbox.camera2.device.camera.CameraStateMachine.STATE_PREVIEW;
 import static ru.vasiliev.sandbox.camera2.device.camera.CameraStateMachine.STATE_WAITING;
 
-class CameraDbg {
+public class CameraDbg {
 
     private static boolean DBG = true;
 
-    static void dbgCameraState(int state) {
+    public static void dbgCameraState(int state) {
         switch (state) {
 
             case STATE_PREVIEW:
-                dbg("State changed: STATE_PREVIEW");
+                dbg("Camera state: STATE_PREVIEW");
                 break;
             case STATE_LOCKING:
-                dbg("State changed: STATE_LOCKING");
+                dbg("Camera state: STATE_LOCKING");
                 break;
             case STATE_LOCKED:
-                dbg("State changed: STATE_LOCKED");
+                dbg("Camera state: STATE_LOCKED");
                 break;
             case STATE_PRECAPTURE:
-                dbg("State changed: STATE_PRECAPTURE");
+                dbg("Camera state: STATE_PRECAPTURE");
                 break;
             case STATE_WAITING:
-                dbg("State changed: STATE_WAITING");
+                dbg("Camera state: STATE_WAITING");
                 break;
             case STATE_CAPTURING:
-                dbg("State changed: STATE_CAPTURING");
+                dbg("Camera state: STATE_CAPTURING");
                 break;
             default:
-                dbg("State changed: %d", state);
+                dbg("Camera state: %d", state);
                 break;
         }
     }
 
-    static void dbg(String fmt, Object... args) {
+    public static void dbg(String fmt, Object... args) {
         dbg(fmt, null, args);
     }
 
-    static void dbg(String fmt, @Nullable Throwable t, Object... args) {
+    public static void dbg(String fmt, @Nullable Throwable t, Object... args) {
         if (DBG) {
             if (t == null) {
                 Timber.d(t, fmt, args);

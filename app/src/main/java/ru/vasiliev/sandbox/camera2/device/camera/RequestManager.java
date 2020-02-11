@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.device.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera;
 
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraDevice;
@@ -20,15 +20,19 @@ public class RequestManager {
         this.cameraConfig = cameraConfig;
     }
 
-    CaptureRequest getPreviewRequest(List<Surface> outputSurfaces) throws CameraAccessException {
-        CaptureRequest.Builder previewRequest = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+    CaptureRequest createPreviewRequest(List<Surface> outputSurfaces) throws CameraAccessException {
+        CaptureRequest.Builder previewRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         if (outputSurfaces != null) {
             for (Surface surface : outputSurfaces) {
-                previewRequest.addTarget(surface);
+                previewRequestBuilder.addTarget(surface);
             }
         }
-        setup3AControls(previewRequest);
-        return previewRequest.build();
+        setup3AControls(previewRequestBuilder);
+        return (previewRequest = previewRequestBuilder.build());
+    }
+
+    CaptureRequest getPreviewRequest() {
+        return previewRequest;
     }
 
     private void setup3AControls(CaptureRequest.Builder requestBuilder) {

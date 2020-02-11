@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.vasiliev.sandbox.camera2.device.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera.util;
 
 import android.util.ArrayMap;
 
@@ -25,7 +25,7 @@ import java.util.TreeSet;
 /**
  * A collection class that automatically groups {@link Size}s by their {@link AspectRatio}s.
  */
-class SizeMap {
+public class SizeMap {
 
     private final ArrayMap<AspectRatio, SortedSet<Size>> mRatios = new ArrayMap<>();
 
@@ -63,7 +63,7 @@ class SizeMap {
         mRatios.remove(ratio);
     }
 
-    Set<AspectRatio> ratios() {
+    public Set<AspectRatio> ratios() {
         return mRatios.keySet();
     }
 
@@ -71,11 +71,11 @@ class SizeMap {
         return mRatios.get(ratio);
     }
 
-    void clear() {
+    public void clear() {
         mRatios.clear();
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return mRatios.isEmpty();
     }
 

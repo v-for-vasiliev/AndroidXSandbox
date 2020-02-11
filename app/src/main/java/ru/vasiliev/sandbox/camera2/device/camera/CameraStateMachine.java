@@ -1,4 +1,4 @@
-package ru.vasiliev.sandbox.camera2.device.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera;
 
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureFailure;
@@ -9,14 +9,16 @@ import android.view.Surface;
 
 import androidx.annotation.NonNull;
 
+import ru.vasiliev.sandbox.camera2.device.camera.util.CameraDbg;
+
 public abstract class CameraStateMachine extends CameraCaptureSession.CaptureCallback {
 
-    static final int STATE_PREVIEW = 0;
-    static final int STATE_LOCKING = 1;
-    static final int STATE_LOCKED = 2;
-    static final int STATE_PRECAPTURE = 3;
-    static final int STATE_WAITING = 4;
-    static final int STATE_CAPTURING = 5;
+    public static final int STATE_PREVIEW = 0;
+    public static final int STATE_LOCKING = 1;
+    public static final int STATE_LOCKED = 2;
+    public static final int STATE_PRECAPTURE = 3;
+    public static final int STATE_WAITING = 4;
+    public static final int STATE_CAPTURING = 5;
 
     private int state;
 

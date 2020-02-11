@@ -6,10 +6,12 @@ import android.hardware.camera2.CaptureRequest;
 
 import androidx.annotation.NonNull;
 
+import ru.vasiliev.sandbox.camera2.device.camera.util.AspectRatio;
+
 import static java.util.Objects.requireNonNull;
 import static ru.vasiliev.sandbox.camera2.device.camera2.CameraDbg.dbg;
 
-class CameraConfig {
+class CameraInfo {
 
     /**
      * Max preview width that is guaranteed by Camera2 API
@@ -37,7 +39,7 @@ class CameraConfig {
 
     private CameraCharacteristics characteristics;
 
-    CameraConfig(@NonNull CameraCharacteristics characteristics) {
+    CameraInfo(@NonNull CameraCharacteristics characteristics) {
         this.characteristics = characteristics;
     }
 
@@ -98,12 +100,7 @@ class CameraConfig {
         if (characteristics == null) {
             return 0.0f;
         }
-        Float lensMinimumFocusDistance = null;
-        try {
-            lensMinimumFocusDistance = characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
-        } catch (final Throwable t) {
-            dbg("getMinimumFocusDistance() error:", t);
-        }
+        Float lensMinimumFocusDistance = characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
         return (lensMinimumFocusDistance != null) ? lensMinimumFocusDistance : 0.0f;
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.vasiliev.sandbox.camera2.device.camera2;
+package ru.vasiliev.sandbox.camera2.device.camera.util;
 
 import android.os.Parcel;
 import android.os.Parcelable;
