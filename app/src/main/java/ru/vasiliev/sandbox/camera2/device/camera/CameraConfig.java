@@ -5,10 +5,12 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.util.SparseIntArray;
 
 import androidx.annotation.NonNull;
 
 import ru.vasiliev.sandbox.camera2.device.camera.util.AspectRatio;
+import ru.vasiliev.sandbox.camera2.device.camera.util.CameraFacing;
 import ru.vasiliev.sandbox.camera2.device.camera.util.Size;
 import ru.vasiliev.sandbox.camera2.device.camera.util.SizeMap;
 
@@ -24,7 +26,27 @@ public class CameraConfig {
      */
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
-    static AspectRatio DEFAULT_ASPECT_RATIO = AspectRatio.of(4, 3);
+    public static final int FACING_BACK = 0;
+    public static final int FACING_FRONT = 1;
+
+    public static final int FLASH_OFF = 0;
+    public static final int FLASH_ON = 1;
+    public static final int FLASH_TORCH = 2;
+    public static final int FLASH_AUTO = 3;
+    public static final int FLASH_RED_EYE = 4;
+
+    public static final int LANDSCAPE_90 = 90;
+    public static final int LANDSCAPE_270 = 270;
+
+    public static AspectRatio ASPECT_RATIO_4_3 = AspectRatio.of(4, 3);
+    public static AspectRatio ASPECT_RATIO_16_9 = AspectRatio.of(4, 3);
+
+    private static final SparseIntArray CAMERA_INTERNAL_FACINGS = new SparseIntArray();
+
+    static {
+        CAMERA_INTERNAL_FACINGS.put(CameraFacing.BACK.getId(), CameraCharacteristics.LENS_FACING_BACK);
+        CAMERA_INTERNAL_FACINGS.put(CameraFacing.FRONT.getId(), CameraCharacteristics.LENS_FACING_FRONT);
+    }
 
     private CameraCharacteristics cameraCharacteristics;
 
@@ -34,19 +56,24 @@ public class CameraConfig {
 
     private final SizeMap pictureSizes = new SizeMap();
 
-    private AspectRatio aspectRatio = DEFAULT_ASPECT_RATIO;
-
-    private int mFacing;
-
-    private boolean mAutoFocus;
-
-    private int mFlash;
-
-    private int mDisplayOrientation;
+    private AspectRatio aspectRatio = ASPECT_RATIO_4_3;
 
     public CameraConfig(@NonNull CameraCharacteristics cameraCharacteristics, @NonNull CameraView cameraView) {
         this.cameraCharacteristics = cameraCharacteristics;
         this.cameraView = cameraView;
+    }
+
+    public static int getCameraInternalFacing(CameraFacing cameraFacing) {
+        return CAMERA_INTERNAL_FACINGS.get(cameraFacing.getId(), CameraCharacteristics.LENS_FACING_BACK);
+    }
+
+    static CameraFacing getCameraFacing(int cameraInternalFacing) {
+        for (int i = 0, count = CAMERA_INTERNAL_FACINGS.size(); i < count; i++) {
+            if (CAMERA_INTERNAL_FACINGS.valueAt(i) == cameraInternalFacing) {
+                return CameraFacing.byId(CAMERA_INTERNAL_FACINGS.keyAt(i));
+            }
+        }
+        return CameraFacing.UNKNOWN;
     }
 
     /**
