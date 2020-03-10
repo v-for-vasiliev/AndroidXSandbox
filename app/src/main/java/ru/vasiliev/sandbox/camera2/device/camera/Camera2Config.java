@@ -5,16 +5,17 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.util.SparseIntArray;
 
 import androidx.annotation.NonNull;
 
+import java.util.SortedSet;
+
+import ru.vasiliev.sandbox.camera2.device.camera.common.CameraView;
 import ru.vasiliev.sandbox.camera2.device.camera.util.AspectRatio;
-import ru.vasiliev.sandbox.camera2.device.camera.util.CameraFacing;
 import ru.vasiliev.sandbox.camera2.device.camera.util.Size;
 import ru.vasiliev.sandbox.camera2.device.camera.util.SizeMap;
 
-public class CameraConfig {
+public class Camera2Config {
 
     /**
      * Max preview width that is guaranteed by Camera2 API
@@ -26,27 +27,10 @@ public class CameraConfig {
      */
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
-    public static final int FACING_BACK = 0;
-    public static final int FACING_FRONT = 1;
-
-    public static final int FLASH_OFF = 0;
-    public static final int FLASH_ON = 1;
-    public static final int FLASH_TORCH = 2;
-    public static final int FLASH_AUTO = 3;
-    public static final int FLASH_RED_EYE = 4;
-
-    public static final int LANDSCAPE_90 = 90;
-    public static final int LANDSCAPE_270 = 270;
+    static final int CAPTURE_IMAGE_BUFFER_SIZE = 3;
 
     public static AspectRatio ASPECT_RATIO_4_3 = AspectRatio.of(4, 3);
-    public static AspectRatio ASPECT_RATIO_16_9 = AspectRatio.of(4, 3);
-
-    private static final SparseIntArray CAMERA_INTERNAL_FACINGS = new SparseIntArray();
-
-    static {
-        CAMERA_INTERNAL_FACINGS.put(CameraFacing.BACK.getId(), CameraCharacteristics.LENS_FACING_BACK);
-        CAMERA_INTERNAL_FACINGS.put(CameraFacing.FRONT.getId(), CameraCharacteristics.LENS_FACING_FRONT);
-    }
+    public static AspectRatio ASPECT_RATIO_16_9 = AspectRatio.of(16, 9);
 
     private CameraCharacteristics cameraCharacteristics;
 
@@ -54,34 +38,24 @@ public class CameraConfig {
 
     private final SizeMap previewSizes = new SizeMap();
 
-    private final SizeMap pictureSizes = new SizeMap();
+    private final SizeMap captureSizes = new SizeMap();
 
     private AspectRatio aspectRatio = ASPECT_RATIO_4_3;
 
-    public CameraConfig(@NonNull CameraCharacteristics cameraCharacteristics, @NonNull CameraView cameraView) {
+    Camera2Config(@NonNull CameraCharacteristics cameraCharacteristics, @NonNull AspectRatio aspectRatio,
+                  @NonNull CameraView cameraView) {
         this.cameraCharacteristics = cameraCharacteristics;
         this.cameraView = cameraView;
-    }
-
-    public static int getCameraInternalFacing(CameraFacing cameraFacing) {
-        return CAMERA_INTERNAL_FACINGS.get(cameraFacing.getId(), CameraCharacteristics.LENS_FACING_BACK);
-    }
-
-    static CameraFacing getCameraFacing(int cameraInternalFacing) {
-        for (int i = 0, count = CAMERA_INTERNAL_FACINGS.size(); i < count; i++) {
-            if (CAMERA_INTERNAL_FACINGS.valueAt(i) == cameraInternalFacing) {
-                return CameraFacing.byId(CAMERA_INTERNAL_FACINGS.keyAt(i));
-            }
-        }
-        return CameraFacing.UNKNOWN;
+        this.aspectRatio = aspectRatio;
+        collectCameraInfo();
     }
 
     /**
      * <p>Collects some information from {@link #cameraCharacteristics}.</p>
-     * <p>This rewrites {@link #previewSizes}, {@link #pictureSizes}, and optionally,
+     * <p>This rewrites {@link #previewSizes}, {@link #captureSizes}, and optionally,
      * {@link #aspectRatio}.</p>
      */
-    void collectCameraInfo() {
+    private void collectCameraInfo() {
         StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         if (map == null) {
             throw new IllegalStateException("Failed to get configuration map");
@@ -94,10 +68,10 @@ public class CameraConfig {
                 previewSizes.add(new Size(width, height));
             }
         }
-        pictureSizes.clear();
+        captureSizes.clear();
         collectPictureSizes(map);
         for (AspectRatio ratio : previewSizes.ratios()) {
-            if (!pictureSizes.ratios()
+            if (!captureSizes.ratios()
                     .contains(ratio)) {
                 previewSizes.remove(ratio);
             }
@@ -113,8 +87,41 @@ public class CameraConfig {
 
     private void collectPictureSizes(StreamConfigurationMap map) {
         for (android.util.Size size : map.getOutputSizes(ImageFormat.JPEG)) {
-            pictureSizes.add(new Size(size.getWidth(), size.getHeight()));
+            captureSizes.add(new Size(size.getWidth(), size.getHeight()));
         }
+    }
+
+    Size getLargestCaptureSize() {
+        return captureSizes.sizes(aspectRatio)
+                .last();
+    }
+
+    /**
+     * Chooses the optimal preview size based on {@link #previewSizes} and the surface size.
+     *
+     * @return The picked size for camera preview.
+     */
+    Size getPreviewOptimalSize() {
+        int previewLonger, previewShorter;
+        final int surfaceWidth = cameraView.getWidth();
+        final int surfaceHeight = cameraView.getHeight();
+        if (surfaceWidth < surfaceHeight) {
+            previewLonger = surfaceHeight;
+            previewShorter = surfaceWidth;
+        } else {
+            previewLonger = surfaceWidth;
+            previewShorter = surfaceHeight;
+        }
+        SortedSet<Size> candidates = previewSizes.sizes(aspectRatio);
+
+        // Pick the smallest of those big enough
+        for (Size size : candidates) {
+            if (size.getWidth() >= previewLonger && size.getHeight() >= previewShorter) {
+                return size;
+            }
+        }
+        // If no size is big enough, pick the largest one.
+        return candidates.last();
     }
 
     /**
@@ -148,7 +155,7 @@ public class CameraConfig {
     /**
      * @return the most suitable auto focus mode, if auto focus feature supported, throw exception otherwise.
      */
-    int getAfMode() {
+    int getOptimalAfMode() {
         int[] supportedAfModes = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         if (contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE, supportedAfModes)) {
             return CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE;
@@ -206,6 +213,13 @@ public class CameraConfig {
     boolean isAeMeteringAreaSupported() {
         Integer maxRegions = cameraCharacteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE);
         return maxRegions != null && maxRegions > 0;
+    }
+
+    /**
+     * @return camera sensor orientation
+     */
+    int getCameraSensorOrientation() {
+        return cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
     }
 
     /**

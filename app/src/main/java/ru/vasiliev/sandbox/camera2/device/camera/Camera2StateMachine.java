@@ -9,9 +9,9 @@ import android.view.Surface;
 
 import androidx.annotation.NonNull;
 
-import ru.vasiliev.sandbox.camera2.device.camera.util.CameraDbg;
+import ru.vasiliev.sandbox.camera2.device.camera.util.Debug;
 
-public abstract class CameraStateMachine extends CameraCaptureSession.CaptureCallback {
+public abstract class Camera2StateMachine extends CameraCaptureSession.CaptureCallback {
 
     public static final int STATE_PREVIEW = 0;
     public static final int STATE_LOCKING = 1;
@@ -22,12 +22,12 @@ public abstract class CameraStateMachine extends CameraCaptureSession.CaptureCal
 
     private int state;
 
-    CameraStateMachine() {
+    Camera2StateMachine() {
     }
 
-    void setState(int state) {
+    void setCaptureState(int state) {
         this.state = state;
-        CameraDbg.dbgCameraState(state);
+        Debug.logCamera2State(state);
     }
 
     private void process(@NonNull CaptureResult result) {
@@ -41,10 +41,10 @@ public abstract class CameraStateMachine extends CameraCaptureSession.CaptureCal
                     af == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED) {
                     Integer ae = result.get(CaptureResult.CONTROL_AE_STATE);
                     if (ae == null || ae == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
-                        setState(STATE_CAPTURING);
+                        setCaptureState(STATE_CAPTURING);
                         onReadyForStillPicture();
                     } else {
-                        setState(STATE_LOCKED);
+                        setCaptureState(STATE_LOCKED);
                         onPrecaptureRequired();
                     }
                 }
@@ -55,14 +55,14 @@ public abstract class CameraStateMachine extends CameraCaptureSession.CaptureCal
                 if (ae == null || ae == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
                     ae == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED ||
                     ae == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
-                    setState(STATE_WAITING);
+                    setCaptureState(STATE_WAITING);
                 }
                 break;
             }
             case STATE_WAITING: {
                 Integer ae = result.get(CaptureResult.CONTROL_AE_STATE);
                 if (ae == null || ae != CaptureResult.CONTROL_AE_STATE_PRECAPTURE) {
-                    setState(STATE_CAPTURING);
+                    setCaptureState(STATE_CAPTURING);
                     onReadyForStillPicture();
                 }
                 break;

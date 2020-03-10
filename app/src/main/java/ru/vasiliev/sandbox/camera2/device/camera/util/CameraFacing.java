@@ -1,24 +1,26 @@
 package ru.vasiliev.sandbox.camera2.device.camera.util;
 
+import android.hardware.camera2.CameraCharacteristics;
+
 public enum CameraFacing {
-    FRONT(0),
-    BACK(1),
-    ANY(2),
-    UNKNOWN(3);
+    FRONT(CameraCharacteristics.LENS_FACING_FRONT),
+    BACK(CameraCharacteristics.LENS_FACING_BACK),
+    EXTERNAL(CameraCharacteristics.LENS_FACING_EXTERNAL),
+    UNKNOWN(-1);
 
-    private int id;
+    private int lensFacing;
 
-    CameraFacing(int id) {
-        this.id = id;
+    CameraFacing(int lensFacing) {
+        this.lensFacing = lensFacing;
     }
 
-    public int getId() {
-        return id;
+    public int getLensFacing() {
+        return lensFacing;
     }
 
-    public static CameraFacing byId(int id) {
+    public static CameraFacing byLensFacing(int lensFacing) {
         for (CameraFacing facing : values()) {
-            if (facing.getId() == id) {
+            if (facing.getLensFacing() == lensFacing) {
                 return facing;
             }
         }

@@ -18,6 +18,8 @@ package ru.vasiliev.sandbox.camera2.device.camera.util;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Immutable class for describing width and height dimensions in pixels.
  */
@@ -60,6 +62,7 @@ public class Size implements Comparable<Size> {
         return false;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return mWidth + "x" + mHeight;

@@ -295,7 +295,7 @@ public class Camera2Api implements View.OnTouchListener {
      */
     private PublishSubject<Image> imageSubject = PublishSubject.create();
     /**
-     * Callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
+     * CameraControllerCallback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * still image is ready to be saved.
      */
     private final ImageReader.OnImageAvailableListener capturedImageAvailableListener = getCapturedImageAvailableListener();
@@ -328,7 +328,7 @@ public class Camera2Api implements View.OnTouchListener {
      */
     private int barcodeEmptyScansCount;
     /**
-     * Callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
+     * CameraControllerCallback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * preview frame read.
      */
     private final ImageReader.OnImageAvailableListener barcodeImageAvailableListener = getBarcodeImageAvailableListener();

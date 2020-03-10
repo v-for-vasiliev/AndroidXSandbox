@@ -67,7 +67,7 @@ public class SizeMap {
         return mRatios.keySet();
     }
 
-    SortedSet<Size> sizes(AspectRatio ratio) {
+    public SortedSet<Size> sizes(AspectRatio ratio) {
         return mRatios.get(ratio);
     }
 
