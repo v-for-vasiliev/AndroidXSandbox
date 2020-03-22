@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.vasiliev.sandbox.camera2.presentation.view.PhotoViewPager
+    <ru.vasiliev.sandbox.camera.presentation.view.PhotoViewPager
         android:id="@+id/previewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"

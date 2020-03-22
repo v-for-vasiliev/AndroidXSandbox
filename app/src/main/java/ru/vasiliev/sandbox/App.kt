@@ -17,26 +17,23 @@ class App : Application() {
 
     companion object {
 
-        var instance: App? = null
+        lateinit var instance: App
             private set
 
-        var appComponent: AppComponent? = null
+        lateinit var appComponent: AppComponent
             private set
     }
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-
         init()
     }
 
     private fun init() {
-        // Dagger application component
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
-
         Timber.plant(Timber.DebugTree())
     }
 }

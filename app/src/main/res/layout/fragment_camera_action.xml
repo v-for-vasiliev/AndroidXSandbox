@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <ru.vasiliev.sandbox.camera2.presentation.view.AutoFitTextureView
+    <ru.vasiliev.sandbox.camera.presentation.view.AutoFitTextureView
         android:id="@+id/previewLayer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ru.vasiliev.sandbox.camera2.presentation.view.FocusSurfaceView
+    <ru.vasiliev.sandbox.camera.presentation.view.FocusSurfaceView
         android:id="@+id/focusLayer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ru.vasiliev.sandbox.camera2.presentation.view.ScannerOverlayView
+    <ru.vasiliev.sandbox.camera.presentation.view.ScannerOverlayView
         android:id="@+id/scannerOverlay"
         android:layout_width="0dp"
         android:layout_height="0dp"

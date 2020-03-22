@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -27,11 +26,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ViewActivity" />
         <activity
             android:name=".LocationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".camera2.presentation.camera.CameraActivity"
+            android:name=".camera.presentation.camera.CameraActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".camera.presentation.newcameratest.NewCameraTestActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

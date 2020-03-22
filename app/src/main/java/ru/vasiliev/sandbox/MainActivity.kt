@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import butterknife.ButterKnife
 import butterknife.OnClick
-import ru.vasiliev.sandbox.camera2.data.action.CameraAction
-import ru.vasiliev.sandbox.camera2.data.action.CameraActionKind
-import ru.vasiliev.sandbox.camera2.presentation.camera.CameraActivity
+import ru.vasiliev.sandbox.camera.data.action.CameraAction
+import ru.vasiliev.sandbox.camera.data.action.CameraActionKind
+import ru.vasiliev.sandbox.camera.presentation.camera.CameraActivity
+import ru.vasiliev.sandbox.camera.presentation.newcameratest.NewCameraTestActivity
 import java.util.*
 
 /**
@@ -45,16 +46,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCamera() {
+        NewCameraTestActivity.start(this)
+    }
+
+    private fun openLegacyCamera() {
         val actions = ArrayList<CameraAction>()
 
-        actions.add(CameraAction.Builder(CameraActionKind.PHOTO_AND_BARCODE).setCaptureId(0).setCaptureQuality(70).setScanId(
-                0).setScanPattern("\\d{12}").setIndex(1).setOrder(0).setDescription("ПСК").build())
+        actions.add(CameraAction.Builder(CameraActionKind.PHOTO_AND_BARCODE)
+                        .setCaptureId(0)
+                        .setCaptureQuality(70)
+                        .setScanId(0)
+                        .setScanPattern("\\d{12}")
+                        .setIndex(1)
+                        .setOrder(0)
+                        .setDescription("ПСК")
+                        .build())
 
-        actions.add(CameraAction.Builder(CameraActionKind.PHOTO).setCaptureId(2).setCaptureQuality(90).setOrder(2).setIndex(
-                1).setDescription("Фото клиента").build())
+        actions.add(CameraAction.Builder(CameraActionKind.PHOTO)
+                        .setCaptureId(2)
+                        .setCaptureQuality(90)
+                        .setOrder(2)
+                        .setIndex(1)
+                        .setDescription("Фото клиента")
+                        .build())
 
-        actions.add(CameraAction.Builder(CameraActionKind.BARCODE).setScanId(2).setScanPattern("\\d{12}").setIndex(1).setOrder(
-                3).setDescription("Анкета (штрих-код)").build())
+        actions.add(CameraAction.Builder(CameraActionKind.BARCODE)
+                        .setScanId(2)
+                        .setScanPattern("\\d{12}")
+                        .setIndex(1)
+                        .setOrder(3)
+                        .setDescription("Анкета (штрих-код)")
+                        .build())
 
         CameraActivity.start(this, actions, CameraActivity.RequestKind.REQUEST_KIND_MIXED)
     }

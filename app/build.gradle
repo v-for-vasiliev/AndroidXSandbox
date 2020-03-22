@@ -169,6 +169,7 @@ dependencies {
     implementation deps.tools.timber
     implementation deps.tools.gson
     implementation deps.tools.jodatime
+    implementation deps.tools.dexter
 
     // UI
     implementation deps.ui.qrgen
