@@ -10,18 +10,21 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.vasiliev.sandbox.camera.device.camera.common.CameraPreview;
 import ru.vasiliev.sandbox.camera.device.camera.util.CameraFacing;
 import ru.vasiliev.sandbox.camera.device.camera.util.CameraFlash;
 
-public class Camera2RequestManager {
+class Camera2RequestManager {
 
-    private CameraDevice cameraDevice;
-
+    private Camera2Controller camera2Controller;
     private Camera2Config camera2Config;
+    private CameraPreview cameraPreview;
 
-    Camera2RequestManager(CameraDevice cameraDevice, Camera2Config camera2Config) {
-        this.cameraDevice = cameraDevice;
+    Camera2RequestManager(@NonNull Camera2Controller camera2Controller, @NonNull Camera2Config camera2Config,
+                          @NonNull CameraPreview cameraPreview) {
+        this.camera2Controller = camera2Controller;
         this.camera2Config = camera2Config;
+        this.cameraPreview = cameraPreview;
     }
 
     private void setup3AControls(CaptureRequest.Builder requestBuilder, boolean autoFocus, CameraFlash cameraFlash,
@@ -55,10 +58,26 @@ public class Camera2RequestManager {
                             displayOrientation * (cameraFacing == CameraFacing.FRONT ? 1 : -1) + 360) % 360);
     }
 
+    /**
+     * @return Preview request builder with already set preview params from controller
+     * - Auto-focus
+     * - Flash
+     * - Auto white-balance
+     * @throws CameraAccessException when camera is not accessible
+     */
     PreviewRequestBuilder newPreviewRequestBuilder() throws CameraAccessException {
         return new PreviewRequestBuilder();
     }
 
+    /**
+     * @return Capture request builder with already set preview params from controller:
+     * - Auto-focus
+     * - Flash
+     * - Auto white-balance
+     * - Camera facing
+     * - Display rotation
+     * @throws CameraAccessException when camera is not accessible
+     */
     CaptureRequestBuilder newCaptureRequestBuilder() throws CameraAccessException {
         return new CaptureRequestBuilder();
     }
@@ -67,12 +86,12 @@ public class Camera2RequestManager {
 
         private CaptureRequest.Builder previewRequestBuilder;
         private List<Surface> outputSurfaces = new ArrayList<>();
-        private boolean autoFocus = false;
-        private CameraFlash cameraFlash = CameraFlash.FLASH_OFF;
-        private boolean autoWhiteBalance = false;
+        private boolean autoFocus = camera2Controller.getAutoFocus();
+        private CameraFlash cameraFlash = camera2Controller.getFlash();
+        private boolean autoWhiteBalance = camera2Controller.getAutoWhiteBalance();
 
         private PreviewRequestBuilder() throws CameraAccessException {
-            previewRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            previewRequestBuilder = camera2Controller.getCameraDevice().createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         }
 
         PreviewRequestBuilder setOutputSurface(Surface outputSurface) {
@@ -118,14 +137,14 @@ public class Camera2RequestManager {
 
         private CaptureRequest.Builder previewRequestBuilder;
         private List<Surface> outputSurfaces = new ArrayList<>();
-        private boolean autoFocus = false;
-        private CameraFlash cameraFlash = CameraFlash.FLASH_OFF;
-        private boolean autoWhiteBalance = false;
-        private CameraFacing cameraFacing = CameraFacing.BACK;
-        private int displayOrientation = Surface.ROTATION_0;
+        private boolean autoFocus = camera2Controller.getAutoFocus();
+        private CameraFlash flash = camera2Controller.getFlash();
+        private boolean autoWhiteBalance = camera2Controller.getAutoWhiteBalance();
+        private CameraFacing cameraFacing = camera2Controller.getFacing();
+        private int displayOrientation = cameraPreview.getDisplayOrientation();
 
         private CaptureRequestBuilder() throws CameraAccessException {
-            previewRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            previewRequestBuilder = camera2Controller.getCameraDevice().createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
         }
 
         CaptureRequestBuilder setOutputSurface(Surface outputSurface) {
@@ -143,8 +162,8 @@ public class Camera2RequestManager {
             return this;
         }
 
-        CaptureRequestBuilder setCameraFlash(CameraFlash cameraFlash) {
-            this.cameraFlash = cameraFlash;
+        CaptureRequestBuilder setFlash(CameraFlash flash) {
+            this.flash = flash;
             return this;
         }
 
@@ -165,8 +184,8 @@ public class Camera2RequestManager {
         }
 
         public CaptureRequest build() {
-            setup3AControls(previewRequestBuilder, autoFocus, cameraFlash, autoWhiteBalance);
-            setDisplayOrientation(cameraFacing, displayOrientation);
+            setup3AControls(previewRequestBuilder, autoFocus, flash, autoWhiteBalance);
+            setupJpegOrientation(previewRequestBuilder, cameraFacing, displayOrientation);
             for (Surface surface : outputSurfaces) {
                 previewRequestBuilder.addTarget(surface);
             }

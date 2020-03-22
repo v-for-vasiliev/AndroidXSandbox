@@ -34,26 +34,33 @@ import static ru.vasiliev.sandbox.camera.device.camera.camera2.Camera2Config.CAP
 
 public class Camera2Controller extends Camera2StateMachine implements CameraController {
 
+    // Android Camera2 API objects
     private CameraManager cameraManager;
     private String cameraId;
     private CameraDevice cameraDevice;
     private CameraCharacteristics cameraCharacteristics;
-    private Camera2RequestManager camera2RequestManager;
     private CameraCaptureSession cameraCaptureSession;
     private ImageReader captureImageReader;
-    private CameraPreview cameraView;
+
+    // Camera2 objects
+    private CameraPreview cameraPreview;
     private Camera2Config camera2Config;
+    private Camera2RequestManager camera2RequestManager;
+
+    // Camera preview/capture params
     private CameraFacing cameraFacing;
     private AspectRatio aspectRatio = ASPECT_RATIO_16_9;
     private boolean autoFocus;
     private CameraFlash cameraFlash;
     private boolean autoWhiteBalance;
+
+    // Result streams
     private PublishSubject<byte[]> imageCaptureStream = PublishSubject.create();
     private PublishSubject<CaptureMetadata> imageMetadataStream = PublishSubject.create();
     private PublishSubject<byte[]> imageProcessorStream = PublishSubject.create();
 
     public Camera2Controller(@NonNull Context context, @NonNull CameraPreview cameraPreview) {
-        this.cameraView = cameraPreview;
+        this.cameraPreview = cameraPreview;
         cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         cameraFacing = CameraFacing.BACK;
         cameraPreview.setPreviewSurfaceChangedListener(this::startPreviewSession);
@@ -64,7 +71,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
         if (!chooseCameraIdByFacing()) {
             return false;
         }
-        camera2Config = new Camera2Config(cameraCharacteristics, aspectRatio, cameraView);
+        camera2Config = new Camera2Config(cameraCharacteristics, aspectRatio, cameraPreview);
         setupCaptureImageReader();
         openCamera();
         return true;
@@ -89,6 +96,10 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     @Override
     public boolean isCameraOpened() {
         return cameraDevice != null;
+    }
+
+    CameraDevice getCameraDevice() {
+        return cameraDevice;
     }
 
     @Override
@@ -118,10 +129,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
         if (isCameraOpened()) {
             try {
                 CaptureRequest previewRequest = camera2RequestManager.newPreviewRequestBuilder()
-                        .setAutoFocus(autoFocus)
-                        .setCameraFlash(cameraFlash)
-                        .setAutoWhiteBalance(autoWhiteBalance)
-                        .setOutputSurface(cameraView.getSurface())
+                        .setOutputSurface(cameraPreview.getSurface())
                         .build();
 
                 if (cameraCaptureSession != null) {
@@ -150,10 +158,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
         if (isCameraOpened()) {
             try {
                 CaptureRequest previewRequest = camera2RequestManager.newPreviewRequestBuilder()
-                        .setAutoFocus(autoFocus)
-                        .setCameraFlash(cameraFlash)
-                        .setAutoWhiteBalance(autoWhiteBalance)
-                        .setOutputSurface(cameraView.getSurface())
+                        .setOutputSurface(cameraPreview.getSurface())
                         .build();
 
                 if (cameraCaptureSession != null) {
@@ -182,7 +187,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
 
     @Override
     public void takePicture() {
-        if (autoFocus) {
+        if (!autoFocus) {
             lockFocus();
         } else {
             captureStillPicture();
@@ -216,7 +221,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
                     .setAutoFocus(autoFocus)
                     .setCameraFlash(cameraFlash)
                     .setAutoWhiteBalance(autoWhiteBalance)
-                    .setOutputSurface(cameraView.getSurface())
+                    .setOutputSurface(cameraPreview.getSurface())
                     // Trigger precapture
                     .setKeyValue(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
                                  CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
@@ -295,7 +300,9 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
                 @Override
                 public void onOpened(@NonNull CameraDevice camera) {
                     cameraDevice = camera;
-                    camera2RequestManager = new Camera2RequestManager(cameraDevice, camera2Config);
+                    camera2RequestManager = new Camera2RequestManager(Camera2Controller.this,
+                                                                      camera2Config,
+                                                                      cameraPreview);
                     setupCaptureImageReader();
                     startPreviewSession();
                 }
@@ -350,13 +357,14 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
      * <p>The result will be continuously processed in {@link #previewSessionCallback}.</p>
      */
     private void startPreviewSession() {
-        if (!isCameraOpened() || !cameraView.isReady() || captureImageReader == null) {
+        if (!isCameraOpened() || !cameraPreview.isReady() || captureImageReader == null) {
             return;
         }
         Size previewSize = camera2Config.getPreviewOptimalSize();
-        cameraView.setPreviewBufferSize(previewSize.getWidth(), previewSize.getHeight());
+        cameraPreview.setPreviewBufferSize(previewSize.getWidth(), previewSize.getHeight());
         try {
-            cameraDevice.createCaptureSession(Arrays.asList(cameraView.getSurface(), captureImageReader.getSurface()),
+            cameraDevice.createCaptureSession(Arrays.asList(cameraPreview.getSurface(),
+                                                            captureImageReader.getSurface()),
                                               previewSessionCallback,
                                               null);
         } catch (CameraAccessException e) {
@@ -374,10 +382,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
             cameraCaptureSession = session;
             try {
                 CaptureRequest previewRequest = camera2RequestManager.newPreviewRequestBuilder()
-                        .setAutoFocus(autoFocus)
-                        .setCameraFlash(cameraFlash)
-                        .setAutoWhiteBalance(autoWhiteBalance)
-                        .setOutputSurface(cameraView.getSurface())
+                        .setOutputSurface(cameraPreview.getSurface())
                         .build();
 
                 cameraCaptureSession.setRepeatingRequest(previewRequest, Camera2Controller.this, null);
@@ -407,10 +412,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     private void lockFocus() {
         try {
             CaptureRequest lockFocusRequest = camera2RequestManager.newPreviewRequestBuilder()
-                    .setAutoFocus(autoFocus)
-                    .setCameraFlash(cameraFlash)
-                    .setAutoWhiteBalance(autoWhiteBalance)
-                    .setOutputSurface(cameraView.getSurface())
+                    .setOutputSurface(cameraPreview.getSurface())
                     // Trigger auto focus
                     .setKeyValue(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START)
                     .build();
@@ -428,11 +430,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     private void captureStillPicture() {
         try {
             CaptureRequest stillPictureRequest = camera2RequestManager.newCaptureRequestBuilder()
-                    .setAutoFocus(autoFocus)
-                    .setCameraFlash(cameraFlash)
-                    .setAutoWhiteBalance(autoWhiteBalance)
-                    .setOutputSurface(cameraView.getSurface())
-                    .setDisplayOrientation(cameraFacing, cameraView.getDisplayOrientation())
+                    .setOutputSurface(cameraPreview.getSurface())
                     .build();
             cameraCaptureSession.stopRepeating();
             cameraCaptureSession.capture(stillPictureRequest, new CameraCaptureSession.CaptureCallback() {
@@ -454,10 +452,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     private void unlockFocus() {
         try {
             Camera2RequestManager.PreviewRequestBuilder unlockFocusBuilder = camera2RequestManager.newPreviewRequestBuilder()
-                    .setAutoFocus(autoFocus)
-                    .setCameraFlash(cameraFlash)
-                    .setAutoWhiteBalance(autoWhiteBalance)
-                    .setOutputSurface(cameraView.getSurface())
+                    .setOutputSurface(cameraPreview.getSurface())
                     // Trigger auto focus
                     .setKeyValue(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
             cameraCaptureSession.capture(unlockFocusBuilder.build(), this, null);

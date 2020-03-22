@@ -36,8 +36,6 @@ import ru.vasiliev.sandbox.camera.device.camera.util.DisplayOrientationDetector;
 @TargetApi(14)
 class TextureViewPreview extends CameraPreview {
 
-    private int previewWidth = 0;
-    private int previewHeight = 0;
     private final TextureView textureView;
     private final DisplayOrientationDetector displayOrientationDetector;
     private int displayOrientation;
@@ -87,7 +85,7 @@ class TextureViewPreview extends CameraPreview {
         displayOrientationDetector = new DisplayOrientationDetector(context) {
             @Override
             public void onDisplayOrientationChanged(int displayOrientation) {
-                TextureViewPreview.this.displayOrientation = displayOrientation;
+                setDisplayOrientation(displayOrientation);
                 configureTransform();
             }
         };
