@@ -2,12 +2,9 @@ package ru.vasiliev.sandbox.camera.device.camera.data;
 
 import java.io.Serializable;
 
-import ru.vasiliev.sandbox.legacycamera.camera2.Camera2FocusMode;
-
 public class CaptureMetadata implements Serializable {
 
     private int quality;
-
     private long timestamp;
 
     private CaptureMetadata(int quality, long timestamp) {
@@ -27,7 +24,6 @@ public class CaptureMetadata implements Serializable {
 
         private int quality;
         private long timestamp;
-        private Camera2FocusMode focusMode;
 
         public Builder() {
             quality = -1;
@@ -41,11 +37,6 @@ public class CaptureMetadata implements Serializable {
 
         public Builder setTimestamp(long timestamp) {
             this.timestamp = timestamp;
-            return this;
-        }
-
-        public Builder setFocusMode(Camera2FocusMode focusMode) {
-            this.focusMode = focusMode;
             return this;
         }
 

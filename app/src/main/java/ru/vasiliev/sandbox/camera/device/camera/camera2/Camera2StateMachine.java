@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import ru.vasiliev.sandbox.camera.device.camera.util.Debug;
 
-abstract class Camera2StateMachine extends CameraCaptureSession.CaptureCallback {
+public abstract class Camera2StateMachine extends CameraCaptureSession.CaptureCallback {
 
     public static final int STATE_PREVIEW = 0;
     public static final int STATE_LOCKING = 1;

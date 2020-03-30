@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.vasiliev.sandbox">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.webkit.PermissionRequest" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-feature android:name="android.hardware.camera2.autofocus" />
 
     <application
         android:name=".App"
@@ -35,6 +42,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".camera.presentation.newcameratest.NewCameraTestActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".browser.BrowserActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

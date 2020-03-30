@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import butterknife.ButterKnife
 import butterknife.OnClick
+import ru.vasiliev.sandbox.browser.BrowserActivity
 import ru.vasiliev.sandbox.camera.data.action.CameraAction
 import ru.vasiliev.sandbox.camera.data.action.CameraActionKind
 import ru.vasiliev.sandbox.camera.presentation.camera.CameraActivity
@@ -20,12 +21,13 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    @OnClick(R.id.location, R.id.camera, R.id.view)
+    @OnClick(R.id.location, R.id.camera, R.id.view, R.id.browser)
     fun onClick(view: View) {
         when (view.id) {
             R.id.location -> openLocation()
             R.id.camera -> openCamera()
             R.id.view -> openViewActivity()
+            R.id.browser -> openBrowser();
             else -> {
             }
         }
@@ -83,5 +85,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun openViewActivity() {
         ViewActivity.start(this@MainActivity)
+    }
+
+    private fun openBrowser() {
+        BrowserActivity.start(this@MainActivity)
     }
 }
