@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             R.id.location -> openLocation()
             R.id.camera -> openCamera()
             R.id.view -> openViewActivity()
-            R.id.browser -> openBrowser();
+            R.id.browser -> openBrowser()
             else -> {
             }
         }
@@ -88,6 +88,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openBrowser() {
-        BrowserActivity.start(this@MainActivity)
+        // requestPermissionsAndTakePicture("https://webrtc.github.io/samples/src/content/getusermedia/gum")
+        // requestPermissionsAndTakePicture("file:///android_asset/webrtc/content/index.html")
+        // requestPermissionsAndTakePicture("https://moneyman.ru/lp/main/?partner=Sovest-1&wmid=901")
+        // requestPermissionsAndTakePicture("")
+        BrowserActivity.start(this@MainActivity, "https://valor-software.com/ng2-file-upload")
+        // BrowserActivity.start(this@MainActivity, "https://angular-file-upload.appspot.com")
     }
 }
