@@ -2,10 +2,11 @@ package ru.vasiliev.sandbox.browser
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import android.webkit.*
 import androidx.core.os.bundleOf
 import com.karumi.dexter.Dexter
@@ -13,6 +14,9 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.fragment_browser.*
+import ru.vasiliev.sandbox.BuildConfig
+import ru.vasiliev.sandbox.security.FileProviderHelper
+import ru.vasiliev.sandbox.security.FileProviderHelper.FILEPROVIDER_SECURE_IMAGE_DIR
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -23,33 +27,11 @@ import java.util.*
 class MfoBrowserFragment : BrowserFragment() {
 
     private var cachedFilePathCallback: ValueCallback<Array<Uri>>? = null
-    private var cameraPhotoPath: String? = null
+    private var cameraImagePath: String? = null
 
     override fun loadUrl() {
         val link = arguments?.getString(EXTRA_LINK)
             .orEmpty()
-        /*
-        Dexter.withActivity(activity)
-            .withPermission(Manifest.permission.CAMERA)
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                    val link = arguments?.getString(EXTRA_LINK)
-                        .orEmpty()
-                    // webView.loadUrl(link)
-                    webView.loadData("<input type=\"file\" accept=\"image/*\" capture=\"environment\">",
-                                     "text/html; charset=UTF-8",
-                                     null)
-                }
-
-                override fun onPermissionDenied(response: PermissionDeniedResponse) {}
-                override fun onPermissionRationaleShouldBeShown(
-                        permission: com.karumi.dexter.listener.PermissionRequest, token: PermissionToken) {
-                }
-            })
-            .check()
-         */
-         */
-
         Dexter.withActivity(activity)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .withListener(object : MultiplePermissionsListener {
@@ -62,6 +44,16 @@ class MfoBrowserFragment : BrowserFragment() {
                 override fun onPermissionRationaleShouldBeShown(
                         permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
                         token: PermissionToken?) {
+                    with(AlertDialog.Builder(context)) {
+                        setTitle("Браузер")
+                        setMessage("Для коректной работы браузера необходимы разрешения на работу с камерой и хранилищем.")
+                        setPositiveButton("Настройки") { _, _ ->
+                            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                                 Uri.parse("package:" + BuildConfig.APPLICATION_ID)))
+                        }
+                        setNegativeButton("Отмена") { dialog, _ -> dialog.dismiss() }
+                        show()
+                    }
                 }
             })
             .check()
@@ -90,96 +82,45 @@ class MfoBrowserFragment : BrowserFragment() {
             cachedFilePathCallback?.onReceiveValue(null)
             cachedFilePathCallback = filePathCallback
 
-            /*
-            var takePictureIntent: Intent? = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (takePictureIntent?.resolveActivity(activity!!.packageManager) != null) {
-                // Create the File where the photo should go
-                var photoFile: File? = null
-                try {
-                    photoFile = createImageFile()
-                    takePictureIntent.putExtra("PhotoPath", cameraPhotoPath)
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Timber.e("Unable to create Image File", ex)
-                }
+            val takePhotoIntent: Intent? = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePhotoIntent?.resolveActivity(activity!!.packageManager) != null) {
+                val imageFile = createCameraImageFile()
+                if (imageFile != null) {
+                    val secureImageUri = FileProviderHelper.getSecureImageUri(activity!!, imageFile)
+                    cameraImagePath = "file://" + imageFile.absolutePath
+                    takePhotoIntent.putExtra(EXTRA_IMAGE_PATH, cameraImagePath)
+                    takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    takePhotoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, secureImageUri)
 
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    cameraPhotoPath = "content:" + photoFile.absolutePath
-                    val photoUri = FileProvider.getUriForFile(context!!,
-                                                              context!!.applicationContext.packageName.toString() + ".fileprovider",
-                                                              photoFile)
-                    takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                    takePictureIntent.data = photoUri
-                } else {
-                    takePictureIntent = null
+                    val contentSelectionIntent = Intent(Intent.ACTION_GET_CONTENT)
+                    contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE)
+                    contentSelectionIntent.type = "image/*"
+
+                    val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+                    chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent)
+                    chooserIntent.putExtra(Intent.EXTRA_TITLE, "Выбор файла")
+                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(takePhotoIntent))
+
+                    startActivityForResult(chooserIntent, FILE_CHOOSER_REQUEST_CODE)
                 }
             }
-            */
-
-            var takePictureIntent: Intent? = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (takePictureIntent?.resolveActivity(activity!!.packageManager) != null) {
-                // Create the File where the photo should go
-                var photoFile: File? = null
-                try {
-                    photoFile = createImageFile()
-                    takePictureIntent.putExtra("PhotoPath", cameraPhotoPath)
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Timber.e("Unable to create Image File", ex)
-                }
-
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    cameraPhotoPath = "file:" + photoFile.absolutePath
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
-                } else {
-                    takePictureIntent = null
-                }
-            }
-
-            val contentSelectionIntent = Intent(Intent.ACTION_GET_CONTENT)
-            contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE)
-            contentSelectionIntent.type = "image/*"
-
-            val intentArray: Array<Intent?> = arrayOf(takePictureIntent)
-
-            val chooserIntent = Intent(Intent.ACTION_CHOOSER)
-            chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent)
-            chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser")
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
-
-            startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE)
 
             return true
         }
     }
 
-    @Throws(IOException::class)
-    private fun createImageFile(): File? {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyy.MM.dd_HH.mm.ss", Locale.getDefault()).format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(imageFileName,  /* prefix */
-                                   ".jpg",  /* suffix */
-                                   storageDir /* directory */)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode != INPUT_FILE_REQUEST_CODE || cachedFilePathCallback == null) {
+        if (requestCode != FILE_CHOOSER_REQUEST_CODE || cachedFilePathCallback == null) {
             super.onActivityResult(requestCode, resultCode, data)
             return
         }
         var results: Array<Uri>? = null
-
-        // Check that the response is a good one
         if (resultCode == Activity.RESULT_OK) {
             if (data == null) {
-                // If there is not data, then we may have taken a photo
-                if (cameraPhotoPath != null) {
-                    results = arrayOf(Uri.parse(cameraPhotoPath))
+                // If there is no data, then we may have taken a photo
+                if (cameraImagePath != null) {
+                    results = arrayOf(Uri.parse(cameraImagePath))
                 }
             } else {
                 val dataString = data.dataString
@@ -187,17 +128,33 @@ class MfoBrowserFragment : BrowserFragment() {
                     results = arrayOf(Uri.parse(dataString))
                 }
             }
-        }
-        results?.let {
-            cachedFilePathCallback!!.onReceiveValue(it)
+            results?.let {
+                cachedFilePathCallback!!.onReceiveValue(it)
+                cachedFilePathCallback = null
+            }
+        } else {
+            cachedFilePathCallback!!.onReceiveValue(null)
             cachedFilePathCallback = null
         }
     }
 
+    private fun createCameraImageFile(): File? {
+        try {
+            val timeStamp: String = SimpleDateFormat("yyyy.MM.dd_HH.mm.ss", Locale.getDefault()).format(Date())
+            val fileName = "mfo_passport_$timeStamp"
+            val storageDir = File(activity!!.filesDir, FILEPROVIDER_SECURE_IMAGE_DIR)
+            storageDir.mkdir()
+            return File.createTempFile(fileName, ".jpg", storageDir)
+        } catch (e: IOException) {
+            Timber.e(e, "Unable to create image file")
+        }
+        return null
+    }
+
     companion object {
 
-        private const val INPUT_FILE_REQUEST_CODE = 1
-        private const val EXTRA_FROM_NOTIFICATION = "EXTRA_FROM_NOTIFICATION"
+        private const val FILE_CHOOSER_REQUEST_CODE = 501
+        private const val EXTRA_IMAGE_PATH = "image_path"
 
         fun newInstance(link: String): MfoBrowserFragment {
             return MfoBrowserFragment().apply {
