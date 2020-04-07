@@ -15,6 +15,7 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.fragment_browser.*
 import ru.vasiliev.sandbox.BuildConfig
+import ru.vasiliev.sandbox.common.util.IoUtils
 import ru.vasiliev.sandbox.security.FileProviderHelper
 import ru.vasiliev.sandbox.security.FileProviderHelper.FILEPROVIDER_SECURE_IMAGE_DIR
 import timber.log.Timber
@@ -26,7 +27,7 @@ import java.util.*
 
 class MfoBrowserFragment : BrowserFragment() {
 
-    private var cachedFilePathCallback: ValueCallback<Array<Uri>>? = null
+    private var fileChooserPathCallback: ValueCallback<Array<Uri>>? = null
     private var cameraImagePath: String? = null
 
     override fun loadUrl() {
@@ -79,8 +80,8 @@ class MfoBrowserFragment : BrowserFragment() {
                 return true
             }
 
-            cachedFilePathCallback?.onReceiveValue(null)
-            cachedFilePathCallback = filePathCallback
+            fileChooserPathCallback?.onReceiveValue(null)
+            fileChooserPathCallback = filePathCallback
 
             val takePhotoIntent: Intent? = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (takePhotoIntent?.resolveActivity(activity!!.packageManager) != null) {
@@ -111,7 +112,7 @@ class MfoBrowserFragment : BrowserFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode != FILE_CHOOSER_REQUEST_CODE || cachedFilePathCallback == null) {
+        if (requestCode != FILE_CHOOSER_REQUEST_CODE || fileChooserPathCallback == null) {
             super.onActivityResult(requestCode, resultCode, data)
             return
         }
@@ -129,12 +130,12 @@ class MfoBrowserFragment : BrowserFragment() {
                 }
             }
             results?.let {
-                cachedFilePathCallback!!.onReceiveValue(it)
-                cachedFilePathCallback = null
+                fileChooserPathCallback!!.onReceiveValue(it)
+                fileChooserPathCallback = null
             }
         } else {
-            cachedFilePathCallback!!.onReceiveValue(null)
-            cachedFilePathCallback = null
+            fileChooserPathCallback!!.onReceiveValue(null)
+            fileChooserPathCallback = null
         }
     }
 
@@ -149,6 +150,11 @@ class MfoBrowserFragment : BrowserFragment() {
             Timber.e(e, "Unable to create image file")
         }
         return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        IoUtils.deleteRecursive(File(activity!!.filesDir, FILEPROVIDER_SECURE_IMAGE_DIR))
     }
 
     companion object {
