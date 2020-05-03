@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import java.io.File
 
-object FileProviderHelper {
+object SecureFileProvider {
 
     const val FILEPROVIDER_SECURE_IMAGE_DIR = "images"
     private const val FILEPROVIDER_AUTHORITY_DOMAIN_POSTFIX = "fileprovider"

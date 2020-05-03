@@ -16,8 +16,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.fragment_browser.*
 import ru.vasiliev.sandbox.BuildConfig
 import ru.vasiliev.sandbox.common.util.IoUtils
-import ru.vasiliev.sandbox.security.FileProviderHelper
-import ru.vasiliev.sandbox.security.FileProviderHelper.FILEPROVIDER_SECURE_IMAGE_DIR
+import ru.vasiliev.sandbox.security.SecureFileProvider
+import ru.vasiliev.sandbox.security.SecureFileProvider.FILEPROVIDER_SECURE_IMAGE_DIR
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -87,7 +87,7 @@ class MfoBrowserFragment : BrowserFragment() {
             if (takePhotoIntent?.resolveActivity(activity!!.packageManager) != null) {
                 val imageFile = createCameraImageFile()
                 if (imageFile != null) {
-                    val secureImageUri = FileProviderHelper.getSecureImageUri(activity!!, imageFile)
+                    val secureImageUri = SecureFileProvider.getSecureImageUri(activity!!, imageFile)
                     cameraImagePath = "file://" + imageFile.absolutePath
                     takePhotoIntent.putExtra(EXTRA_IMAGE_PATH, cameraImagePath)
                     takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
