@@ -28,6 +28,7 @@ public class Camera2Config {
     static final int CAPTURE_IMAGE_BUFFER_SIZE = 3;
     public static AspectRatio ASPECT_RATIO_4_3 = AspectRatio.of(4, 3);
     public static AspectRatio ASPECT_RATIO_16_9 = AspectRatio.of(16, 9);
+
     private CameraCharacteristics cameraCharacteristics;
     private CameraPreview cameraPreview;
     private final SizeMap previewSizes = new SizeMap();
@@ -54,6 +55,7 @@ public class Camera2Config {
         }
 
         previewSizes.clear();
+        //noinspection unchecked
         for (android.util.Size size : map.getOutputSizes(cameraPreview.getPreviewOutputClass())) {
             int width = size.getWidth();
             int height = size.getHeight();
@@ -161,6 +163,14 @@ public class Camera2Config {
     }
 
     /**
+     * @return true if flash unit exist for selected camera module (FRONT/BACK)
+     */
+    boolean isFlashSupported() {
+        Boolean flashAvailable = cameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+        return (flashAvailable == null) ? false : flashAvailable;
+    }
+
+    /**
      * @return true if auto exposure feature supported, false otherwise.
      */
     boolean isAeSupported() {
@@ -181,7 +191,7 @@ public class Camera2Config {
                             cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES))) {
             return CaptureRequest.CONTROL_AE_MODE_ON;
         } else {
-            throw new IllegalStateException("Auto-focus not supported");
+            throw new IllegalStateException("Auto-exposure not supported");
         }
     }
 

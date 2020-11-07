@@ -49,7 +49,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
 
     // Camera preview/capture params
     private CameraFacing cameraFacing;
-    private AspectRatio aspectRatio = ASPECT_RATIO_16_9;
+    private AspectRatio aspectRatio;
     private boolean autoFocus;
     private CameraFlash cameraFlash;
     private boolean autoWhiteBalance;
@@ -60,10 +60,17 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     private PublishSubject<byte[]> imageProcessorStream = PublishSubject.create();
 
     public Camera2Controller(@NonNull Context context, @NonNull CameraPreview cameraPreview) {
+        setupCameraDefaultParams();
         this.cameraPreview = cameraPreview;
-        cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        this.cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        this.cameraPreview.setPreviewSurfaceChangedListener(this::startPreviewSession);
+    }
+
+    private void setupCameraDefaultParams() {
+        autoFocus = false;
         cameraFacing = CameraFacing.BACK;
-        cameraPreview.setPreviewSurfaceChangedListener(this::startPreviewSession);
+        aspectRatio = ASPECT_RATIO_16_9;
+        cameraFlash = CameraFlash.FLASH_OFF;
     }
 
     @Override
@@ -148,7 +155,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
 
     @Override
     public void setFlash(CameraFlash cameraFlash) {
-        if (this.cameraFlash == cameraFlash) {
+        if (!camera2Config.isFlashSupported() || this.cameraFlash == cameraFlash) {
             return;
         }
 
@@ -218,9 +225,6 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     public void onPrecaptureRequired() {
         try {
             CaptureRequest previewRequest = camera2RequestManager.newPreviewRequestBuilder()
-                    .setAutoFocus(autoFocus)
-                    .setCameraFlash(cameraFlash)
-                    .setAutoWhiteBalance(autoWhiteBalance)
                     .setOutputSurface(cameraPreview.getSurface())
                     // Trigger precapture
                     .setKeyValue(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,

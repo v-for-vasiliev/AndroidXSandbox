@@ -59,7 +59,7 @@ class Camera2RequestManager {
     }
 
     /**
-     * @return Preview request builder with already set preview params from controller
+     * @return Preview request builder with actual preview params from linked controller
      * - Auto-focus
      * - Flash
      * - Auto white-balance
@@ -70,7 +70,7 @@ class Camera2RequestManager {
     }
 
     /**
-     * @return Capture request builder with already set preview params from controller:
+     * @return Capture request builder with actual preview params from linked controller:
      * - Auto-focus
      * - Flash
      * - Auto white-balance
