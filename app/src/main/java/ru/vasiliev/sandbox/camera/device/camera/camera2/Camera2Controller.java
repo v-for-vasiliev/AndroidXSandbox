@@ -55,9 +55,9 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
     private boolean autoWhiteBalance;
 
     // Result streams
-    private PublishSubject<byte[]> imageCaptureStream = PublishSubject.create();
-    private PublishSubject<CaptureMetadata> imageMetadataStream = PublishSubject.create();
-    private PublishSubject<byte[]> imageProcessorStream = PublishSubject.create();
+    private final PublishSubject<byte[]> imageCaptureStream = PublishSubject.create();
+    private final PublishSubject<CaptureMetadata> imageMetadataStream = PublishSubject.create();
+    private final PublishSubject<byte[]> imageProcessorStream = PublishSubject.create();
 
     public Camera2Controller(@NonNull Context context, @NonNull CameraPreview cameraPreview) {
         setupCameraDefaultParams();

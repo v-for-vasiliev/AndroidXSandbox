@@ -15,7 +15,7 @@ class BrowserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_browser)
 
         if (savedInstanceState == null) {
-            var link = intent.getStringExtra(EXTRA_LINK)
+            val link = intent.getStringExtra(EXTRA_LINK)
                 .orEmpty()
 
             /*
@@ -35,7 +35,7 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val REQUEST_CODE = 500
+        private const val REQUEST_CODE = 500
 
         private const val EXTRA_LINK = "extra_link"
 

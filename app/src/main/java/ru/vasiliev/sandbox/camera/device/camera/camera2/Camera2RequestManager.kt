@@ -8,12 +8,13 @@ import ru.vasiliev.sandbox.camera.device.camera.common.CameraPreview
 import ru.vasiliev.sandbox.camera.device.camera.util.CameraFacing
 import ru.vasiliev.sandbox.camera.device.camera.util.CameraFlash
 import java.util.*
-import kotlin.Throws
 
 internal class Camera2RequestManager(
-    private val camera2Controller: Camera2Controller, private val camera2Config: Camera2Config,
+    private val camera2Controller: Camera2Controller,
+    private val camera2Config: Camera2Config,
     private val cameraPreview: CameraPreview
 ) {
+
     private fun setup3AControls(
         requestBuilder: CaptureRequest.Builder, autoFocus: Boolean, cameraFlash: CameraFlash,
         autoWhiteBalance: Boolean
@@ -79,7 +80,7 @@ internal class Camera2RequestManager(
         return CaptureRequestBuilder()
     }
 
-    inner class PreviewRequestBuilder private constructor() {
+    inner class PreviewRequestBuilder constructor() {
         private val previewRequestBuilder: CaptureRequest.Builder
         private var outputSurfaces: MutableList<Surface> = ArrayList()
         private var autoFocus: Boolean = camera2Controller.getAutoFocus()

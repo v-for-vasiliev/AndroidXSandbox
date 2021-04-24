@@ -2,44 +2,58 @@ package ru.vasiliev.sandbox.camera.device.camera.camera2
 
 import android.hardware.camera2.*
 import android.hardware.camera2.CameraCaptureSession.CaptureCallback
+import android.hardware.camera2.CameraMetadata.*
+import android.hardware.camera2.CaptureResult.CONTROL_AE_STATE
+import android.hardware.camera2.CaptureResult.CONTROL_AF_STATE
 import android.view.Surface
 import ru.vasiliev.sandbox.camera.device.camera.util.Debug
 
 abstract class Camera2StateMachine internal constructor() : CaptureCallback() {
-    private var state = 0
-    fun setCaptureState(state: Int) {
-        this.state = state
-        Debug.logCamera2State(state)
+
+    private var captureState = STATE_PREVIEW
+
+    fun setCaptureState(newCaptureState: Int) {
+        this.captureState = newCaptureState
+        Debug.logCamera2State(newCaptureState)
     }
 
-    private fun process(result: CaptureResult) {
-        when (state) {
-            STATE_LOCKING -> {
-                val af = result.get(CaptureResult.CONTROL_AF_STATE) ?: break
-                if (af == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED || af == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED) {
-                    val ae = result.get(CaptureResult.CONTROL_AE_STATE)
-                    if (ae == null || ae == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
+    private fun process(result: CaptureResult) = when (captureState) {
+        STATE_LOCKING -> result.hasKeyValues(key = CONTROL_AF_STATE,
+            values = listOf(
+                CONTROL_AF_STATE_FOCUSED_LOCKED,
+                CONTROL_AF_STATE_NOT_FOCUSED_LOCKED
+            ),
+            orNull = false,
+            onValueFound = {
+                result.hasKeyValues(key = CONTROL_AE_STATE,
+                    values = listOf(CONTROL_AE_STATE_CONVERGED),
+                    orNull = true,
+                    onValueFound = {
                         setCaptureState(STATE_CAPTURING)
                         onReadyForStillPicture()
-                    } else {
+                    },
+                    onValueNotFound = {
                         setCaptureState(STATE_LOCKED)
                         onPrecaptureRequired()
-                    }
-                }
-            }
-            STATE_PRECAPTURE -> {
-                val ae = result.get(CaptureResult.CONTROL_AE_STATE)
-                if (ae == null || ae == CaptureResult.CONTROL_AE_STATE_PRECAPTURE || ae == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED || ae == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
-                    setCaptureState(STATE_WAITING)
-                }
-            }
-            STATE_WAITING -> {
-                val ae = result.get(CaptureResult.CONTROL_AE_STATE)
-                if (ae == null || ae != CaptureResult.CONTROL_AE_STATE_PRECAPTURE) {
-                    setCaptureState(STATE_CAPTURING)
-                    onReadyForStillPicture()
-                }
-            }
+                    })
+            })
+        STATE_PRECAPTURE -> result.hasKeyValues(key = CONTROL_AE_STATE,
+            values = listOf(
+                CONTROL_AE_STATE_PRECAPTURE,
+                CONTROL_AE_STATE_FLASH_REQUIRED,
+                CONTROL_AE_STATE_CONVERGED
+            ),
+            orNull = true,
+            onValueFound = { setCaptureState(STATE_WAITING) })
+        STATE_WAITING -> result.hasKeyValues(key = CONTROL_AE_STATE,
+            values = listOf(CONTROL_AE_STATE_PRECAPTURE),
+            orNull = true,
+            onValueNotFound = {
+                setCaptureState(STATE_CAPTURING)
+                onReadyForStillPicture()
+            })
+        else -> {
+            Debug.logCamera2State(captureState)
         }
     }
 
@@ -52,27 +66,44 @@ abstract class Camera2StateMachine internal constructor() : CaptureCallback() {
      * Called when it is necessary to run the precapture sequence.
      */
     abstract fun onPrecaptureRequired()
-    override fun onCaptureStarted(session: CameraCaptureSession, request: CaptureRequest, timestamp: Long,
-                                  frameNumber: Long) {
+
+    override fun onCaptureStarted(
+        session: CameraCaptureSession, request: CaptureRequest, timestamp: Long,
+        frameNumber: Long
+    ) {
         super.onCaptureStarted(session, request, timestamp, frameNumber)
     }
 
-    override fun onCaptureProgressed(session: CameraCaptureSession, request: CaptureRequest,
-                                     partialResult: CaptureResult) {
+    override fun onCaptureProgressed(
+        session: CameraCaptureSession, request: CaptureRequest,
+        partialResult: CaptureResult
+    ) {
         super.onCaptureProgressed(session, request, partialResult)
         process(partialResult)
     }
 
-    override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
+    override fun onCaptureCompleted(
+        session: CameraCaptureSession,
+        request: CaptureRequest,
+        result: TotalCaptureResult
+    ) {
         super.onCaptureCompleted(session, request, result)
         process(result)
     }
 
-    override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
+    override fun onCaptureFailed(
+        session: CameraCaptureSession,
+        request: CaptureRequest,
+        failure: CaptureFailure
+    ) {
         super.onCaptureFailed(session, request, failure)
     }
 
-    override fun onCaptureSequenceCompleted(session: CameraCaptureSession, sequenceId: Int, frameNumber: Long) {
+    override fun onCaptureSequenceCompleted(
+        session: CameraCaptureSession,
+        sequenceId: Int,
+        frameNumber: Long
+    ) {
         super.onCaptureSequenceCompleted(session, sequenceId, frameNumber)
     }
 
@@ -80,9 +111,27 @@ abstract class Camera2StateMachine internal constructor() : CaptureCallback() {
         super.onCaptureSequenceAborted(session, sequenceId)
     }
 
-    override fun onCaptureBufferLost(session: CameraCaptureSession, request: CaptureRequest, target: Surface,
-                                     frameNumber: Long) {
+    override fun onCaptureBufferLost(
+        session: CameraCaptureSession, request: CaptureRequest, target: Surface,
+        frameNumber: Long
+    ) {
         super.onCaptureBufferLost(session, request, target, frameNumber)
+    }
+
+    private fun <T> CaptureResult.hasKeyValues(
+        key: CaptureResult.Key<T>, values: List<T>, orNull: Boolean = false,
+        onValueFound: () -> Unit = {}, onValueNotFound: () -> Unit = {}
+    ) {
+        val value: T? = get(key)
+        if (orNull && value == null) {
+            onValueFound.invoke()
+        } else {
+            if (values.contains(value)) {
+                onValueFound.invoke()
+            } else {
+                onValueNotFound.invoke()
+            }
+        }
     }
 
     companion object {

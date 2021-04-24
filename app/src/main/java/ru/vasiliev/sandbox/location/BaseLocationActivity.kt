@@ -28,7 +28,7 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
 
     companion object {
 
-        val REQUEST_CODE_LOCATION_SETTINGS = 1000
+        const val REQUEST_CODE_LOCATION_SETTINGS = 1000
 
         val KEY_PROVIDER_TYPE = "key_provider_type"
 
@@ -146,7 +146,7 @@ abstract class BaseLocationActivity : AppCompatActivity(), GoogleApiClient.Conne
         when (requestCode) {
             REQUEST_CODE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission was granted
                     startLocationUpdates()
                 } else {

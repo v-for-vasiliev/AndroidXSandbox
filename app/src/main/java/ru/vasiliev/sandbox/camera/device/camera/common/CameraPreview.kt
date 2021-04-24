@@ -25,18 +25,16 @@ abstract class CameraPreview : FrameLayout {
         this.previewSurfaceChangedListener = previewSurfaceChangedListener
     }
 
-    protected fun dispatchSurfaceChanged() {
-        if (previewSurfaceChangedListener != null) {
-            previewSurfaceChangedListener!!.onPreviewSurfaceChanged()
-        }
-    }
+    protected fun dispatchSurfaceChanged() = previewSurfaceChangedListener?.onPreviewSurfaceChanged()
 
-    abstract val previewOutputClass: Class<*>?
+    abstract val previewOutputClass: Class<*>
     abstract val isReady: Boolean
-    abstract val surface: Surface?
-    abstract val surfaceTexture: SurfaceTexture?
+    abstract val surface: Surface
+    abstract val surfaceTexture: SurfaceTexture
     abstract var displayOrientation: Int
+
     open fun setPreviewBufferSize(width: Int, height: Int) {}
+
     protected fun setPreviewSize(width: Int, height: Int) {
         previewWidth = width
         previewHeight = height

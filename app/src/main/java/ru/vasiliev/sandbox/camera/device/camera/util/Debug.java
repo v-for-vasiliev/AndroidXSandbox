@@ -19,7 +19,6 @@ public class Debug {
 
     public static void logCamera2State(int state) {
         switch (state) {
-
             case STATE_PREVIEW:
                 log("Camera state: STATE_PREVIEW");
                 break;

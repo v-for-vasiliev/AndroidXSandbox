@@ -66,6 +66,7 @@ public class Camera2Config {
 
         captureSizes.clear();
         collectPictureSizes(map);
+        // Filter out preview sizes which are not compatible with capture sizes
         for (AspectRatio ratio : previewSizes.ratios()) {
             if (!captureSizes.ratios()
                     .contains(ratio)) {
