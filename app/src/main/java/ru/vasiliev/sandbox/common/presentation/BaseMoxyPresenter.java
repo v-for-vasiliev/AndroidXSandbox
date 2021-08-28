@@ -10,9 +10,9 @@ import timber.log.Timber;
 
 public class BaseMoxyPresenter<View extends MvpView> extends MvpPresenter<View> {
 
-    private CompositeDisposable subscriptions = new CompositeDisposable();
+    private final CompositeDisposable subscriptions = new CompositeDisposable();
 
-    private CompositeDisposable persistentSubscriptions = new CompositeDisposable();
+    private final CompositeDisposable persistentSubscriptions = new CompositeDisposable();
 
     protected void addSubscription(@NonNull Disposable subscription) {
         subscriptions.add(subscription);

@@ -55,7 +55,7 @@ internal class Camera2RequestManager(
     }
 
     /**
-     * @return Preview request builder with actual preview params from linked controller
+     * @return Preview request builder with actual preview params from controller
      * - Auto-focus
      * - Flash
      * - Auto white-balance
@@ -76,12 +76,19 @@ internal class Camera2RequestManager(
      * @throws CameraAccessException when camera is not accessible
      */
     @Throws(CameraAccessException::class)
-    fun newCaptureRequestBuilder(): CaptureRequestBuilder {
+    fun newCaptureRequestBuilder(captureConfigProvider: CaptureConfigProvider): CaptureRequestBuilder {
         return CaptureRequestBuilder()
     }
 
-    inner class PreviewRequestBuilder constructor() {
-        private val previewRequestBuilder: CaptureRequest.Builder
+    interface CaptureConfigProvider {
+        var autoFocus: Boolean
+        var cameraFlash: CameraFlash
+        var autoWhiteBalance: Boolean
+    }
+
+    inner class PreviewRequestBuilder(private val captureConfigProvider: CaptureConfigProvider) {
+        private val previewRequestBuilder: CaptureRequest.Builder =
+            camera2Controller.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
         private var outputSurfaces: MutableList<Surface> = ArrayList()
         private var autoFocus: Boolean = camera2Controller.getAutoFocus()
         private var cameraFlash: CameraFlash = camera2Controller.getFlash()
@@ -124,10 +131,6 @@ internal class Camera2RequestManager(
             return previewRequestBuilder.build()
         }
 
-        init {
-            previewRequestBuilder =
-                camera2Controller.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-        }
     }
 
     inner class CaptureRequestBuilder private constructor() {

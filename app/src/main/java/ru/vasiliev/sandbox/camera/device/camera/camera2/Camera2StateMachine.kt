@@ -6,54 +6,54 @@ import android.hardware.camera2.CameraMetadata.*
 import android.hardware.camera2.CaptureResult.CONTROL_AE_STATE
 import android.hardware.camera2.CaptureResult.CONTROL_AF_STATE
 import android.view.Surface
-import ru.vasiliev.sandbox.camera.device.camera.util.Debug
+import ru.vasiliev.sandbox.camera.device.camera.util.CameraDebug
 
 abstract class Camera2StateMachine internal constructor() : CaptureCallback() {
 
     private var captureState = STATE_PREVIEW
 
     fun setCaptureState(newCaptureState: Int) {
-        this.captureState = newCaptureState
-        Debug.logCamera2State(newCaptureState)
+        captureState = newCaptureState
+        CameraDebug.logCamera2State(newCaptureState)
     }
 
     private fun process(result: CaptureResult) = when (captureState) {
         STATE_LOCKING -> result.hasKeyValues(key = CONTROL_AF_STATE,
-            values = listOf(
-                CONTROL_AF_STATE_FOCUSED_LOCKED,
-                CONTROL_AF_STATE_NOT_FOCUSED_LOCKED
-            ),
-            orNull = false,
-            onValueFound = {
-                result.hasKeyValues(key = CONTROL_AE_STATE,
-                    values = listOf(CONTROL_AE_STATE_CONVERGED),
-                    orNull = true,
-                    onValueFound = {
-                        setCaptureState(STATE_CAPTURING)
-                        onReadyForStillPicture()
-                    },
-                    onValueNotFound = {
-                        setCaptureState(STATE_LOCKED)
-                        onPrecaptureRequired()
-                    })
-            })
+                                             values = listOf(
+                                                 CONTROL_AF_STATE_FOCUSED_LOCKED,
+                                                 CONTROL_AF_STATE_NOT_FOCUSED_LOCKED
+                                             ),
+                                             orNull = false,
+                                             onValueFound = {
+                                                 result.hasKeyValues(key = CONTROL_AE_STATE,
+                                                                     values = listOf(CONTROL_AE_STATE_CONVERGED),
+                                                                     orNull = true,
+                                                                     onValueFound = {
+                                                                         setCaptureState(STATE_CAPTURING)
+                                                                         onReadyForStillPicture()
+                                                                     },
+                                                                     onValueNotFound = {
+                                                                         setCaptureState(STATE_LOCKED)
+                                                                         onPrecaptureRequired()
+                                                                     })
+                                             })
         STATE_PRECAPTURE -> result.hasKeyValues(key = CONTROL_AE_STATE,
-            values = listOf(
-                CONTROL_AE_STATE_PRECAPTURE,
-                CONTROL_AE_STATE_FLASH_REQUIRED,
-                CONTROL_AE_STATE_CONVERGED
-            ),
-            orNull = true,
-            onValueFound = { setCaptureState(STATE_WAITING) })
+                                                values = listOf(
+                                                    CONTROL_AE_STATE_PRECAPTURE,
+                                                    CONTROL_AE_STATE_FLASH_REQUIRED,
+                                                    CONTROL_AE_STATE_CONVERGED
+                                                ),
+                                                orNull = true,
+                                                onValueFound = { setCaptureState(STATE_WAITING) })
         STATE_WAITING -> result.hasKeyValues(key = CONTROL_AE_STATE,
-            values = listOf(CONTROL_AE_STATE_PRECAPTURE),
-            orNull = true,
-            onValueNotFound = {
-                setCaptureState(STATE_CAPTURING)
-                onReadyForStillPicture()
-            })
+                                             values = listOf(CONTROL_AE_STATE_PRECAPTURE),
+                                             orNull = true,
+                                             onValueNotFound = {
+                                                 setCaptureState(STATE_CAPTURING)
+                                                 onReadyForStillPicture()
+                                             })
         else -> {
-            Debug.logCamera2State(captureState)
+            CameraDebug.logCamera2State(captureState)
         }
     }
 
@@ -68,59 +68,81 @@ abstract class Camera2StateMachine internal constructor() : CaptureCallback() {
     abstract fun onPrecaptureRequired()
 
     override fun onCaptureStarted(
-        session: CameraCaptureSession, request: CaptureRequest, timestamp: Long,
-        frameNumber: Long
+        session: CameraCaptureSession, request: CaptureRequest, timestamp: Long, frameNumber: Long
     ) {
-        super.onCaptureStarted(session, request, timestamp, frameNumber)
+        super.onCaptureStarted(
+            session,
+            request,
+            timestamp,
+            frameNumber
+        )
     }
 
     override fun onCaptureProgressed(
-        session: CameraCaptureSession, request: CaptureRequest,
-        partialResult: CaptureResult
+        session: CameraCaptureSession, request: CaptureRequest, partialResult: CaptureResult
     ) {
-        super.onCaptureProgressed(session, request, partialResult)
+        super.onCaptureProgressed(
+            session,
+            request,
+            partialResult
+        )
         process(partialResult)
     }
 
     override fun onCaptureCompleted(
-        session: CameraCaptureSession,
-        request: CaptureRequest,
-        result: TotalCaptureResult
+        session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult
     ) {
-        super.onCaptureCompleted(session, request, result)
+        super.onCaptureCompleted(
+            session,
+            request,
+            result
+        )
         process(result)
     }
 
     override fun onCaptureFailed(
-        session: CameraCaptureSession,
-        request: CaptureRequest,
-        failure: CaptureFailure
+        session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure
     ) {
-        super.onCaptureFailed(session, request, failure)
+        super.onCaptureFailed(
+            session,
+            request,
+            failure
+        )
     }
 
     override fun onCaptureSequenceCompleted(
-        session: CameraCaptureSession,
-        sequenceId: Int,
-        frameNumber: Long
+        session: CameraCaptureSession, sequenceId: Int, frameNumber: Long
     ) {
-        super.onCaptureSequenceCompleted(session, sequenceId, frameNumber)
+        super.onCaptureSequenceCompleted(
+            session,
+            sequenceId,
+            frameNumber
+        )
     }
 
-    override fun onCaptureSequenceAborted(session: CameraCaptureSession, sequenceId: Int) {
-        super.onCaptureSequenceAborted(session, sequenceId)
+    override fun onCaptureSequenceAborted(
+        session: CameraCaptureSession, sequenceId: Int
+    ) {
+        super.onCaptureSequenceAborted(
+            session,
+            sequenceId
+        )
     }
 
     override fun onCaptureBufferLost(
-        session: CameraCaptureSession, request: CaptureRequest, target: Surface,
-        frameNumber: Long
+        session: CameraCaptureSession, request: CaptureRequest, target: Surface, frameNumber: Long
     ) {
-        super.onCaptureBufferLost(session, request, target, frameNumber)
+        super.onCaptureBufferLost(
+            session,
+            request,
+            target,
+            frameNumber
+        )
     }
 
     private fun <T> CaptureResult.hasKeyValues(
-        key: CaptureResult.Key<T>, values: List<T>, orNull: Boolean = false,
-        onValueFound: () -> Unit = {}, onValueNotFound: () -> Unit = {}
+        key: CaptureResult.Key<T>, values: List<T>, orNull: Boolean = false, onValueFound: () -> Unit = {},
+        onValueNotFound: () -> Unit = {}
     ) {
         val value: T? = get(key)
         if (orNull && value == null) {

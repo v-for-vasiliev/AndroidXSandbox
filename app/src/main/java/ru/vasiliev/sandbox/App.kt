@@ -1,6 +1,7 @@
 package ru.vasiliev.sandbox
 
 import android.app.Application
+import ru.vasiliev.sandbox.common.util.Clerk
 
 import ru.vasiliev.sandbox.di.components.AppComponent
 import ru.vasiliev.sandbox.di.components.DaggerAppComponent
@@ -22,6 +23,8 @@ class App : Application() {
 
         lateinit var appComponent: AppComponent
             private set
+
+        val clerk = Clerk("AndroidSandbox")
     }
 
     override fun onCreate() {
