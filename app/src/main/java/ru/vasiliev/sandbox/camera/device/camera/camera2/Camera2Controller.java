@@ -15,6 +15,8 @@ import android.media.ImageReader;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -121,6 +123,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
         }
     }
 
+    @NonNull
     @Override
     public CameraFacing getFacing() {
         return cameraFacing;
@@ -177,6 +180,7 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
         }
     }
 
+    @NonNull
     @Override
     public CameraFlash getFlash() {
         return cameraFlash;
@@ -201,16 +205,19 @@ public class Camera2Controller extends Camera2StateMachine implements CameraCont
         }
     }
 
+    @NotNull
     @Override
     public Observable<byte[]> getImageCaptureStream() {
         return imageCaptureStream;
     }
 
+    @NotNull
     @Override
     public Observable<CaptureMetadata> getImageMetadataStream() {
         return imageMetadataStream;
     }
 
+    @NotNull
     @Override
     public Observable<byte[]> getImageProcessorStream() {
         return imageProcessorStream;

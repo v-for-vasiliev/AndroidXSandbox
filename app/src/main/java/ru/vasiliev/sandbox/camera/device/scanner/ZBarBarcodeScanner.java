@@ -34,7 +34,7 @@ public class ZBarBarcodeScanner implements BarcodeScanner {
         if (result != 0) {
             SymbolSet symbolSet = scanner.getResults();
             for (Symbol symbol : symbolSet) {
-                // In order to retreive QR codes containing null bytes we need to
+                // In order to retrieve QR codes containing null bytes we need to
                 // use getDataBytes() rather than getData() which uses C strings.
                 // Weirdly ZBar transforms all data to UTF-8, even the data returned
                 // by getDataBytes() so we have to decode it as UTF-8.

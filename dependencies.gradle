@@ -1,6 +1,6 @@
 def build_versions = [:]
-build_versions.android_gradle_plugin = '3.6.3'
-build_versions.kotlin_version = "1.3.31"
+build_versions.android_gradle_plugin = '7.0.1'
+build_versions.kotlin_version = '1.3.40'
 build_versions.retrolambda = "3.7.0"
 build_versions.min_sdk_version = 23
 build_versions.target_sdk_version = 28

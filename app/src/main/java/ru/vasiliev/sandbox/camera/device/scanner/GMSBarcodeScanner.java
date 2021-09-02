@@ -24,10 +24,12 @@ public class GMSBarcodeScanner implements BarcodeScanner {
 
     @Override
     public String scan(Image image) {
-        Frame frame = new Frame.Builder().setImageData(ByteBuffer.wrap(ImageUtils.convertYUV420888ToNV21(image)),
-                                                       image.getWidth(),
-                                                       image.getHeight(),
-                                                       ImageFormat.NV21)
+        Frame frame = new Frame
+                .Builder()
+                .setImageData(ByteBuffer.wrap(ImageUtils.convertYUV420888ToNV21(image)),
+                              image.getWidth(),
+                              image.getHeight(),
+                              ImageFormat.NV21)
                 .build();
         SparseArray<Barcode> barcodes = barcodeDetector.detect(frame);
         for (int i = 0; i < barcodes.size(); i++) {
