@@ -83,11 +83,11 @@ class MfoBrowserFragment : BrowserFragment() {
             fileChooserPathCallback?.onReceiveValue(null)
             fileChooserPathCallback = filePathCallback
 
-            val takePhotoIntent: Intent? = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (takePhotoIntent?.resolveActivity(activity!!.packageManager) != null) {
+            val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePhotoIntent.resolveActivity(requireActivity().packageManager) != null) {
                 val imageFile = createCameraImageFile()
                 if (imageFile != null) {
-                    val secureImageUri = SecureFileProvider.getSecureImageUri(activity!!, imageFile)
+                    val secureImageUri = SecureFileProvider.getSecureImageUri(requireContext(), imageFile)
                     cameraImagePath = "file://" + imageFile.absolutePath
                     takePhotoIntent.putExtra(EXTRA_IMAGE_PATH, cameraImagePath)
                     takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -143,7 +143,7 @@ class MfoBrowserFragment : BrowserFragment() {
         try {
             val timeStamp: String = SimpleDateFormat("yyyy.MM.dd_HH.mm.ss", Locale.getDefault()).format(Date())
             val fileName = "mfo_passport_$timeStamp"
-            val storageDir = File(activity!!.filesDir, FILEPROVIDER_SECURE_IMAGE_DIR)
+            val storageDir = File(requireActivity().filesDir, FILEPROVIDER_SECURE_IMAGE_DIR)
             storageDir.mkdir()
             return File.createTempFile(fileName, ".jpg", storageDir)
         } catch (e: IOException) {
@@ -154,7 +154,7 @@ class MfoBrowserFragment : BrowserFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        IoUtils.deleteRecursive(File(activity!!.filesDir, FILEPROVIDER_SECURE_IMAGE_DIR))
+        IoUtils.deleteRecursive(File(requireActivity().filesDir, FILEPROVIDER_SECURE_IMAGE_DIR))
     }
 
     companion object {
